@@ -1,0 +1,17 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+node_modules/
+.next/
+dist/
+build/
+*.egg-info/
+.DS_Store
+data/local/
+*.sqlite
+.coverage
+# Tool-generated session checkpoints (GSD / claude-mem auto-postool hook)
+.planning/

@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+FROM python:3.12-slim
+
+WORKDIR /srv
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+
+# NOTE: aignite-groundwork is a sibling editable dependency in local dev
+# (pip install -e ../groundwork). In CI / image builds it resolves from the
+# published wheel or a git ref; see .github/workflows/ci.yml.
+COPY pyproject.toml README.md ./
+RUN pip install --upgrade pip
+
+COPY . .
+RUN pip install .
+
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

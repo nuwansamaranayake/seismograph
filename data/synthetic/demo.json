@@ -1,0 +1,142 @@
+[
+  {
+    "contract_id": "refund-decision-stability",
+    "subject": "support-agent",
+    "invariant": "eligibility_decision equal under [paraphrase, irrelevant_context, reordering]",
+    "run_policy": { "samples": 10, "configs": 3, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "eligible-cite-policy-A", "share": 0.61 },
+      { "label": "eligible-cite-policy-B", "share": 0.33 },
+      { "label": "ineligible", "share": 0.06 }
+    ],
+    "decision_flip_rate": 0.06,
+    "mode_entropy_bits": 1.19,
+    "aci": 0.71,
+    "control_chart": { "metric": "decision_flip_rate", "ucl": 0.02, "point": 0.06, "signal": "out_of_control" },
+    "gate": { "max_decision_flip_rate": 0.01, "decision": "block" },
+    "attribution": "flip rate moved with the provider model update, not the local prompt change",
+    "captured_at": "2026-07-14T09:20:00Z"
+  },
+  {
+    "contract_id": "refund-decision-stability",
+    "subject": "support-agent",
+    "invariant": "eligibility_decision equal under [paraphrase, irrelevant_context, reordering]",
+    "run_policy": { "samples": 10, "configs": 3, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "eligible-cite-policy-A", "share": 0.99 },
+      { "label": "ineligible", "share": 0.01 }
+    ],
+    "decision_flip_rate": 0.01,
+    "mode_entropy_bits": 0.08,
+    "aci": 1.28,
+    "control_chart": { "metric": "decision_flip_rate", "ucl": 0.02, "point": 0.01, "signal": "in_control" },
+    "gate": { "max_decision_flip_rate": 0.01, "decision": "pass" },
+    "attribution": "baseline window before the provider update; no signal",
+    "captured_at": "2026-07-07T09:20:00Z"
+  },
+  {
+    "contract_id": "citation-set-stability",
+    "subject": "policy-rag",
+    "invariant": "cited_policy_ids jaccard_at_least 0.85 under [repeat_run]",
+    "run_policy": { "samples": 12, "configs": 2, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "cites-{A,C}", "share": 0.55 },
+      { "label": "cites-{A,C,F}", "share": 0.45 }
+    ],
+    "decision_flip_rate": 0.0,
+    "mean_jaccard": 0.79,
+    "mode_entropy_bits": 0.99,
+    "aci": 0.82,
+    "control_chart": { "metric": "mean_jaccard", "lcl": 0.85, "point": 0.79, "signal": "out_of_control" },
+    "gate": { "min_mean_jaccard": 0.85, "decision": "block" },
+    "attribution": "citation set widened after the retrieval snapshot refresh; model held constant",
+    "captured_at": "2026-07-15T11:05:00Z"
+  },
+  {
+    "contract_id": "format-stability",
+    "subject": "extract-agent",
+    "invariant": "response parses as declared JSON schema under [repeat_run, paraphrase]",
+    "run_policy": { "samples": 20, "configs": 2, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "schema-valid", "share": 0.965 },
+      { "label": "malformed", "share": 0.035 }
+    ],
+    "format_flake_rate": 0.035,
+    "mode_entropy_bits": 0.22,
+    "aci": 0.90,
+    "control_chart": { "metric": "format_flake_rate", "ucl": 0.02, "point": 0.035, "signal": "out_of_control" },
+    "gate": { "max_format_flake_rate": 0.02, "decision": "block" },
+    "attribution": "planted format flake at rate p=0.03 (golden-defect suite); detected within 2 cycles",
+    "captured_at": "2026-07-16T08:40:00Z"
+  },
+  {
+    "contract_id": "irrelevance-invariance",
+    "subject": "support-agent",
+    "invariant": "eligibility_decision equal under [irrelevant_context]",
+    "run_policy": { "samples": 10, "configs": 3, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "eligible", "share": 0.98 },
+      { "label": "ineligible", "share": 0.02 }
+    ],
+    "decision_flip_rate": 0.02,
+    "mode_entropy_bits": 0.14,
+    "aci": 1.05,
+    "control_chart": { "metric": "decision_flip_rate", "ucl": 0.03, "point": 0.02, "signal": "in_control" },
+    "gate": { "max_decision_flip_rate": 0.03, "decision": "pass" },
+    "attribution": "within limits; irrelevant context did not move the decision",
+    "captured_at": "2026-07-16T08:41:00Z"
+  },
+  {
+    "contract_id": "monotonicity-confidence",
+    "subject": "risk-scorer",
+    "invariant": "confidence(X) non_decreasing when evidence for X is strengthened",
+    "run_policy": { "samples": 15, "configs": 2, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "monotone", "share": 0.87 },
+      { "label": "violation", "share": 0.13 }
+    ],
+    "monotonicity_violation_rate": 0.13,
+    "mode_entropy_bits": 0.56,
+    "aci": 0.64,
+    "control_chart": { "metric": "monotonicity_violation_rate", "ucl": 0.05, "point": 0.13, "signal": "out_of_control" },
+    "gate": { "max_monotonicity_violation_rate": 0.05, "decision": "block" },
+    "attribution": "planted second outcome mode surfaced by clustering; averages alone read as stable",
+    "captured_at": "2026-07-17T14:10:00Z"
+  },
+  {
+    "contract_id": "judge-calibration",
+    "subject": "answer-quality-judge",
+    "invariant": "judge_vs_anchor_agreement at_least 0.80 on the human anchor set",
+    "run_policy": { "samples": 30, "configs": 1, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "agrees-with-anchor", "share": 0.71 },
+      { "label": "disagrees", "share": 0.29 }
+    ],
+    "judge_anchor_agreement": 0.71,
+    "mode_entropy_bits": 0.87,
+    "aci": null,
+    "control_chart": { "metric": "judge_anchor_agreement", "lcl": 0.80, "point": 0.71, "signal": "out_of_control" },
+    "gate": { "min_judge_anchor_agreement": 0.80, "decision": "quarantine_judge" },
+    "attribution": "judge drift detected; verdicts from this judge quarantined until recalibrated",
+    "captured_at": "2026-07-18T10:00:00Z"
+  },
+  {
+    "contract_id": "attribution-seeded-fault",
+    "subject": "policy-rag",
+    "invariant": "cited_policy_ids equal under [repeat_run] with retrieval snapshot pinned",
+    "run_policy": { "samples": 12, "configs": 3, "confidence": 0.95 },
+    "outcome_modes": [
+      { "label": "cites-{A,C}", "share": 0.5 },
+      { "label": "cites-{B,C}", "share": 0.5 }
+    ],
+    "decision_flip_rate": 0.0,
+    "mean_jaccard": 0.5,
+    "mode_entropy_bits": 1.0,
+    "aci": 0.41,
+    "control_chart": { "metric": "mean_jaccard", "lcl": 0.85, "point": 0.5, "signal": "out_of_control" },
+    "gate": { "min_mean_jaccard": 0.85, "decision": "block" },
+    "intervention": { "swap_retriever_effect": 0.34, "swap_model_effect": 0.02, "freeze_tools_effect": 0.01 },
+    "attribution": "seeded retriever fault correctly localized to the retriever (effect 0.34 vs model 0.02)",
+    "captured_at": "2026-07-19T16:30:00Z"
+  }
+]
