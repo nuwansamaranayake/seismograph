@@ -6,7 +6,7 @@ EXPECTED = int(os.getenv("EXPECTED_TABLE_COUNT", "0"))
 
 
 def main():
-    url = os.environ["DATABASE_URL"].replace("+psycopg", "")
+    url = os.environ["DATABASE_URL"]
     with create_engine(url).connect() as c:
         n = c.execute(
             text("select count(*) from information_schema.tables where table_schema='public'")

@@ -32,3 +32,9 @@ No secret is committed. The OpenRouter key and all model IDs come from `.env` / 
 the groundwork gateway (see `.env.example`, values blank by default). The demo runs on synthetic
 data with no key. Provider SDKs are never called directly — the gateway pins model versions, forces
 JSON-schema structured output, and traces every call.
+
+## Reporting a vulnerability
+
+Report suspected vulnerabilities privately to **nuwans@hotmail.com**. Do not open a public issue.
+You will receive an acknowledgment within 72 hours. Please allow time to investigate and ship a fix
+before any public disclosure; a coordinated disclosure timeline will be agreed with you.

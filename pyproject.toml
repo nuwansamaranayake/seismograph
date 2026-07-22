@@ -20,7 +20,7 @@ dependencies = [
     "alembic",
     "redis",
     "httpx",
-    "aignite-groundwork",
+    "aignite-groundwork @ git+https://github.com/nuwansamaranayake/groundwork@v0.1.0",
     "numpy",
     "scipy",
     "scikit-learn",
@@ -33,11 +33,6 @@ dev = ["pytest", "ruff"]
 
 [tool.setuptools]
 packages = ["app"]
-
-# For uv users: resolve groundwork from the sibling repo during development.
-# With pip, install it first:  pip install -e ../groundwork
-[tool.uv.sources]
-aignite-groundwork = { path = "../groundwork", editable = true }
 
 [tool.ruff]
 line-length = 100

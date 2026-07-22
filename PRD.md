@@ -34,6 +34,15 @@ Seismograph deliberately does not:
   controlled replay.
 - Author ground-truth golden answers. Metamorphic invariants exist precisely to avoid that cost.
 
+## Novelty (scoped)
+
+Among the eval tools we reviewed as of July 2026, single-sample quality scoring is the headline and
+measuring the *stability* of a stochastic process is at most a footnote. Seismograph's scoped bet is
+to make that stability its center: behavioral contracts as code, manufacturing-grade capability math
+(Cp/Cpk-style), ground-truth-free metamorphic invariants, component-level fault attribution under
+controlled replay, and a self-calibrating judge, delivered as one CI workflow. This is a novel
+combination and emphasis, not a claim that any single technique is unprecedented.
+
 ## Success metrics (targets, not yet measured)
 
 Seismograph evals itself against synthetic systems under test carrying *planted* defects (drift
