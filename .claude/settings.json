@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Bash(pytest*)",
+      "Bash(python -m pytest*)",
+      "Bash(python scripts/*)",
+      "Bash(ruff*)",
+      "Bash(python -m ruff*)",
+      "Bash(docker compose*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git checkout*)",
+      "Bash(git merge*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(curl*)"
+    ],
+    "deny": [
+      "Bash(git push*)",
+      "Bash(rm -rf*)",
+      "Bash(docker compose -f docker-compose.prod.yml up*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/gate.py"
+          }
+        ]
+      }
+    ]
+  }
+}
