@@ -64,3 +64,23 @@ the *diagnosed* root cause separately (Standard 5).
   the standard arrangement for sharing one in-memory database with a threaded test server.
 - **Doctrine link**: the gate caught it before commit (tests are part of `scripts/gate.py`);
   the failing trace, not a guess, named the root cause (Standard 1/5).
+
+## FAIL-0005 — Release CI red: token mismatch, unmigrated CI database, ruff default-select skew
+
+- **Date**: 2026-07-23
+- **Surface**: GitHub Actions release run 30049712444 (lint job, smoke job)
+- **Reported symptom**: lint failed with 18 errors that pass locally; smoke failed with
+  `contract register: 401 missing or invalid bearer token`.
+- **Diagnosed causes (from the run logs)**: (1) CI's smoke client sent `ci-token` while the
+  container's env (copied from `.env.example`) sets `dev-smoke-token` — the newly enforced
+  bearer auth correctly rejected the mismatch; (2) behind it, the CI compose database never
+  receives migrations (locally alembic was run from the host); (3) CI installs unpinned
+  latest ruff, whose broadened default ruleset (e.g. TRY004) redefined "lint passes".
+- **Fixes**: CI smoke uses the token from `.env.example`; the container now runs
+  `alembic upgrade head` + the table-count check before serving (Standard 4 at startup);
+  `[tool.ruff.lint] select` pins the ruleset so lint semantics stop depending on ruff's
+  release cadence.
+- **Doctrine link**: Standard 1 (root causes from the logs, three distinct ones — not one
+  retry); Standard 4 (a container serving over an unmigrated schema is the GoviHub failure).
+  The 401 is the auth gate working as designed; the gallery records it because the estate,
+  not the app, was misconfigured.

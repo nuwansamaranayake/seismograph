@@ -53,7 +53,8 @@ jobs:
       - name: Smoke against a real business endpoint
         run: |
           pip install httpx
-          API_HOST=127.0.0.1 API_PORT=8000 SMOKE_TEST_TOKEN=ci-token python scripts/smoke_test.py
+          # token must match SMOKE_TEST_TOKEN in .env.example (the container's env in CI)
+          API_HOST=127.0.0.1 API_PORT=8000 SMOKE_TEST_TOKEN=dev-smoke-token python scripts/smoke_test.py
       - name: Teardown
         if: always()
         run: docker compose down -v
