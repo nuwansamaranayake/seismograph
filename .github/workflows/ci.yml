@@ -59,14 +59,14 @@ jobs:
         run: docker compose down -v
 
   eval:
-    name: "eval (Phase 1 pending)"
+    name: "eval (required)"
     runs-on: ubuntu-latest
-    # The eval harness lands in Phase 1. Until then this job is expected to fail
-    # (it raises NotImplementedError loudly). Allowed to fail so it does not block CI.
-    continue-on-error: true
+    # Golden-defect suite against the EVAL.md thresholds. Deterministic (fixed seeds,
+    # hashing embedder), keyless, and REQUIRED: a miss on any bound fails the build.
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - run: pip install "pydantic>=2" pyyaml httpx
       - run: python scripts/eval.py

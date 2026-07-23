@@ -57,7 +57,9 @@ fallback (Standard 3).
 
 ## Status
 
-The current harness in `scripts/eval.py` still raises
-`NotImplementedError("eval harness lands in Phase 1")` on purpose: an eval that passes vacuously is
-worse than one that fails loudly. The real harness enforcing the table above lands in Phase 1
-milestone M5 (see LOOP_STATE.md), and the CI eval job becomes a required check in milestone M9.
+The harness is real as of Phase 1: `scripts/eval.py` runs the golden-defect suite against the
+table above and exits nonzero on any miss. First published run (2026-07-23, also in
+`eval_report.md`): jump latency median 0.0, drift 1.0, sensitivity 1.0, false alarms 0.0,
+flake detection 1.0, report byte-reproducible across consecutive runs. The CI eval job is a
+required check ("eval (required)"). Phase 2/3 rows get their bounds written before their
+code, as these were.

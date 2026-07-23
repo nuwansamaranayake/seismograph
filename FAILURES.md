@@ -50,3 +50,17 @@ the *diagnosed* root cause separately (Standard 5).
   step the README gives a stranger); Dockerfile installs git before `pip install`.
 - **Doctrine link**: Standard 1 (root cause from the real log, not a retry) and Standard 2 (the
   smoke gate exists to catch exactly this before anyone calls the estate "green").
+
+## FAIL-0004 — API tests died on SQLite thread affinity
+
+- **Date**: 2026-07-23
+- **Surface**: `tests/test_api.py` (pytest gate)
+- **Reported symptom**: 4 API tests failed with `SQLite objects created in a thread can only
+  be used in that same thread`.
+- **Diagnosed cause**: FastAPI's TestClient serves requests on a worker thread while the test
+  fixture opened the in-memory SQLite connection on the main thread; sqlite3 connections are
+  thread-bound by default.
+- **Fix**: `connect_args={"check_same_thread": False}` with `StaticPool` on the test engine —
+  the standard arrangement for sharing one in-memory database with a threaded test server.
+- **Doctrine link**: the gate caught it before commit (tests are part of `scripts/gate.py`);
+  the failing trace, not a guess, named the root cause (Standard 1/5).

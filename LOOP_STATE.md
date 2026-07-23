@@ -9,22 +9,22 @@ alembic migrations for the real schema with table count updated, CI eval job fli
 ## Milestones (commit each; gate.py after each)
 
 - [x] M1  EVAL.md numeric thresholds written first; LOOP_STATE; branch
-- [ ] M2  engine/contracts: YAML DSL -> validated Contract -> deterministic ExperimentPlan (+tests)
-- [ ] M3  engine/suts (synthetic programmable-defect SUTs) + engine/sampler + engine/canonicalize
+- [x] M2  engine/contracts: YAML DSL -> validated Contract -> deterministic ExperimentPlan (+tests)
+- [x] M3  engine/suts (synthetic programmable-defect SUTs) + engine/sampler + engine/canonicalize
          with pluggable Embedder (HashingEmbedder deterministic / OpenRouterEmbedder real) (+tests)
-- [ ] M4  engine/charts: individuals chart + p-chart, 3-sigma limits from baseline window,
+- [x] M4  engine/charts: individuals chart + p-chart, 3-sigma limits from baseline window,
          Western Electric rule 1 + run-of-8 drift rule; signals (+tests)
-- [ ] M5  scripts/eval.py: real golden-defect harness (drift@K, format flake p, clean windows);
+- [x] M5  scripts/eval.py: real golden-defect harness (drift@K, format flake p, clean windows);
          meets EVAL.md thresholds; deterministic seeds
-- [ ] M6  Postgres schema + alembic migration (contracts, probes, probe_variants, experiment_plans,
+- [x] M6  Postgres schema + alembic migration (contracts, probes, probe_variants, experiment_plans,
          runs, consistency_metrics, control_chart_points, gate_decisions); EXPECTED_TABLE_COUNT=9
-- [ ] M7  API: POST /api/v1/contracts, POST /api/v1/runs, GET /api/v1/reports/{contract};
+- [x] M7  API: POST /api/v1/contracts, POST /api/v1/runs, GET /api/v1/reports/{contract};
          bearer token when SMOKE_TEST_TOKEN set; smoke_test.py extended to the real loop;
          CLI `python -m app.cli run --contract ... --sut demo --report out.md`
-- [ ] M8  engine/metamorphic: paraphrase variants via gateway (extraction model, JSON schema)
+- [x] M8  engine/metamorphic: paraphrase variants via gateway (extraction model, JSON schema)
          + deterministic embedding-similarity back-check; one REAL gateway call observed in dev;
          unit tests use an injected stub gateway (explicit, typed — not a silent mock)
-- [ ] M9  CI: eval job -> required (drop continue-on-error, rename); README "What exists today",
+- [x] M9  CI: eval job -> required (drop continue-on-error, rename); README "What exists today",
          contracts.md, CHANGELOG updated for what actually landed; full gate + compose smoke
 
 ## DECISION log
@@ -43,4 +43,4 @@ alembic migrations for the real schema with table count updated, CI eval job fli
 (none)
 
 ## Next task
-M2: engine/contracts DSL + tests.
+Phase 1 gates: containerized-stack smoke (last DONE-WHEN item), then report GATES_PASSED and stop (release only on explicit go).

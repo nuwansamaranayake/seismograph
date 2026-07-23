@@ -1,9 +1,10 @@
 # Seismograph
 
-> **Status: scaffold (v0.1).** The engineering harness is built and verified: live smoke test,
-> fail-loud guards, migration checks, CI. The architecture described below is the design being
-> built; Phase 1 is in progress. [ROADMAP.md](ROADMAP.md) shows what exists today versus what
-> is next.
+> **Status: Phase 1 core loop built (v0.1, branch `phase-1`).** Contracts compile to plans,
+> the sampler and control charts run for real, the golden-defect eval passes its pre-written
+> thresholds, and the contract -> run -> report API is persisted and smoke-tested live. The
+> full architecture below remains the design; later phases are still to come.
+> [ROADMAP.md](ROADMAP.md) shows what exists today versus what is next.
 
 **Statistical process control for AI systems.** Everyone else asks "was this answer good?"
 Seismograph asks "is this system stable?", and detects the silent earthquakes (model updates,
@@ -49,8 +50,11 @@ This scaffold's doctrine is already enforced, not promised. Three checks you can
    non-empty, schema-valid data. Passes.
 2. Set `APP_ENV=production` and call `/api/v1/demo`: returns 503, because fixture data outside
    development is forbidden by code, not by convention.
-3. `python scripts/eval.py`: raises loudly instead of passing vacuously. An eval that cannot
-   fail is theater; the real harness lands in Phase 1.
+3. `python scripts/eval.py`: the real golden-defect suite. 80 seeded scenarios with planted
+   defects; every EVAL.md bound currently passes, and the report (eval_report.md) is
+   byte-reproducible. A missed bound fails CI: the eval job is required.
+4. `python -m app.cli run --contract data/synthetic/contract.yaml --sut stable --points 10`:
+   a contract run with a real gate decision, no server or key needed.
 
 ## The unique bet
 
