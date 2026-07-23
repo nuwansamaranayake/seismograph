@@ -39,6 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Create .env for compose (gitignored; CI uses the committed example)
+        run: cp .env.example .env
       - name: Bring up the stack
         run: docker compose up -d --build
       - name: Wait for health

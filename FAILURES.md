@@ -34,3 +34,19 @@ the *diagnosed* root cause separately (Standard 5).
   `MIGRATION CHECK FAILED: expected 2 tables, found 1` (rc=1) at `EXPECTED_TABLE_COUNT=2`.
 - **Doctrine link**: Standard 4 (assert the table count) and Standard 1 (fix the root cause — the
   driver — not the symptom).
+
+## FAIL-0003 — First public CI run: smoke job died before the stack started
+
+- **Date**: 2026-07-23
+- **Surface**: GitHub Actions `smoke` job (`docker compose up -d --build`)
+- **Reported symptom**: CI run red on the first push; compose exited immediately.
+- **Diagnosed cause (from the run log)**: `env file ... .env not found`. `docker-compose.yml`
+  declares `env_file: .env`, and `.env` is gitignored by design, so it does not exist in a CI
+  checkout. A second, deterministic failure sat behind it: the Dockerfile's `pip install .` now
+  resolves `aignite-groundwork` from a `git+https` URL, and `python:3.12-slim` ships no git.
+- **Root cause**: The CI environment was never given the dev-shaped inputs the compose file
+  assumes (env file present, git available in the build image).
+- **Fix**: CI smoke job copies the committed `.env.example` to `.env` before compose (the same
+  step the README gives a stranger); Dockerfile installs git before `pip install`.
+- **Doctrine link**: Standard 1 (root cause from the real log, not a retry) and Standard 2 (the
+  smoke gate exists to catch exactly this before anyone calls the estate "green").
