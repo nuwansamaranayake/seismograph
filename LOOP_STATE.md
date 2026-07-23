@@ -43,4 +43,9 @@ alembic migrations for the real schema with table count updated, CI eval job fli
 (none)
 
 ## Next task
-Phase 1 gates: containerized-stack smoke (last DONE-WHEN item), then report GATES_PASSED and stop (release only on explicit go).
+NONE — Phase 1 GATES_PASSED (2026-07-23). All DONE-WHEN items observed: gate.py exit 0
+(ruff, 32 pytest, live smoke, eval PASS), MIGRATION OK: 9 tables (local pg and compose db),
+prod-guard 503-fixture + real-endpoints-200, containerized-stack smoke SMOKE OK, EVAL.md
+bounds met and byte-reproducible, docs updated. Branch `phase-1`, 7 commits, NOT pushed.
+Awaiting explicit `release Seismograph phase 1`; next build cell after that (or on
+"release and continue") is CareerCompiler Phase 1.
