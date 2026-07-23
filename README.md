@@ -1,6 +1,6 @@
 # Seismograph
 
-> **Status: Phase 1 core loop built (v0.1, branch `phase-1`).** Contracts compile to plans,
+> **Status: Phase 1 core loop released (v0.2.0).** Contracts compile to plans,
 > the sampler and control charts run for real, the golden-defect eval passes its pre-written
 > thresholds, and the contract -> run -> report API is persisted and smoke-tested live. The
 > full architecture below remains the design; later phases are still to come.

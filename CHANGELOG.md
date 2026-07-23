@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added — Phase 1 core loop (branch `phase-1`)
+## [0.2.0] - 2026-07-23
+
+### Added — Phase 1 core loop
 - Behavioral contract DSL (YAML -> validated models -> deterministic content-hashed
   experiment plan). Declaring any perturbation is legal; executing one without a generator
   raises loudly.
