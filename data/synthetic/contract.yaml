@@ -1,0 +1,20 @@
+contract: refund-decision-stability
+subject: support-agent
+invariants:
+  - field: eligibility_decision
+    under: [paraphrase, repeat_run]
+    relation: equal
+  - field: cited_policy_ids
+    under: [repeat_run]
+    relation: jaccard_at_least
+    threshold: 0.85
+allowed_variation:
+  - field: response_wording
+    rule: semantically_equivalent
+run_policy: {samples: 10, configs: 3, confidence: 0.95}
+gate: {max_decision_flip_rate: 0.01}
+probes:
+  - id: refund-basic
+    input: "Customer bought a blender 12 days ago, unopened. Are they refund eligible?"
+  - id: refund-edge
+    input: "Customer bought a blender 31 days ago, opened box. Are they refund eligible?"

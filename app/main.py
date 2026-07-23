@@ -2,8 +2,10 @@ from fastapi import FastAPI, HTTPException
 from groundwork import Env
 from .config import settings
 from .fixtures import load_synthetic_fixture
+from .routes import router
 
 app = FastAPI(title="Seismograph")
+app.include_router(router)
 
 
 @app.get("/health")
