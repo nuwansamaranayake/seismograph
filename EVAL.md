@@ -30,11 +30,34 @@ rather than argued:
 This golden-defect suite ships in the repo. `make eval` runs it and reproduces the published eval
 report per release; the release is gated on those numbers, not on a green demo.
 
+## Phase 1 acceptance thresholds (written before the harness, 2026-07-23)
+
+The Phase 1 suite simulates monitored metric streams with a 30-point baseline window and defects
+planted at known onset K, using fixed seeds and the deterministic `HashingEmbedder` so the run is
+keyless, free, and byte-reproducible in CI. `scripts/eval.py` exits nonzero and prints the failing
+row if any bound is missed.
+
+| Metric | Definition | Bound |
+|---|---|---|
+| Detection latency, jump | points after K until first alarm, planted mean shift of at least 2 sigma | median <= 3 |
+| Detection latency, drift | points after K until first alarm, gradual drift reaching 2 sigma by K+10 | median <= 10 |
+| Sensitivity | planted defects (jumps, drifts, flake bursts) raising at least one alarm | >= 0.90 |
+| False-alarm rate | alarms per point on defect-free streams (Western Electric rule 1 + run-of-8) | <= 0.01 |
+| Format-flake detection | planted malformed-output bursts at p >= 0.10 flagged by the p-chart | >= 0.90 |
+| Reproducibility | two consecutive `make eval` runs | identical reports |
+
+Planted-second-mode sensitivity joins in Phase 2 (with mode clustering); seeded-fault attribution
+accuracy joins in Phase 3 (with the intervention engine). Each gets its bounds written before its
+code, as here.
+
+Why a deterministic embedder here: this suite measures the statistical machinery (charts, rules,
+latency), not embedding quality. The real embedding path is exercised by the metamorphic
+back-check and development smoke. Embedder selection is always an explicit, typed choice — never a
+fallback (Standard 3).
+
 ## Status
 
-The four measures above are **targets** the Phase-1 harness will enforce — not achieved
-measurements. The current harness in `scripts/eval.py` raises
+The current harness in `scripts/eval.py` still raises
 `NotImplementedError("eval harness lands in Phase 1")` on purpose: an eval that passes vacuously is
-worse than one that fails loudly. Concrete numeric thresholds and the first published report land
-with the Phase-1 golden-defect suite, each stated as a pass/fail acceptance bound *before* the code
-that has to clear it — the same discipline this tool asks of its users.
+worse than one that fails loudly. The real harness enforcing the table above lands in Phase 1
+milestone M5 (see LOOP_STATE.md), and the CI eval job becomes a required check in milestone M9.
