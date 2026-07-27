@@ -61,6 +61,10 @@ class RunPolicy(BaseModel):
 
 class GatePolicy(BaseModel):
     max_decision_flip_rate: float = Field(ge=0.0, le=1.0)
+    # Malformed output is a defect class of its own (the FlakySUT class): it must gate the
+    # run directly, not vanish from the flip rate because unparsed samples carry no fields.
+    # Default 0.0: any malformed sample blocks unless the contract explicitly tolerates it.
+    max_malformed_rate: float = Field(default=0.0, ge=0.0, le=1.0)
 
 
 class ProbeSeed(BaseModel):

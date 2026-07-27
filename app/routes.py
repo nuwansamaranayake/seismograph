@@ -13,6 +13,7 @@ from __future__ import annotations
 import sqlalchemy as sa
 from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel, Field
+from sqlalchemy.exc import IntegrityError
 
 from . import db
 from .config import settings
@@ -31,6 +32,8 @@ BASELINE_MIN = 8
 
 
 def _auth(authorization: str | None) -> None:
+    # Empty token = auth off, permitted in development ONLY: app.main.require_production_auth
+    # refuses to start the app outside development with an empty token.
     token = settings.smoke_test_token
     if token and authorization != f"Bearer {token}":
         raise HTTPException(status_code=401, detail="missing or invalid bearer token")
@@ -66,24 +69,29 @@ def register_contract(body: ContractIn, authorization: str | None = Header(defau
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     plan = compile_plan(contract)
-    with db.get_session() as s, s.begin():
-        existing = s.execute(
-            sa.select(db.contracts.c.id).where(db.contracts.c.name == contract.contract)
-        ).first()
-        if existing:
-            raise HTTPException(status_code=409, detail="contract already registered")
-        cid = s.execute(
-            db.contracts.insert().values(
-                name=contract.contract, subject=contract.subject,
-                yaml=body.yaml, plan_id=plan.plan_id,
-            )
-        ).inserted_primary_key[0]
-        for p in contract.probes:
-            s.execute(db.probes.insert().values(
-                contract_id=cid, probe_key=p.id, input=p.input))
-        s.execute(db.experiment_plans.insert().values(
-            contract_id=cid, plan_id=plan.plan_id,
-            entries=[e.model_dump(mode="json") for e in plan.entries]))
+    try:
+        with db.get_session() as s, s.begin():
+            existing = s.execute(
+                sa.select(db.contracts.c.id).where(db.contracts.c.name == contract.contract)
+            ).first()
+            if existing:
+                raise HTTPException(status_code=409, detail="contract already registered")
+            cid = s.execute(
+                db.contracts.insert().values(
+                    name=contract.contract, subject=contract.subject,
+                    yaml=body.yaml, plan_id=plan.plan_id,
+                )
+            ).inserted_primary_key[0]
+            for p in contract.probes:
+                s.execute(db.probes.insert().values(
+                    contract_id=cid, probe_key=p.id, input=p.input))
+            s.execute(db.experiment_plans.insert().values(
+                contract_id=cid, plan_id=plan.plan_id,
+                entries=[e.model_dump(mode="json") for e in plan.entries]))
+    except IntegrityError:
+        # Concurrent registration race: both requests pass the pre-check, the unique
+        # index catches the loser. Same documented outcome as the pre-check: 409.
+        raise HTTPException(status_code=409, detail="contract already registered")
     return {"contract": contract.contract, "plan_id": plan.plan_id,
             "entries": len(plan.entries)}
 
@@ -112,11 +120,16 @@ def execute_run(body: RunIn, authorization: str | None = Header(default=None)):
         wording = contract.allowed_variation[0].field if contract.allowed_variation else ""
         embedder = _embedder(body.embedder)
 
+        jaccard_thresholds = {i.field: i.threshold for i in contract.invariants
+                              if i.relation is Relation.jaccard_at_least}
+
         run_id = s.execute(db.runs.insert().values(
             plan_fk=plan_row.id, t=body.t, seed=body.seed, sut=body.sut,
             embedder=embedder.name)).inserted_primary_key[0]
 
         worst_flip = 0.0
+        worst_malformed = 0.0
+        jaccard_failures: list[dict] = []
         stored = 0
         for e_json in plan_row.entries:
             entry = PlanEntry.model_validate(e_json)
@@ -131,15 +144,38 @@ def execute_run(body: RunIn, authorization: str | None = Header(default=None)):
                 jaccard_mean=m.jaccard_mean, semantic_variance=m.semantic_variance))
             stored += 1
             worst_flip = max(worst_flip, *m.flip_rate.values()) if m.flip_rate else worst_flip
+            worst_malformed = max(worst_malformed, m.malformed_rate)
+            for f, min_j in jaccard_thresholds.items():
+                observed = m.jaccard_mean.get(f)
+                if observed is not None and observed < min_j:
+                    jaccard_failures.append({"probe": m.probe_id, "field": f,
+                                             "jaccard_mean": observed, "threshold": min_j})
+
+        if stored == 0:
+            # A gate decision with zero measurements would be a recorded pass over nothing
+            # (Standard 3: a plan cell is never silently skipped). Fail loud; the rollback
+            # discards the empty run.
+            raise HTTPException(
+                status_code=422,
+                detail="contract has no executable plan cells (paraphrase-only contracts "
+                       "need generated variants; lands in M8)")
 
         threshold = contract.gate.max_decision_flip_rate
-        decision = "pass" if worst_flip <= threshold else "block"
+        mal_threshold = contract.gate.max_malformed_rate
+        decision = "pass"
+        if worst_flip > threshold or worst_malformed > mal_threshold or jaccard_failures:
+            decision = "block"
         s.execute(db.gate_decisions.insert().values(
             contract_id=row.id, run_id=run_id, decision=decision,
             worst_flip_rate=worst_flip, threshold=threshold,
-            evidence={"cells": stored, "t": body.t, "seed": body.seed, "sut": body.sut}))
+            evidence={"cells": stored, "t": body.t, "seed": body.seed, "sut": body.sut,
+                      "worst_malformed_rate": worst_malformed,
+                      "max_malformed_rate": mal_threshold,
+                      "jaccard_failures": jaccard_failures}))
     return {"run_id": run_id, "cells": stored, "gate": decision,
-            "worst_flip_rate": worst_flip, "threshold": threshold}
+            "worst_flip_rate": worst_flip, "threshold": threshold,
+            "worst_malformed_rate": worst_malformed,
+            "jaccard_failures": jaccard_failures}
 
 
 @router.get("/reports/{contract_name}")

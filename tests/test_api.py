@@ -67,3 +67,103 @@ def test_bearer_auth_enforced_when_token_set(client, monkeypatch):
     r = client.post("/api/v1/contracts", json={"yaml": CONTRACT_YAML},
                     headers={"Authorization": "Bearer sekrit"})
     assert r.status_code == 201
+
+
+PARAPHRASE_ONLY_YAML = """
+contract: paraphrase-only
+subject: support-agent
+invariants:
+  - field: eligibility_decision
+    under: [paraphrase]
+    relation: equal
+run_policy: {samples: 5, configs: 1, confidence: 0.9}
+gate: {max_decision_flip_rate: 0.05}
+probes:
+  - id: p1
+    input: "Customer bought a blender 12 days ago, unopened. Are they refund eligible?"
+"""
+
+
+def test_zero_cell_run_is_422_not_a_recorded_pass(client):
+    # A contract whose only cells are paraphrase (no generated variants yet) must not
+    # produce a gate decision over zero measurements (Standard 3: never silently skipped).
+    assert client.post("/api/v1/contracts",
+                       json={"yaml": PARAPHRASE_ONLY_YAML}).status_code == 201
+    r = client.post("/api/v1/runs", json={"contract": "paraphrase-only"})
+    assert r.status_code == 422
+    assert "no executable plan cells" in r.json()["detail"]
+
+
+def test_cli_refuses_zero_cell_contract(tmp_path):
+    from app import cli
+    p = tmp_path / "contract.yaml"
+    p.write_text(PARAPHRASE_ONLY_YAML, encoding="utf-8")
+    assert cli.run(str(p), "stable", points=3, seed=7, report_path=None) == 2
+
+
+def test_malformed_output_blocks_gate(client, monkeypatch):
+    # 100% wording-malformed output must block even though flip_rate over the (empty)
+    # parsed set is 0.0 — the FlakySUT defect class gates directly on malformed rate.
+    from app.engine.suts import DEMO_SUTS, FlakySUT
+    monkeypatch.setitem(DEMO_SUTS, "flaky", FlakySUT(onset=0, p=0.5, burst=10**6))
+    assert client.post("/api/v1/contracts", json={"yaml": CONTRACT_YAML}).status_code == 201
+    r = client.post("/api/v1/runs",
+                    json={"contract": "refund-decision-stability", "sut": "flaky"})
+    assert r.status_code == 201, r.text
+    body = r.json()
+    assert body["worst_malformed_rate"] > 0.0
+    assert body["gate"] == "block"
+
+
+class VaryingPoliciesSUT:
+    """Constant decision, unstable policy citations: violates jaccard_at_least only."""
+
+    name = "varying"
+
+    def run(self, probe_input, t, rng):
+        import json
+        policies = ["POL-7"] if rng.random() < 0.5 else ["POL-9"]
+        return json.dumps({"eligibility_decision": "eligible",
+                           "cited_policy_ids": policies,
+                           "response_wording": "Refund decision per policy."})
+
+
+def test_jaccard_threshold_below_declared_blocks_gate(client, monkeypatch):
+    # The contract declares jaccard_at_least 0.85 on cited_policy_ids; a SUT that cites
+    # unstable policies must block even with a perfectly stable decision (flip 0.0).
+    from app.engine.suts import DEMO_SUTS
+    monkeypatch.setitem(DEMO_SUTS, "varying", VaryingPoliciesSUT())
+    assert client.post("/api/v1/contracts", json={"yaml": CONTRACT_YAML}).status_code == 201
+    r = client.post("/api/v1/runs",
+                    json={"contract": "refund-decision-stability", "sut": "varying"})
+    assert r.status_code == 201, r.text
+    body = r.json()
+    assert body["worst_flip_rate"] == 0.0
+    assert body["jaccard_failures"], "declared jaccard threshold was not enforced"
+    assert body["gate"] == "block"
+
+
+def test_registration_race_loser_gets_409(client, monkeypatch):
+    # Simulate the loser of a concurrent registration race: the pre-check misses, the
+    # unique index catches the duplicate INSERT — documented contract is still 409.
+    import sqlalchemy as sa_real
+    from app import routes
+    assert client.post("/api/v1/contracts", json={"yaml": CONTRACT_YAML}).status_code == 201
+    real_select = sa_real.select
+    monkeypatch.setattr(
+        routes.sa, "select",
+        lambda *args, **kw: real_select(*args, **kw).where(sa_real.false()))
+    r = client.post("/api/v1/contracts", json={"yaml": CONTRACT_YAML})
+    assert r.status_code == 409
+
+
+def test_production_with_empty_token_refuses_startup(monkeypatch):
+    from groundwork import Env
+    from app.config import settings
+    from app.main import require_production_auth
+    monkeypatch.setattr(settings, "app_env", Env.production)
+    monkeypatch.setattr(settings, "smoke_test_token", "")
+    with pytest.raises(RuntimeError, match="SMOKE_TEST_TOKEN"):
+        require_production_auth()
+    monkeypatch.setattr(settings, "smoke_test_token", "real-token")
+    require_production_auth()   # with a token, production starts fine
