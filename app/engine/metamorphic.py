@@ -10,6 +10,7 @@ invariant set (see LOOP_STATE DECISION log).
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -45,13 +46,31 @@ class CompletesJson(Protocol):
                  json_schema: dict | None = None, temperature: float = 0.0): ...
 
 
+_NUMBER = re.compile(r"\d+(?:[.,]\d+)*")
+
+
+def _numbers(text: str) -> set[str]:
+    """Numeric literals, normalised so 1,200 and 1200 compare equal."""
+    return {m.group(0).replace(",", "").rstrip(".") for m in _NUMBER.finditer(text)}
+
+
+def introduces_numbers(seed: str, variant: str) -> bool:
+    """True when the variant contains a numeric literal the seed does not.
+
+    Deliberately one-directional: a paraphrase may legitimately spell a number out
+    ("12 days" -> "twelve days"), which drops a literal and is fine. Introducing or
+    altering one is not a paraphrase, it is a different question.
+    """
+    return bool(_numbers(variant) - _numbers(seed))
+
+
 @dataclass(frozen=True)
 class Variant:
     seed_input: str
     text: str
     back_check_score: float
     accepted: bool
-    reason: str          # "ok" | "too_dissimilar" | "trivial_copy" | "empty"
+    reason: str  # ok | too_dissimilar | trivial_copy | numeric_drift | empty
 
 
 def generate_paraphrases(
@@ -95,6 +114,13 @@ def generate_paraphrases(
             # Similarity alone decides: any near-copy above the documented bound is trivial,
             # including punctuation-only or case-only edits that string equality would miss.
             variants.append(Variant(seed_input, text, score, False, "trivial_copy"))
+        elif introduces_numbers(seed_input, text):
+            # Embeddings are nearly blind to a changed digit: "12 days" against "120 days"
+            # scored 0.956, comfortably inside the acceptance band, and was accepted as a
+            # paraphrase. A variant that alters a quantity is a different question, and
+            # feeding it to the invariant would make the system under test look inconsistent
+            # when it was right. Caught by a planted negative control in scripts/eval_llm.py.
+            variants.append(Variant(seed_input, text, score, False, "numeric_drift"))
         else:
             variants.append(Variant(seed_input, text, score, True, "ok"))
     return variants

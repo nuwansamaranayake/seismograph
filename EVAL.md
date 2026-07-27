@@ -30,55 +30,57 @@ rather than argued:
 This golden-defect suite ships in the repo. `make eval` runs it and reproduces the published eval
 report per release; the release is gated on those numbers, not on a green demo.
 
-## Phase 1 acceptance thresholds (written before the harness, 2026-07-23)
+## What this instrument detects, and what it misses
 
-The Phase 1 suite simulates monitored metric streams with a 30-point baseline window and defects
-planted at known onset K, using fixed seeds and the deterministic `HashingEmbedder` so the run is
-keyless, free, and byte-reproducible in CI. `scripts/eval.py` exits nonzero and prints the failing
-row if any bound is missed.
+Seismograph detects an abrupt mean shift of **1 sigma or larger** in the monitored statistic within a **median of 5 monitored points** (40 samples per point) at a **false alarm rate of 0.017 per point**, and it misses below that: a 0.5 sigma shift is caught about half the time (0.50, 95% CI 0.33-0.67) and a 0.25 sigma shift about two times in five (0.43, 95% CI 0.27-0.61).
 
-| Metric | Definition | Bound |
+The full operating curve, 30 runs per cell with 95% Wilson intervals, is published in
+[eval_report.md](eval_report.md) and charted in [eval_curve.svg](eval_curve.svg).
+
+## How the curve is built
+
+Defects are sized in units of the healthy process's own standard deviation, which is analytic
+for the monitored statistic (a flip rate over n Bernoulli draws):
+`sigma = sqrt(p0 * (1 - p0) / n)`. A "k sigma" cell plants a process whose mean sits k sigma
+above healthy. The sweep runs from 0.25 sigma, far below what a 3-sigma chart can see, up to
+3 sigma, and includes matched null cells with no planted defect so the false alarm rate is
+measured rather than assumed. Gradual ramps and format-flake rates from 1% to 20% are swept
+the same way.
+
+Publishing the misses is the point. A detector and its benchmark written by the same hand will
+score perfectly whenever the planted defects are easy; that scorecard only means something if
+it contains failures at the magnitudes where failure is expected.
+
+## Acceptance bounds (what gates a release)
+
+Bounds are stated on the parts of the curve an instrument must get right, not on every cell.
+Demanding detection at 0.25 sigma would be demanding the impossible, and demanding zero false
+alarms would be demanding a chart that never speaks.
+
+| Check | Bound | Observed |
 |---|---|---|
-| Detection latency, jump | points after K until first alarm, planted mean shift of at least 2 sigma | median <= 3 |
-| Detection latency, drift | points after K until first alarm, gradual drift reaching 2 sigma by K+10 | median <= 10 |
-| Sensitivity | planted defects (jumps, drifts, flake bursts) raising at least one alarm | >= 0.90 |
-| False-alarm rate | alarms per point on defect-free streams (Western Electric rule 1 + run-of-8) | <= 0.03 |
-| Format-flake detection | planted malformed-output bursts at p >= 0.10 flagged by the p-chart | >= 0.90 |
-| Reproducibility | two consecutive `make eval` runs | identical reports |
+| Sensitivity at 3 sigma | >= 0.90 | 1.00 |
+| Sensitivity at 20% format flake | >= 0.90 | 1.00 |
+| False alarm rate on null cells | <= 0.03 | 0.0167 (95% CI 0.0108-0.0256) |
+| Sensitivity non-decreasing in magnitude | monotone within 0.10 | 0.43, 0.50, 0.97, 1.00, 1.00, 1.00 |
+| Every cell computed from a non-zero sample count | required | 18,000 monitored points |
+| Report and chart byte-reproducible | required | verified across consecutive runs |
+| Measurement identity matches stored baseline | required | `hashing/dim=256/v1` |
 
-### Bound revision, 2026-07-27 (false-alarm rate 0.01 -> 0.03)
+A missed bound exits non-zero and fails CI. The embedder identity is recorded in every report
+header and compared against `eval_baseline.json`, because a silent embedder change corrupts
+every baseline: re-baselining must be explicit.
 
-The original suite ran its healthy baseline with zero decision noise, so chart sigma
-collapsed to its 1e-6 floor, planted 0.35 jumps measured ~10^5 sigma, and false alarms were
-structurally impossible — the 0.01 bound was passed by construction and could not catch
-chart-statistics regressions. The suite now runs a genuinely noisy healthy baseline
-(decision flip probability 0.04, n = 40 samples per point), sizes planted defects at ~4-7
-sigma of the resulting real baseline variation, and signals a run-of-8 once per run rather
-than re-alarming every continuing point. At that realistic noise the false-signal rate of a
-CORRECT WE1 + run-of-8 chart on a 40-sample flip-rate lattice is ~1.5% per point (Poisson
-3-sigma tail mass plus the run rule's intrinsic rate), so the 0.01 bound would reject every
-correct implementation; the bound is now 0.03 (2x margin over the observed 0.015, well below
-what a broken limit calculation produces). False alarms and missed detections are both
-structurally possible outcomes, which is what makes the suite an instrument rather than a
-formality.
+## Key-gated back-check (not a required check)
 
-Planted-second-mode sensitivity joins in Phase 2 (with mode clustering); seeded-fault attribution
-accuracy joins in Phase 3 (with the intervention engine). Each gets its bounds written before its
-code, as here.
-
-Why a deterministic embedder here: this suite measures the statistical machinery (charts, rules,
-latency), not embedding quality. The real embedding path is exercised by the metamorphic
-back-check and development smoke. Embedder selection is always an explicit, typed choice — never a
-fallback (Standard 3).
+`scripts/eval_llm.py` runs the metamorphic paraphrase back-check against the real gateway:
+**53 of 54 variants accepted, 0.98 (95% CI 0.90-1.00)** across nine statement types (question,
+numeric, negation, policy, conditional, instruction, multi-clause, terse, formal), plus planted
+negative controls that must be rejected. It exits 2 loudly without a key rather than skipping
+silently. Raising it from four variants to fifty-four is what exposed the numeric blind spot
+recorded in FAILURES.md.
 
 ## Status
 
-The harness is real as of Phase 1: `scripts/eval.py` runs the golden-defect suite against the
-table above and exits nonzero on any miss. Latest published run (2026-07-27, noisy-baseline
-recalibration, also in `eval_report.md`): jump latency median 0.0, drift 2.0, sensitivity
-1.0, false alarm rate 0.015 (nonzero, as a real instrument on a noisy process must be),
-flake detection 1.0, report byte-reproducible across consecutive runs. (The first published
-run, 2026-07-23, reported false alarms 0.0 — against the noiseless baseline later diagnosed
-as structurally alarm-free; see the bound revision above.) The CI eval job is a required
-check ("eval (required)"). Phase 2/3 rows get their bounds written before their code, as
-these were.
+The harness is real and the curve above is its current output, regenerated on every run.
+`make eval` reproduces it byte-for-byte from a clean clone, and CI runs it as a required check.

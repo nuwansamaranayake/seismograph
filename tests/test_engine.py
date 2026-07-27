@@ -92,3 +92,51 @@ def test_pchart_flags_burst_and_tolerates_clean():
     chart = PChart([0.0] * 30, n=20)
     assert not chart.add(0, 0.05).alarm          # one flake in 20 is not an alarm
     assert chart.add(1, 0.25).alarm              # a real burst is
+
+
+def test_wilson_refuses_a_rate_over_zero_trials():
+    # A rate computed from nothing is the vacuous pass this suite exists to prevent.
+    from app.engine.golden import wilson
+    with pytest.raises(ValueError, match="zero trials"):
+        wilson(0, 0)
+    p, lo, hi = wilson(30, 30)
+    assert p == 1.0 and lo < 1.0 and hi == 1.0        # interval stays honest at the boundary
+
+
+def test_summarize_rejects_empty_cells():
+    from app.engine.golden import summarize
+    with pytest.raises(ValueError, match="zero runs"):
+        summarize("shift:1.0", "label", [])
+
+
+def test_defects_are_sized_in_sigma_of_the_healthy_process():
+    from app.engine.golden import HEALTHY_FLIP_P, flip_p_for_sigma, sigma_healthy
+    s = sigma_healthy()
+    assert 0.02 < s < 0.05                            # analytic SD for p=0.04, n=40
+    assert flip_p_for_sigma(0) == HEALTHY_FLIP_P
+    assert flip_p_for_sigma(2) == pytest.approx(HEALTHY_FLIP_P + 2 * s)
+
+
+def test_suite_refuses_underpowered_cells():
+    from app.engine.golden import run_suite
+    with pytest.raises(ValueError, match="usable interval"):
+        run_suite(runs_per_cell=5)
+
+
+def test_numeric_drift_is_rejected_by_the_back_check():
+    """An embedding is nearly blind to a changed digit: '12 days' vs '120 days' scored
+    0.956 and was accepted until a planted negative control caught it."""
+    from app.engine.metamorphic import generate_paraphrases, introduces_numbers
+    from app.engine.embedding import HashingEmbedder
+
+    seed = "Customer bought a blender 12 days ago, unopened. Are they refund eligible?"
+    assert introduces_numbers(seed, seed.replace("12", "120")) is True
+    assert introduces_numbers(seed, "Customer bought a blender twelve days ago.") is False
+    assert introduces_numbers("Total 1,200 units", "Total 1200 units") is False
+
+    class Stub:
+        def complete(self, *, model, messages, json_schema=None, temperature=0.0):
+            return {"paraphrases": [seed.replace("12", "120")]}
+
+    [v] = generate_paraphrases(Stub(), "m", seed, 1, HashingEmbedder())
+    assert v.accepted is False and v.reason == "numeric_drift"

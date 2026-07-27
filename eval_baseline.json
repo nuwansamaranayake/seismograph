@@ -1,0 +1,5 @@
+{
+  "embedder": "hashing/dim=256/v1",
+  "healthy_flip_p": 0.04,
+  "n_samples": 40
+}

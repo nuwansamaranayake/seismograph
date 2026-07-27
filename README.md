@@ -50,9 +50,10 @@ This scaffold's doctrine is already enforced, not promised. Three checks you can
    non-empty, schema-valid data. Passes.
 2. Set `APP_ENV=production` and call `/api/v1/demo`: returns 503, because fixture data outside
    development is forbidden by code, not by convention.
-3. `python scripts/eval.py`: the real golden-defect suite. 80 seeded scenarios with planted
-   defects; every EVAL.md bound currently passes, and the report (eval_report.md) is
-   byte-reproducible. A missed bound fails CI: the eval job is required.
+3. `python scripts/eval.py`: the operating curve, 30 runs per cell with 95% confidence
+   intervals. Seismograph detects an abrupt mean shift of 1 sigma or larger in the monitored statistic within a median of 5 monitored points (40 samples per point) at a false alarm rate of 0.017 per point, and it misses below that: a 0.5 sigma shift is caught about half the time (0.50, 95% CI 0.33-0.67) and a 0.25 sigma shift about two times in five (0.43, 95% CI 0.27-0.61).
+   The curve, misses included, is in [eval_report.md](eval_report.md) and
+   [eval_curve.svg](eval_curve.svg). A missed bound fails CI: the eval job is required.
 4. `python -m app.cli run --contract data/synthetic/contract.yaml --sut stable --points 10`:
    a contract run with a real gate decision, no server or key needed.
 

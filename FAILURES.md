@@ -155,6 +155,48 @@ the *diagnosed* root cause separately (Standard 5).
 - **Doctrine link**: a dependency you do not import is a claim you cannot back. It also
   slowed every deploy, which is how it was noticed while shipping a security fix.
 
+## FAIL-0009 — A perfect scorecard that meant the defects were easy
+
+- **Date**: 2026-07-27
+- **Surface**: `scripts/eval.py` / `app/engine/golden.py`, the Phase 1 golden-defect suite
+- **Reported symptom**: none. The suite reported sensitivity 1.0, false alarms 0.0, flake
+  detection 1.0 and jump latency 0.0 across 80 scenarios, and every bound passed.
+- **Diagnosed cause**: the detector and its benchmark were written in the same pass, and the
+  planted defects sat far above the detection limit (a 0.15 flip rate against a 0.031 sigma
+  process, roughly 4 sigma). Nothing in the suite probed near the limit, so the scorecard
+  measured the size of the planted defects rather than the sensitivity of the instrument.
+  On a portfolio whose thesis is honest measurement, five perfect numbers are a smell.
+- **Fix**: the benchmark, not the score. Defects are now sized in units of the healthy
+  process's own analytic sigma and swept from 0.25 to 3 sigma with 30 runs per cell, matched
+  null cells, gradual ramps and flake rates from 1% to 20%, each reported with a 95% Wilson
+  interval. The published result is an operating curve **with misses in it**: 0.43 at 0.25
+  sigma, 0.50 at 0.5 sigma, 0.87 at 1% flake, and a non-zero false alarm rate of 0.0167.
+  EVAL.md and the README now state the limit in one sentence instead of a row of ones.
+- **Doctrine link**: an instrument that cannot state what it misses has not been characterised,
+  only demonstrated.
+
+## FAIL-0010 — The metamorphic back-check accepted a changed number
+
+- **Date**: 2026-07-27
+- **Surface**: `app/engine/metamorphic.py`, embedding cosine back-check
+- **Reported symptom**: a planted negative control was accepted as a valid paraphrase.
+  "Customer bought a blender **120** days ago" scored **0.956** against a seed saying **12**
+  days, comfortably inside the 0.60-0.995 acceptance band.
+- **Diagnosed cause**: cosine similarity over token embeddings is nearly blind to a changed
+  digit. The earlier evidence for this back-check was "4 of 4 accepted", a sample far too
+  small to contain a counterexample, so the blind spot had never been exercised.
+- **Why it mattered**: the invariant asserts that a paraphrase must not change the system's
+  answer. A variant that alters a quantity is a *different question*; feeding it to the probe
+  bank would make a correct system under test look inconsistent. The instrument would have
+  manufactured the very drift it exists to detect.
+- **Fix**: a deterministic numeric check beside the embedding one. A variant introducing a
+  numeric literal the seed does not contain is rejected as `numeric_drift`. The rule is
+  one-directional on purpose, so spelling a number out ("12 days" -> "twelve days") stays
+  legal. Perception proposes; deterministic verification disposes.
+- **Found by**: raising the back-check from 4 variants to 54 across nine statement types and
+  planting negative controls that must be rejected. Post-fix: 53/54 accepted (0.98, 95% CI
+  0.90-1.00) and all three negative controls rejected.
+
 ## Incident record
 
 The 2026-07-27 unauthenticated-reads incident, which affected this repo, is documented in the
