@@ -85,14 +85,20 @@ pip install -e ../groundwork
 pip install -e .[dev]
 ```
 
-Then, in another shell:
+The full smoke test exercises `/api/v1/contracts` and `/api/v1/runs`, which persist to
+Postgres — bring up the migrated stack first, then run it with the token from
+`.env.example` (the server reads its token from `.env`, so the client must send the same
+value):
 
 ```bash
-export API_PORT=8000 SMOKE_TEST_TOKEN=dev && python scripts/smoke_test.py   # POSIX -> SMOKE OK
-set API_PORT=8000 && set SMOKE_TEST_TOKEN=dev && python scripts/smoke_test.py  # Windows
+docker compose up -d          # Postgres + Redis + the migrated service
+export API_PORT=8000 SMOKE_TEST_TOKEN=dev-smoke-token && python scripts/smoke_test.py   # POSIX -> SMOKE OK
+set API_PORT=8000 && set SMOKE_TEST_TOKEN=dev-smoke-token && python scripts/smoke_test.py  # Windows
 ```
 
-The `/api/v1/demo` endpoint serves the synthetic dataset in `data/synthetic/`: no OpenRouter key, Postgres, or Redis is needed to see the app respond. Those are required only for Phase 1 features (real extraction, persistence, migrations).
+The `/api/v1/demo` endpoint alone serves the synthetic dataset in `data/synthetic/` with no
+OpenRouter key, Postgres, or Redis — enough to see the app respond, but not enough for the
+full smoke, which requires the database.
 
 ## Demo
 

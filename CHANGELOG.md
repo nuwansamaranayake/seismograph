@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed — adversarial review wave (12 findings; see FAILURES.md FAIL-0006)
+- Zero-cell runs no longer persist a `pass` gate decision over zero measurements: the API
+  returns 422 and the CLI exits 2 when a contract compiles to no executable plan cells.
+- Malformed output now gates the run directly: `GatePolicy.max_malformed_rate` (default
+  0.0) blocks any cell whose malformed rate exceeds it — previously 100% malformed output
+  passed as healthy because unparsed samples vanished from the flip rate.
+- Declared `jaccard_at_least` thresholds are now enforced at the gate (API and CLI); they
+  were previously validated at parse time and never read again.
+- Production startup refuses an empty `SMOKE_TEST_TOKEN` outside development
+  (`app.main.require_production_auth`): auth-off is a development-only convenience.
+- Golden-defect eval recalibrated to a genuinely noisy healthy baseline (flip probability
+  0.04, n=40), defects sized ~4-7 sigma, run-of-8 signals once per run; the false-alarm
+  bound is revised 0.01 -> 0.03 with rationale in EVAL.md (the old bound was attainable
+  only while false alarms were structurally impossible).
+- Metamorphic back-check rejects near-copies on similarity alone: a punctuation-only edit
+  at cosine 1.0 was previously accepted because it failed exact string equality.
+- Concurrent duplicate contract registrations now return the documented 409 (IntegrityError
+  from the unique index is translated instead of surfacing as a 500).
+- Migration 0002 is frozen as explicit DDL — it no longer applies whatever the live
+  `app.db.metadata` currently says, so schema changes force a new numbered revision.
+- `scripts/check_migrations.py` fails loud when `EXPECTED_TABLE_COUNT` is unset (it
+  previously skipped the assertion and printed MIGRATION OK); the Dockerfile bakes
+  `EXPECTED_TABLE_COUNT=9` so a bare `docker run` still asserts Standard 4.
+- `scripts/gate.py` injects the resolved smoke token into the spawned server's environment,
+  so the gate always exercises the bearer path with a matching token.
+- CI test job installs groundwork from the ref pyproject pins and the `||` fallbacks that
+  swallowed dependency-resolution failures are removed.
+- README quickstart corrected: smoke token matches `.env.example` and the full smoke is
+  documented as requiring the migrated compose stack.
+- Added `.dockerignore` so `.git`, `.env` (which holds a live key locally), caches, and
+  loop state are never baked into images.
+
 ## [0.2.0] - 2026-07-23
 
 ### Added — Phase 1 core loop

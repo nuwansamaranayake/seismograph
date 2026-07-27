@@ -84,3 +84,34 @@ the *diagnosed* root cause separately (Standard 5).
   retry); Standard 4 (a container serving over an unmigrated schema is the GoviHub failure).
   The 401 is the auth gate working as designed; the gallery records it because the estate,
   not the app, was misconfigured.
+
+## FAIL-0006 — Adversarial review wave: 12 confirmed findings before release
+
+- **Date**: 2026-07-27
+- **Surface**: run gate (`app/routes.py`, `app/cli.py`), golden-defect eval
+  (`app/engine/golden.py`), auth (`app/main.py`), migrations, CI, docs.
+- **Reported symptom**: none — every finding was surfaced by an adversarial code review and
+  independently reproduced against this code before any user hit it.
+- **Diagnosed causes (the worst four)**: (1) CRITICAL — a paraphrase-only contract compiled
+  to zero executable cells and `POST /runs` persisted a `pass` gate decision with evidence
+  `{"cells": 0}`: a recorded pass over zero measurements, directly contradicting "a plan
+  cell is never silently skipped". (2) MAJOR — 100% malformed output passed the run gate as
+  healthy: unparsed samples vanish from the flip rate, and nothing gated the malformed rate.
+  (3) MAJOR — an empty `SMOKE_TEST_TOKEN` (the shipped default) silently disabled bearer
+  auth with no environment guard, so a production deploy without a dotenv served mutating
+  endpoints unauthenticated. (4) MAJOR — the golden-defect eval ran its healthy baseline
+  with zero noise, so chart sigma floored at 1e-6, planted defects measured ~10^5 sigma, and
+  false alarms were structurally impossible: the CI-required eval passed by construction.
+  Plus eight more (dead jaccard thresholds, silent CI install fallbacks, a skippable
+  table-count check, an unfrozen migration, a string-equality hole in the trivial-copy
+  back-check, a 500 on registration races, a gate/server token mismatch, and a quickstart
+  that could not print SMOKE OK as documented).
+- **Fixes**: zero-cell runs are a typed 422/exit-2; `max_malformed_rate` and declared
+  jaccard thresholds gate decisions; production startup refuses an empty token; the eval
+  baseline carries real noise with defects sized in sigma (false-alarm bound honestly
+  revised 0.01 -> 0.03, documented in EVAL.md); migration 0002 frozen as explicit DDL;
+  check_migrations fails loud when unconfigured; CI fallbacks deleted; near-copies rejected
+  on similarity alone; races return 409; the gate injects its token into the spawned server.
+- **Doctrine link**: Standards 2/3/4 throughout. The review found what the green gate could
+  not: several of these defects were invisible precisely because the checks that should have
+  caught them were the broken part.
