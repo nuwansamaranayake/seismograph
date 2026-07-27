@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- Unused `sentence-transformers` dependency (and the CUDA torch stack it pulled). No Phase 1
+  code imports it; production images drop from ~5.7 GB toward the ~0.5 GB baseline
+  (FAILURES FAIL-0008).
+
 ### Security
 - Business read endpoints (GET /api/v1/reports/{contract}) now require the same bearer token as writes. They
   previously served real production data to unauthenticated callers (FAILURES FAIL-0007).

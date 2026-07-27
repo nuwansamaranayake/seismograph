@@ -137,3 +137,20 @@ the *diagnosed* root cause separately (Standard 5).
   with an auth column: an endpoint nobody wrote down is an endpoint nobody audited. The
   production business-loop audit (curl with and WITHOUT a token) caught what six green
   CI runs could not.
+
+## FAIL-0008 — Undeclared-but-installed CUDA torch: a 5 GB dependency nothing imports
+
+- **Date**: 2026-07-27
+- **Surface**: `pyproject.toml` dependency list; production image build on beacon-gom
+- **Reported symptom**: image builds took many minutes and pip installed the full
+  nvidia-cu13 / triton / torch stack on a CPU-only VPS.
+- **Diagnosed cause**: `sentence-transformers` was declared from the original scaffold, but
+  no Phase 1 code imports it (verified by grep across `app/` and `scripts/`): embeddings go
+  through `app/engine/embedding.py`, which is a deterministic hashing embedder plus an
+  HTTP OpenRouter embedder. The declaration alone pulled CUDA torch into every image.
+- **Measured impact**: images carrying it were 5.6-5.8 GB; the two apps without it were
+  496-773 MB. Roughly 5 GB of unused, CVE-bearing surface per image.
+- **Fix**: dependency removed, with a comment recording why and when to re-add it (the
+  phase that actually imports a local cross-encoder). Tests unchanged and still green.
+- **Doctrine link**: a dependency you do not import is a claim you cannot back. It also
+  slowed every deploy, which is how it was noticed while shipping a security fix.
