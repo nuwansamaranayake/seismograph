@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-23
+
 ### Fixed — adversarial review wave (12 findings; see FAILURES.md FAIL-0006)
 - Zero-cell runs no longer persist a `pass` gate decision over zero measurements: the API
   returns 422 and the CLI exits 2 when a contract compiles to no executable plan cells.
