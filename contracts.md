@@ -7,6 +7,7 @@ today.
 
 | Frontend call (Phase 2) | Method | Path | Status | Notes |
 |---|---|---|---|---|
+| Front page (browser) | GET | `/` | none | Self-contained HTML: thesis, what it measures, the EVAL.md limits sentence, the endpoint list, build stamp. Public by design. |
 | — (ops / liveness) | GET | `/health` | implemented | Returns `{status, env}`. No auth. |
 | Demo dataset viewer | GET | `/api/v1/demo` | implemented | Returns `{items:[...]}` from `data/synthetic/`. Development-only; 503 outside development (Standard 3). |
 | Register a contract | POST | `/api/v1/contracts` | implemented | Behavioral-contract YAML validated and compiled to a content-hashed experiment plan; persisted. Bearer auth when `SMOKE_TEST_TOKEN` is set. 409 on duplicate names. |

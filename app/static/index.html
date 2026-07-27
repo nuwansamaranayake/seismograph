@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seismograph — AiGNITE</title>
+<meta name="description" content="Statistical process control for AI systems.">
+<style>*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#dbe4f3;
+font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+-webkit-text-size-adjust:100%}
+.wrap{max-width:52rem;margin:0 auto;padding:2rem 1.1rem 4rem}
+h1{font-size:1.85rem;line-height:1.2;margin:0 0 .35rem;color:#f2f6ff;letter-spacing:-.01em}
+h2{font-size:1.05rem;margin:2.4rem 0 .7rem;color:#7fe3c8;text-transform:uppercase;
+letter-spacing:.08em;font-weight:600}
+p{margin:0 0 1rem}
+a{color:#8ab4ff}
+a:hover{color:#b9d1ff}
+.tag{color:#9fb0cc;font-size:1.02rem;margin:0 0 1.6rem}
+.thesis{border-left:3px solid #7fe3c8;padding:.7rem 0 .7rem 1rem;margin:0 0 1.4rem;
+color:#c9d6ea;background:#101830}
+.limits{background:#101830;border:1px solid #23304f;border-radius:8px;padding:1rem 1.1rem;
+color:#c9d6ea;font-size:.95rem}
+.limits .lbl{display:block;color:#7fe3c8;font-size:.72rem;letter-spacing:.09em;
+text-transform:uppercase;margin-bottom:.5rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem;display:block;overflow-x:auto}
+td,th{text-align:left;padding:.45rem .6rem;border-bottom:1px solid #1d2842;
+vertical-align:top;white-space:nowrap}
+th{color:#9fb0cc;font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+td.d{white-space:normal;color:#9fb0cc}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+background:#16203a;padding:.1rem .35rem;border-radius:4px;color:#cfe0ff}
+.m{color:#7fe3c8}
+ul{margin:0 0 1rem;padding-left:1.15rem}
+li{margin:.3rem 0}
+.status{margin-top:2.6rem;padding-top:1rem;border-top:1px solid #1d2842;
+color:#8296b4;font-size:.83rem}
+.status code{background:none;padding:0;color:#b8c8e4}
+@media(max-width:420px){.wrap{padding:1.4rem .85rem 3rem}h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Seismograph</h1>
+<p class="tag">Statistical process control for AI systems.</p>
+
+<p class="thesis"><strong>The LLM is a sensor, not a judge.</strong> The model turns messy
+reality into typed claims that carry their evidence. Deterministic code verifies those claims,
+makes every decision and computes every number. Humans approve anything that acts.</p>
+
+<h2>What it measures</h2>
+<p>Seismograph runs the same question at an AI system many times instead of once, and watches how much the answers move.</p>
+<p>A control chart, the same tool a factory uses to spot a machine drifting out of tolerance, turns that movement into a signal rather than an opinion.</p>
+<p>When a model update or a prompt edit quietly changes behaviour, the chart says so before your users do.</p>
+
+<h2>Published limits</h2>
+<div class="limits"><span class="lbl">verbatim from EVAL.md, produced by a real eval run</span>
+Seismograph detects an abrupt mean shift of 1 sigma or larger in the monitored statistic within a median of 5 monitored points (40 samples per point) at a false alarm rate of 0.017 per point, and it misses below that: a 0.5 sigma shift is caught about half the time (0.50, 95% CI 0.33-0.67) and a 0.25 sigma shift about two times in five (0.43, 95% CI 0.27-0.61).</div>
+
+<h2>This is an API</h2>
+<p>There is no web application here. Every endpoint below is JSON, and both reads and writes
+require a bearer token; unauthenticated requests are refused with <code>401</code>. The
+interactive schema at <a href="/docs">/docs</a> is deliberately public so the route map can be
+read without credentials.</p>
+<table>
+<tr><th>method</th><th>path</th><th>what it does</th></tr>
+<tr><td class="m">POST</td><td><code>/api/v1/contracts</code></td><td class="d">register a behavioural contract</td></tr>
+<tr><td class="m">POST</td><td><code>/api/v1/runs</code></td><td class="d">execute the plan, store metrics, decide the gate</td></tr>
+<tr><td class="m">GET</td><td><code>/api/v1/reports/{contract}</code></td><td class="d">metrics history and gate decisions</td></tr>
+</table>
+
+<h2>Links</h2>
+<ul>
+<li><a href="https://github.com/nuwansamaranayake/seismograph">Source on GitHub</a> — code, eval reports, failure gallery</li>
+<li><a href="/docs">/docs</a> — interactive API schema, and <a href="/openapi.json">/openapi.json</a></li>
+<li><a href="/health">/health</a> — liveness</li>
+<li><a href="https://github.com/nuwansamaranayake/portfolio-ops/blob/main/docs/postmortem/2026-07-27-unauthenticated-reads.md">Incident postmortem</a> — the 2026-07-27 unauthenticated reads, with
+its exposure window and the fact that no access logs existed</li>
+<li><a href="https://github.com/nuwansamaranayake/portfolio-ops">portfolio-ops</a> — the deploy gate that proves this estate after every deploy</li>
+</ul>
+
+<p class="status">
+version <code>__VERSION__</code> &middot; commit <code>__SHA__</code> &middot;
+built <code>__BUILT__</code> &middot; environment <code>__ENV__</code><br>
+Values are baked from build arguments. <code>unknown</code> means the image was built without
+them, which is reported rather than replaced with a plausible-looking string.
+</p>
+</div>
+</body>
+</html>

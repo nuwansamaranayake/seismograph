@@ -182,3 +182,37 @@ def test_business_reads_require_bearer_when_token_set(client, monkeypatch):
     assert client.get("/api/v1/reports/no-such-contract").status_code == 401
     assert client.get(
         "/api/v1/reports/no-such-contract", headers={"Authorization": "Bearer sekrit"}).status_code != 401
+
+
+def test_root_serves_a_real_html_page(client):
+    """The front door must answer a browser. Every gate passed for hours while this 404ed."""
+    r = client.get("/", headers={"Accept": "text/html"})
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("text/html")
+    body = r.text
+    assert len(body) > 500
+    assert "Seismograph" in body
+    for placeholder in ("TODO", "Lorem", "example.com", "XXX"):
+        assert placeholder not in body
+
+
+def test_root_publishes_the_eval_limits_sentence_verbatim():
+    """The page quotes EVAL.md, so the two cannot drift apart silently."""
+    import re
+    from pathlib import Path
+    from app.frontpage import render
+
+    eval_md = (Path(__file__).resolve().parent.parent / "EVAL.md").read_text(encoding="utf-8")
+    limits = " ".join(re.search(r"<!-- LIMITS -->\s*(.+?)\s*<!-- /LIMITS -->",
+                                eval_md, re.S).group(1).split())
+    assert limits in " ".join(render().split())
+
+
+def test_root_reports_unknown_rather_than_a_fake_build_stamp(monkeypatch):
+    """No build args means "unknown" on the page, never a plausible-looking placeholder."""
+    from app import frontpage
+    monkeypatch.delenv("GIT_SHA", raising=False)
+    monkeypatch.delenv("APP_VERSION", raising=False)
+    frontpage._template.cache_clear()
+    body = frontpage.render()
+    assert "unknown" in body and "__SHA__" not in body and "__VERSION__" not in body

@@ -79,7 +79,10 @@ def smoke() -> None:
 
 
 
+APP_NAME = "Seismograph"
+
 PUBLIC_ROUTES = {
+    "/",                                        # the public front door
     "/health",                                  # uptime monitoring
     "/api/v1/demo",                             # dev fixture; 503 outside development
     "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc",
@@ -137,6 +140,44 @@ def route_auth() -> None:
     print(f"GATE route-auth: PASS ({len(guarded)} business routes, all bearer-gated)")
 
 
+
+def front_page() -> None:
+    """The front door must serve HTML to a browser.
+
+    The estate ran for hours with every hostname 404ing at `/` because the gate asserted
+    /health and the business loop and never asked what a browser receives. This check closes
+    that class: status, content type, the app name, and the EVAL.md limits sentence verbatim.
+    """
+    import re
+    sys.path.insert(0, str(REPO))
+    from fastapi.testclient import TestClient
+    from app.main import app
+
+    r = TestClient(app).get("/", headers={"Accept": "text/html"})
+    if r.status_code != 200:
+        fail(f"front page: GET / returned {r.status_code}, expected 200")
+    ctype = r.headers.get("content-type", "")
+    if not ctype.startswith("text/html"):
+        fail(f"front page: content-type is {ctype!r}, expected text/html")
+    body = r.text
+    if len(body) < 500:
+        fail(f"front page: body is {len(body)} bytes, too small to be a real page")
+    if APP_NAME not in body:
+        fail(f"front page: body does not carry the app name {APP_NAME!r}")
+
+    eval_md = (REPO / "EVAL.md").read_text(encoding="utf-8")
+    m = re.search(r"<!-- LIMITS -->\s*(.+?)\s*<!-- /LIMITS -->", eval_md, re.S)
+    if not m:
+        fail("front page: EVAL.md has no <!-- LIMITS --> block to publish")
+    limits = " ".join(m.group(1).split())
+    if limits not in " ".join(body.split()):
+        fail("front page: the EVAL.md limits sentence is not on the page verbatim")
+    for bad in ("TODO", "Lorem", "example.com", "XXX"):
+        if bad in body:
+            fail(f"front page: placeholder token {bad!r} present on a public page")
+    print(f"GATE front-page: PASS ({len(body)} bytes, limits sentence verbatim)")
+
+
 def main() -> None:
     r = run("ruff", [PY, "-m", "ruff", "check", "."], 120)
     if r.returncode != 0:
@@ -149,6 +190,7 @@ def main() -> None:
     print("GATE pytest: PASS")
 
     route_auth()
+    front_page()
 
     smoke()
 

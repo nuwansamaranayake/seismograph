@@ -7,6 +7,15 @@ held to the standard it imposes: its own detectors must be accurate, sensitive, 
 nothing is wrong. "Good" is not "the demo looked convincing" — it is measured behavior on systems
 whose defects are known in advance.
 
+## Published limits
+
+This sentence is what the root page publishes, verbatim. The gate fails if the page and this block drift apart.
+
+<!-- LIMITS -->
+Seismograph detects an abrupt mean shift of 1 sigma or larger in the monitored statistic within a median of 5 monitored points (40 samples per point) at a false alarm rate of 0.017 per point, and it misses below that: a 0.5 sigma shift is caught about half the time (0.50, 95% CI 0.33-0.67) and a 0.25 sigma shift about two times in five (0.43, 95% CI 0.27-0.61).
+<!-- /LIMITS -->
+
+
 ## How `make eval` measures it
 
 Seismograph evals itself against synthetic systems under test — mock endpoints with *programmable*

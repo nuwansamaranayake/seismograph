@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-07-27
+
+### Added
+- `GET /` serves a self-contained static HTML page: the app thesis, what it measures in plain
+  language, the EVAL.md limits sentence verbatim, the endpoint list, and a build stamp
+  (version, commit, build time) injected from Docker build args. No framework, no CDN, no
+  JavaScript. Public by design; every API endpoint behind it still requires a bearer token.
+- `scripts/gate.py` asserts the root route returns 200 `text/html` carrying the app name and
+  the EVAL.md limits sentence verbatim, and fails on placeholder text. The estate gate sends a
+  browser-shaped request to every hostname it reads out of `API_CONTRACT.md`.
+
+### Fixed
+- Every published hostname 404ed at `/` because no gate asserted what a browser receives
+  (FAILURES FAIL-0011).
+
+
 ## [0.3.0] - 2026-07-27
 
 > **BREAKING.** Business read endpoints now require the same bearer token as writes.
