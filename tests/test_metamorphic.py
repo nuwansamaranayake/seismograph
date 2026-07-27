@@ -37,6 +37,15 @@ def test_trivial_copy_rejected():
     assert variants[0].reason == "trivial_copy"
 
 
+def test_punctuation_only_near_copy_rejected():
+    # Identical except a removed "?": cosine 1.0 under the token-based embedder. Similarity
+    # alone must reject it — string equality would wave it through.
+    gw = StubGateway([SEED.rstrip("?")])
+    variants = generate_paraphrases(gw, "m", SEED, 1, HashingEmbedder())
+    assert variants[0].accepted is False
+    assert variants[0].reason == "trivial_copy"
+
+
 def test_rejections_are_kept_not_dropped():
     gw = StubGateway(["", "totally unrelated text about sailing boats"])
     variants = generate_paraphrases(gw, "m", SEED, 2, HashingEmbedder())

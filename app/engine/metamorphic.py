@@ -91,7 +91,9 @@ def generate_paraphrases(
         score = cosine(seed_vec, vec)
         if score < MIN_SIMILARITY:
             variants.append(Variant(seed_input, text, score, False, "too_dissimilar"))
-        elif score > MAX_SIMILARITY and text.lower() == seed_input.lower():
+        elif score > MAX_SIMILARITY:
+            # Similarity alone decides: any near-copy above the documented bound is trivial,
+            # including punctuation-only or case-only edits that string equality would miss.
             variants.append(Variant(seed_input, text, score, False, "trivial_copy"))
         else:
             variants.append(Variant(seed_input, text, score, True, "ok"))
