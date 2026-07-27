@@ -167,3 +167,18 @@ def test_production_with_empty_token_refuses_startup(monkeypatch):
         require_production_auth()
     monkeypatch.setattr(settings, "smoke_test_token", "real-token")
     require_production_auth()   # with a token, production starts fine
+
+
+def test_business_reads_require_bearer_when_token_set(client, monkeypatch):
+    """GET the stored report must not be world-readable in production.
+
+    Found by the production business-loop audit: this endpoint served real business
+    data to an unauthenticated caller over the public internet. Reads are now gated by
+    the same bearer check as writes; auth stays off only while the token is empty
+    (development semantics).
+    """
+    from app.config import settings
+    monkeypatch.setattr(settings, "smoke_test_token", "sekrit")
+    assert client.get("/api/v1/reports/no-such-contract").status_code == 401
+    assert client.get(
+        "/api/v1/reports/no-such-contract", headers={"Authorization": "Bearer sekrit"}).status_code != 401

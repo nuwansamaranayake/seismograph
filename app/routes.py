@@ -179,7 +179,8 @@ def execute_run(body: RunIn, authorization: str | None = Header(default=None)):
 
 
 @router.get("/reports/{contract_name}")
-def report(contract_name: str):
+def report(contract_name: str, authorization: str | None = Header(default=None)):
+    _auth(authorization)
     with db.get_session() as s:
         row = s.execute(
             sa.select(db.contracts).where(db.contracts.c.name == contract_name)

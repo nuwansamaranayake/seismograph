@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+- Business read endpoints (GET /api/v1/reports/{contract}) now require the same bearer token as writes. They
+  previously served real production data to unauthenticated callers (FAILURES FAIL-0007).
+
 ## [0.2.1] - 2026-07-23
 
 ### Fixed — adversarial review wave (12 findings; see FAILURES.md FAIL-0006)

@@ -115,3 +115,25 @@ the *diagnosed* root cause separately (Standard 5).
 - **Doctrine link**: Standards 2/3/4 throughout. The review found what the green gate could
   not: several of these defects were invisible precisely because the checks that should have
   caught them were the broken part.
+
+## FAIL-0007 — Production business data was world-readable: read endpoints skipped bearer auth
+
+- **Date**: 2026-07-27
+- **Surface**: `GET /api/v1/reports/{contract}`
+- **Reported symptom**: none. Every gate was green, CI was green, and the estate smoke
+  passed: the smoke client always sent a token, so it never asked what happens without one.
+- **Diagnosed cause**: mutating endpoints called `_auth(authorization)`; these read
+  endpoints never took an `authorization` header at all. Verified against live production
+  from an unauthenticated client on the public internet, which returned HTTP 200 and
+  contract reports with gate decisions and metrics.
+- **Root cause**: the adversarial review found this class and fixed the two instances it
+  happened to surface (CareerCompiler `get_fit`, Mycelium `get_answer`); the class was
+  never swept estate-wide, so four apps shipped with open reads.
+- **Fix**: every business read now calls the same `_auth` as the writes. Development
+  semantics are unchanged (an empty `SMOKE_TEST_TOKEN` leaves auth off, and production
+  startup already refuses an empty token). Regression test added:
+  `test_business_reads_require_bearer_when_token_set` asserts 401 without a bearer.
+- **Doctrine link**: Standard 6 — this is exactly why the estate needed `API_CONTRACT.md`
+  with an auth column: an endpoint nobody wrote down is an endpoint nobody audited. The
+  production business-loop audit (curl with and WITHOUT a token) caught what six green
+  CI runs could not.
