@@ -154,3 +154,13 @@ the *diagnosed* root cause separately (Standard 5).
   phase that actually imports a local cross-encoder). Tests unchanged and still green.
 - **Doctrine link**: a dependency you do not import is a claim you cannot back. It also
   slowed every deploy, which is how it was noticed while shipping a security fix.
+
+## Incident record
+
+The 2026-07-27 unauthenticated-reads incident, which affected this repo, is documented in the
+estate's operational repo:
+[portfolio-ops/docs/postmortem/2026-07-27-unauthenticated-reads.md](https://github.com/nuwansamaranayake/portfolio-ops/blob/main/docs/postmortem/2026-07-27-unauthenticated-reads.md)
+
+It covers the exposure window, the access-log finding (there were none), the data
+classification (synthetic only, proven by query), the root cause, and the controls now in
+place, including the `route_auth()` class check in `scripts/gate.py`.

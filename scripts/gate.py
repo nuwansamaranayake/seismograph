@@ -78,6 +78,65 @@ def smoke() -> None:
             server.kill()
 
 
+
+PUBLIC_ROUTES = {
+    "/health",                                  # uptime monitoring
+    "/api/v1/demo",                             # dev fixture; 503 outside development
+    "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc",
+}
+
+
+def _walk_routes(routes):
+    """Yield leaf routes.
+
+    FastAPI >= 0.140 nests an included router under `_IncludedRouter.original_router`
+    instead of flattening it into `app.routes`; older versions expose `.routes` or flatten
+    directly. Walking only the top level silently sees the scaffold routes and none of the
+    business routes, which is how a check like this passes while proving nothing.
+    """
+    for r in routes:
+        original = getattr(r, "original_router", None)
+        sub = (getattr(original, "routes", None) if original is not None
+               else getattr(r, "routes", None))
+        if sub:
+            yield from _walk_routes(sub)
+        else:
+            yield r
+
+
+def route_auth() -> None:
+    """Class check, not an instance check.
+
+    Every non-public route must accept an `authorization` parameter. A test asserting that
+    nine specific handlers return 401 cannot protect the tenth handler added next week;
+    enumerating the router can. See the 2026-07-27 unauthenticated-reads postmortem.
+    """
+    import inspect
+    sys.path.insert(0, str(REPO))
+    from app.main import app
+
+    guarded, unguarded = [], []
+    for r in _walk_routes(app.routes):
+        path = getattr(r, "path", None)
+        endpoint = getattr(r, "endpoint", None)
+        if not path or endpoint is None or path in PUBLIC_ROUTES:
+            continue
+        if "authorization" in inspect.signature(endpoint).parameters:
+            guarded.append(path)
+        else:
+            methods = ",".join(sorted(getattr(r, "methods", None) or []))
+            unguarded.append(f"{methods} {path}")
+
+    if not guarded and not unguarded:
+        fail("route-auth: enumerated ZERO business routes. The walker cannot see this "
+             "FastAPI version's router layout, so the check proves nothing. Refusing to "
+             "report a pass.")
+    if unguarded:
+        fail(f"route-auth: {len(unguarded)} non-public route(s) accept no authorization "
+             f"parameter: {unguarded}")
+    print(f"GATE route-auth: PASS ({len(guarded)} business routes, all bearer-gated)")
+
+
 def main() -> None:
     r = run("ruff", [PY, "-m", "ruff", "check", "."], 120)
     if r.returncode != 0:
@@ -88,6 +147,8 @@ def main() -> None:
     if r.returncode != 0:
         fail(f"pytest: {(r.stdout + r.stderr).strip()[-300:]}")
     print("GATE pytest: PASS")
+
+    route_auth()
 
     smoke()
 
