@@ -52,7 +52,10 @@ class IndividualsChart:
         else:
             self._side = side
             self._side_run = 1 if side != 0 else 0
-        if rule is None and self._side_run >= 8:
+        # A run of 8 is ONE signal, raised when the run completes. Re-alarming every further
+        # point of the same run would count the same evidence again and inflate the alarm
+        # rate on healthy-but-noisy streams; the run signals again only after the side resets.
+        if rule is None and self._side_run == 8:
             rule = "run8"
         return ChartPoint(
             t=t, value=value, center=self.center, ucl=self.ucl, lcl=self.lcl,

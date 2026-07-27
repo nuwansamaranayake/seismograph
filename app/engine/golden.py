@@ -19,8 +19,16 @@ from .suts import SUT, DriftSUT, FlakySUT, JumpSUT, StableSUT
 
 BASELINE_W = 30
 RUN_T = 60          # monitored points after the baseline window
-N_SAMPLES = 20
+N_SAMPLES = 40
 ONSET = 15          # defect onset, in monitored-point index
+# Healthy processes are not silent: the baseline carries real decision noise so chart sigma
+# is estimated from actual variation, not floored at 1e-6. With this rate (and n=40, giving
+# the flip-rate lattice steps of 0.025) baseline sigma is ~0.03, planted defects below are
+# ~4-7 sigma rather than ~10^5, and false alarms and missed detections are both structurally
+# possible outcomes the suite must bound.
+HEALTHY_FLIP_P = 0.04
+JUMP_FLIP_RATE = 0.15       # ~4 sigma above the healthy mean
+DRIFT_PEAK = 0.20           # crosses 2 sigma within ~2 points of onset, ~7 sigma at peak
 
 
 @dataclass
@@ -51,19 +59,23 @@ def _metric_point(sut: SUT, t: int, seed: int) -> tuple[float, float]:
 
 def run_scenario(kind: str, seed: int) -> ScenarioResult:
     if kind == "clean":
-        sut: SUT = StableSUT()
+        sut: SUT = StableSUT(base_flip_p=HEALTHY_FLIP_P)
     elif kind == "jump":
-        sut = JumpSUT(onset=BASELINE_W + ONSET, flip_rate=0.35)
+        sut = JumpSUT(onset=BASELINE_W + ONSET, flip_rate=JUMP_FLIP_RATE,
+                      base_flip_p=HEALTHY_FLIP_P)
     elif kind == "drift":
-        sut = DriftSUT(onset=BASELINE_W + ONSET, peak_flip_rate=0.35, ramp=10)
+        sut = DriftSUT(onset=BASELINE_W + ONSET, peak_flip_rate=DRIFT_PEAK, ramp=10,
+                       base_flip_p=HEALTHY_FLIP_P)
     elif kind == "flake":
-        sut = FlakySUT(onset=BASELINE_W + ONSET, p=0.15, burst=15)
+        sut = FlakySUT(onset=BASELINE_W + ONSET, p=0.15, burst=15,
+                       base_flip_p=HEALTHY_FLIP_P)
     else:
         raise ValueError(f"unknown scenario kind {kind!r}")
 
     baseline_flip, baseline_mal = [], []
     for t in range(BASELINE_W):
-        f, m = _metric_point(StableSUT(), t, seed)      # baseline is always healthy
+        # Baseline is always healthy — and noisy, like a real healthy process.
+        f, m = _metric_point(StableSUT(base_flip_p=HEALTHY_FLIP_P), t, seed)
         baseline_flip.append(f)
         baseline_mal.append(m)
     xchart = IndividualsChart(baseline_flip)
@@ -127,8 +139,12 @@ def run_suite(n_per_kind: int = 20) -> SuiteReport:
         _row("drift latency median", report.drift_latency_median, "<= 10",
              report.drift_latency_median is not None and report.drift_latency_median <= 10),
         _row("sensitivity", round(sensitivity, 4), ">= 0.90", sensitivity >= 0.90),
-        _row("false alarm rate", round(false_alarm_rate, 4), "<= 0.01",
-             false_alarm_rate <= 0.01),
+        # 0.03, not the old 0.01: with a genuinely noisy baseline the combined WE1 + run-of-8
+        # false-signal rate on a 40-sample flip lattice is ~1.5% for a CORRECT chart (Poisson
+        # 3-sigma tails plus the run rule's intrinsic rate). The old 0.01 was attainable only
+        # while false alarms were structurally impossible. See EVAL.md.
+        _row("false alarm rate", round(false_alarm_rate, 4), "<= 0.03",
+             false_alarm_rate <= 0.03),
         _row("flake detection", round(flake_detected, 4), ">= 0.90", flake_detected >= 0.90),
     ]
     return report
@@ -143,6 +159,6 @@ def thresholds_met(r: SuiteReport) -> bool:
         r.jump_latency_median is not None and r.jump_latency_median <= 3
         and r.drift_latency_median is not None and r.drift_latency_median <= 10
         and r.sensitivity >= 0.90
-        and r.false_alarm_rate <= 0.01
+        and r.false_alarm_rate <= 0.03
         and r.flake_detection >= 0.90
     )

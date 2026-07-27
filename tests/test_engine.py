@@ -80,6 +80,14 @@ def test_individuals_chart_run8_catches_drift():
     assert any(p.rule == "run8" for p in alarms)
 
 
+def test_run8_signals_once_per_run():
+    baseline = [0.02, 0.03, 0.02, 0.03, 0.02, 0.03, 0.02, 0.03] * 4
+    chart = IndividualsChart(baseline)
+    points = [chart.add(t, chart.center + chart.sigma) for t in range(12)]
+    # One run of 12 same-side points is ONE signal (at its 8th point), not five.
+    assert [p.rule for p in points].count("run8") == 1
+
+
 def test_pchart_flags_burst_and_tolerates_clean():
     chart = PChart([0.0] * 30, n=20)
     assert not chart.add(0, 0.05).alarm          # one flake in 20 is not an alarm
