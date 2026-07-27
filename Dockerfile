@@ -3,6 +3,10 @@ FROM python:3.12-slim
 
 WORKDIR /srv
 ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+# Standard 4 cannot be skipped silently: a bare `docker run` without a dotenv still asserts
+# the expected table count (8 app tables + alembic_version). Override via env if the schema
+# legitimately changes.
+ENV EXPECTED_TABLE_COUNT=9
 
 # git is required: aignite-groundwork resolves from a git+https URL (see pyproject.toml)
 RUN apt-get update && apt-get install -y --no-install-recommends git \

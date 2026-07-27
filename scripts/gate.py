@@ -40,8 +40,14 @@ def free_port() -> int:
 
 def smoke() -> None:
     port = free_port()
+    # Resolve the token ONCE and inject it into the spawned server's environment (env vars
+    # override .env in pydantic-settings). Otherwise the server reads whatever the repo .env
+    # holds and the client-side token mismatches: a false red on a healthy build, or an
+    # auth-off pass that never exercises the bearer path.
+    token = os.environ.get("SMOKE_TEST_TOKEN", "dev")
     env = os.environ.copy()
-    env.update({"APP_ENV": "development", "API_HOST": "127.0.0.1", "API_PORT": str(port)})
+    env.update({"APP_ENV": "development", "API_HOST": "127.0.0.1", "API_PORT": str(port),
+                "SMOKE_TEST_TOKEN": token})
     server = subprocess.Popen(
         [PY, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", str(port),
          "--log-level", "warning"],
@@ -60,7 +66,7 @@ def smoke() -> None:
             fail("smoke: server never became healthy")
         r = run("smoke", [PY, "scripts/smoke_test.py"], 60,
                 {"API_HOST": "127.0.0.1", "API_PORT": str(port),
-                 "SMOKE_TEST_TOKEN": os.environ.get("SMOKE_TEST_TOKEN", "dev")})
+                 "SMOKE_TEST_TOKEN": token})
         if r.returncode != 0 or "SMOKE OK" not in r.stdout:
             fail(f"smoke: {r.stdout.strip()} {r.stderr.strip()}"[:300])
         print("GATE smoke: PASS")

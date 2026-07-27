@@ -25,14 +25,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install groundwork + app
+      - name: Install app (groundwork resolves from the ref pyproject pins)
+        # No fallbacks: a dependency-resolution failure must fail THIS step loudly, not
+        # resurface later as ModuleNotFoundError in pytest (silent-fallback anti-pattern).
         run: |
           python -m pip install --upgrade pip
-          # groundwork resolves from a published wheel / git ref once the repos are pushed.
-          pip install "aignite-groundwork @ git+https://github.com/AiGNITE/groundwork@main" \
-            || echo "groundwork not yet published; falling back to minimal runtime deps"
-          pip install -e ".[dev]" \
-            || pip install fastapi "uvicorn[standard]" httpx pydantic pydantic-settings pytest
+          pip install -e ".[dev]"
       - run: pytest
 
   smoke:

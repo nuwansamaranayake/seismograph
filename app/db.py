@@ -1,5 +1,6 @@
-"""Schema and session plumbing. metadata is the single source of truth; the alembic
-migration applies it, and EXPECTED_TABLE_COUNT asserts the result (Standard 4)."""
+"""Schema and session plumbing. metadata describes the runtime schema; alembic migrations
+carry FROZEN copies of the DDL (never a live metadata import), so any change here requires
+a new numbered revision. EXPECTED_TABLE_COUNT asserts the result (Standard 4)."""
 from __future__ import annotations
 
 import sqlalchemy as sa

@@ -1,0 +1,10 @@
+# Never bake secrets, VCS history, or local state into the image.
+.git
+.env
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.planning
+LOOP_STATE.md
