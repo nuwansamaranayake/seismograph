@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-27
+
+> **BREAKING.** Business read endpoints now require the same bearer token as writes.
+> **Migration:** send `Authorization: Bearer $SMOKE_TEST_TOKEN` on GET requests too.
+> Unauthenticated reads previously returned data and now return 401. Development is
+> unaffected while the token is empty.
+
+### Eval (operating curve, 30 runs per cell, 95% Wilson intervals)
+- Detects an abrupt mean shift of **1 sigma or larger** within a median of 5 monitored points
+  at a false alarm rate of **0.0167/point**. Documented misses below that: 0.50 at 0.5 sigma,
+  0.43 at 0.25 sigma; 0.87 at 1% format flake. Detection floor: 1 sigma.
+- Acceptance bounds all PASS: sensitivity 1.00 at 3 sigma, 1.00 at 20% flake, false alarm
+  rate 0.0167 <= 0.03, sensitivity monotone in magnitude, 18,000 monitored points with no
+  vacuous cell. Report and SVG curve byte-reproducible.
+- Key-gated back-check: 53/54 paraphrase variants accepted, 0.98 (95% CI 0.90-1.00) across
+  nine statement types, all planted negative controls rejected.
+
+### Changed
+- The golden-defect suite was replaced by a swept operating curve. The previous suite's
+  perfect scorecard reflected defect size, not detector sensitivity (FAILURES FAIL-0009).
+- Metamorphic back-check rejects `numeric_drift`: cosine similarity accepted "120 days" as a
+  paraphrase of "12 days" at 0.956 (FAILURES FAIL-0010).
+- Embedder identity recorded in every report and checked against `eval_baseline.json`.
+- Unused `sentence-transformers` (CUDA torch) dropped; image 5.6 GB -> 601 MB.
+- `scripts/gate.py` enumerates routes and fails on any unguarded non-public route.
+
 ### Removed
 - Unused `sentence-transformers` dependency (and the CUDA torch stack it pulled). No Phase 1
   code imports it; production images drop from ~5.7 GB toward the ~0.5 GB baseline
