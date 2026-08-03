@@ -7,6 +7,8 @@ plausible-looking placeholder: an unverified number on a public page is a fabric
 from __future__ import annotations
 
 import os
+
+from groundwork import build_version
 from functools import lru_cache
 from pathlib import Path
 
@@ -23,7 +25,7 @@ def _template() -> str:
 def render() -> str:
     """Substitute the build-time facts into the static page."""
     return (_template()
-            .replace("__VERSION__", os.getenv("APP_VERSION", "unreleased"))
+            .replace("__VERSION__", build_version())
             .replace("__SHA__", os.getenv("GIT_SHA", "unknown"))
             .replace("__BUILT__", os.getenv("BUILD_TIME", "unknown"))
             .replace("__ENV__", settings.app_env.value))

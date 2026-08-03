@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
-from groundwork import Env
+from groundwork import build_version, Env
 from .config import settings
 from .fixtures import load_synthetic_fixture
 from .frontpage import render as render_front_page
@@ -22,7 +22,7 @@ def require_production_auth(cfg=settings) -> None:
 
 require_production_auth()
 
-app = FastAPI(title="Seismograph")
+app = FastAPI(title="Seismograph", version=build_version())
 app.include_router(router)
 
 

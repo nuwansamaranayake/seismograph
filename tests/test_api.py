@@ -216,3 +216,11 @@ def test_root_reports_unknown_rather_than_a_fake_build_stamp(monkeypatch):
     frontpage._template.cache_clear()
     body = frontpage.render()
     assert "unknown" in body and "__SHA__" not in body and "__VERSION__" not in body
+
+def test_served_version_matches_the_front_page():
+    """A3, via the shared helper: openapi.json and the root page must share one source."""
+    from fastapi.testclient import TestClient
+    from groundwork.testing import assert_served_version_matches_front_page
+
+    from app.main import app
+    assert_served_version_matches_front_page(TestClient(app))
