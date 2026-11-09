@@ -21,6 +21,11 @@ Exit: a maintainer adds a contract to a repo and CI fails on a paraphrase-driven
 ## Phase 2 — Full instrument and the dashboard
 *Mirrors GitHub milestone `phase-2`.*
 
+**Status 2026-11-09: built on `feat/phase-2-dashboard`, version 0.4.0, not yet released.** Every
+item below is implemented and tested. The exit's second half, "the gate runs as a GitHub check",
+is wired (`action.yml`, `.github/workflows/gate.yml`) and proven locally by exit code. It has not
+been observed on GitHub until this branch's first CI run.
+
 - The full invariant set: irrelevance, order, monotonicity, and format stability.
 - Outcome-mode clustering — surfacing the hidden second mode the averages conceal.
 - Judge panel with human-anchor calibration and drift quarantine.

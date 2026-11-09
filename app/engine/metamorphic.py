@@ -103,7 +103,7 @@ def generate_paraphrases(
         return variants
     vecs = embedder.embed([seed_input] + candidates)
     seed_vec, cand_vecs = vecs[0], vecs[1:]
-    for text, vec in zip(candidates, cand_vecs):
+    for text, vec in zip(candidates, cand_vecs, strict=True):
         if not text:
             variants.append(Variant(seed_input, text, 0.0, False, "empty"))
             continue

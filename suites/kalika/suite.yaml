@@ -1,0 +1,34 @@
+# The Kalika evaluation suite (docs/gates-spec.md g3, g4).
+#
+# v1 ships the two layers that decide without a model in the loop: `engine`
+# (chart facts against the golden reference) and `policy` (the Kalika output
+# policy as deterministic assertions). The judge-backed layers — grounding
+# (grounded) and the rubric read of the same policy — are declared by g3 once a
+# judge model is selectable; a layer declared here and unrunnable makes the run
+# INCOMPLETE rather than quietly passing (app/runner.py).
+suite: kalika
+version: v1
+
+target:
+  # Adapter comes from SEISMO_TARGET_ADAPTER (http|mcp); connection details come
+  # from SEISMO_TARGET_KALIKA_{METHOD,URL,HEADERS,TIMEOUT}. Nothing is defaulted.
+  id: kalika
+  json_path: null
+
+layers:
+  engine:
+    check: assert
+    policy: policy/engine_facts.json
+  policy:
+    check: assert
+    policy: policy/output_policy.json
+
+profiles:
+  # daily: a rotating window, one pass each — cheap enough for a 06:00 cron.
+  daily:
+    repeats: 1
+    rotate: 3
+  # full: every case, three times, so determinism is measured not assumed.
+  full:
+    repeats: 3
+    rotate: null

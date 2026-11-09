@@ -1,0 +1,266 @@
+{
+  "bodies": {
+    "jupiter": "599",
+    "mars": "499",
+    "mercury": "199",
+    "moon": "301",
+    "saturn": "699",
+    "sun": "10",
+    "venus": "299"
+  },
+  "epochs_utc": [
+    "1955-11-14 15:30",
+    "1968-07-04 00:12",
+    "1977-03-21 06:45",
+    "1984-12-31 23:47",
+    "1991-08-08 11:11",
+    "2001-02-19 17:05",
+    "2009-06-30 02:30",
+    "2016-10-02 09:58"
+  ],
+  "frame": "apparent geocentric ecliptic longitude/latitude of date (ObsEcLon/ObsEcLat)",
+  "positions": {
+    "1955-11-14 15:30": {
+      "jupiter": {
+        "lat_deg": 0.8173794,
+        "lon_deg": 149.7552469
+      },
+      "mars": {
+        "lat_deg": 0.9138901,
+        "lon_deg": 200.6769231
+      },
+      "mercury": {
+        "lat_deg": 1.2916102,
+        "lon_deg": 220.0184559
+      },
+      "moon": {
+        "lat_deg": -2.1615041,
+        "lon_deg": 233.0894132
+      },
+      "saturn": {
+        "lat_deg": 1.951055,
+        "lon_deg": 233.527346
+      },
+      "sun": {
+        "lat_deg": -0.000115,
+        "lon_deg": 231.4851125
+      },
+      "venus": {
+        "lat_deg": -0.5576954,
+        "lon_deg": 250.674557
+      }
+    },
+    "1968-07-04 00:12": {
+      "jupiter": {
+        "lat_deg": 1.0321707,
+        "lon_deg": 152.8805067
+      },
+      "mars": {
+        "lat_deg": 0.8255572,
+        "lon_deg": 98.5570129
+      },
+      "mercury": {
+        "lat_deg": -4.1429385,
+        "lon_deg": 83.8239982
+      },
+      "moon": {
+        "lat_deg": -0.3442398,
+        "lon_deg": 198.2402974
+      },
+      "saturn": {
+        "lat_deg": -2.4355955,
+        "lon_deg": 24.5698231
+      },
+      "sun": {
+        "lat_deg": 9.7e-06,
+        "lon_deg": 102.0811644
+      },
+      "venus": {
+        "lat_deg": 0.8037083,
+        "lon_deg": 105.8176435
+      }
+    },
+    "1977-03-21 06:45": {
+      "jupiter": {
+        "lat_deg": -0.6530207,
+        "lon_deg": 57.5142535
+      },
+      "mars": {
+        "lat_deg": -1.1727743,
+        "lon_deg": 330.9247562
+      },
+      "mercury": {
+        "lat_deg": -0.8148711,
+        "lon_deg": 5.5781527
+      },
+      "moon": {
+        "lat_deg": 0.6092386,
+        "lon_deg": 17.7062811
+      },
+      "saturn": {
+        "lat_deg": 0.9908858,
+        "lon_deg": 130.3444354
+      },
+      "sun": {
+        "lat_deg": -1.6e-05,
+        "lon_deg": 0.5399546
+      },
+      "venus": {
+        "lat_deg": 7.6795853,
+        "lon_deg": 24.0128798
+      }
+    },
+    "1984-12-31 23:47": {
+      "jupiter": {
+        "lat_deg": -0.2512497,
+        "lon_deg": 291.4551795
+      },
+      "mars": {
+        "lat_deg": -0.958254,
+        "lon_deg": 335.1325617
+      },
+      "mercury": {
+        "lat_deg": 2.2003261,
+        "lon_deg": 257.9662483
+      },
+      "moon": {
+        "lat_deg": -2.3529321,
+        "lon_deg": 29.5935859
+      },
+      "saturn": {
+        "lat_deg": 2.0742352,
+        "lon_deg": 234.7295149
+      },
+      "sun": {
+        "lat_deg": -0.0001392,
+        "lon_deg": 280.5072182
+      },
+      "venus": {
+        "lat_deg": -1.5785091,
+        "lon_deg": 326.3442737
+      }
+    },
+    "1991-08-08 11:11": {
+      "jupiter": {
+        "lat_deg": 0.7545635,
+        "lon_deg": 142.4430114
+      },
+      "mars": {
+        "lat_deg": 0.9089292,
+        "lon_deg": 164.8686603
+      },
+      "mercury": {
+        "lat_deg": -3.9194683,
+        "lon_deg": 155.8990738
+      },
+      "moon": {
+        "lat_deg": -0.3407739,
+        "lon_deg": 112.5358843
+      },
+      "saturn": {
+        "lat_deg": -0.494152,
+        "lon_deg": 302.5936918
+      },
+      "sun": {
+        "lat_deg": 8.83e-05,
+        "lon_deg": 135.4219774
+      },
+      "venus": {
+        "lat_deg": -5.9558964,
+        "lon_deg": 156.359818
+      }
+    },
+    "2001-02-19 17:05": {
+      "jupiter": {
+        "lat_deg": -0.6061102,
+        "lon_deg": 62.2575335
+      },
+      "mars": {
+        "lat_deg": 0.9693187,
+        "lon_deg": 242.530727
+      },
+      "mercury": {
+        "lat_deg": 3.2227142,
+        "lon_deg": 317.5234417
+      },
+      "moon": {
+        "lat_deg": -0.6293423,
+        "lon_deg": 291.7567304
+      },
+      "saturn": {
+        "lat_deg": -1.9670178,
+        "lon_deg": 54.6740795
+      },
+      "sun": {
+        "lat_deg": -2.75e-05,
+        "lon_deg": 331.1190837
+      },
+      "venus": {
+        "lat_deg": 4.2346868,
+        "lon_deg": 12.3659363
+      }
+    },
+    "2009-06-30 02:30": {
+      "jupiter": {
+        "lat_deg": -0.9273874,
+        "lon_deg": 326.6676695
+      },
+      "mars": {
+        "lat_deg": -0.6878897,
+        "lon_deg": 51.4500519
+      },
+      "mercury": {
+        "lat_deg": -0.7461235,
+        "lon_deg": 82.8560977
+      },
+      "moon": {
+        "lat_deg": -5.092114,
+        "lon_deg": 196.1191252
+      },
+      "saturn": {
+        "lat_deg": 2.0495313,
+        "lon_deg": 166.5221814
+      },
+      "sun": {
+        "lat_deg": -0.0001701,
+        "lon_deg": 98.4574449
+      },
+      "venus": {
+        "lat_deg": -2.7259259,
+        "lon_deg": 54.3231122
+      }
+    },
+    "2016-10-02 09:58": {
+      "jupiter": {
+        "lat_deg": 1.0945196,
+        "lon_deg": 184.9422486
+      },
+      "mars": {
+        "lat_deg": -2.3849878,
+        "lon_deg": 273.3517595
+      },
+      "mercury": {
+        "lat_deg": 1.6459621,
+        "lon_deg": 172.5399284
+      },
+      "moon": {
+        "lat_deg": 3.5348198,
+        "lon_deg": 205.1575905
+      },
+      "saturn": {
+        "lat_deg": 1.4354657,
+        "lon_deg": 251.7203553
+      },
+      "sun": {
+        "lat_deg": 0.0001929,
+        "lon_deg": 189.6358523
+      },
+      "venus": {
+        "lat_deg": -0.2889394,
+        "lon_deg": 220.7201973
+      }
+    }
+  },
+  "source": "JPL Horizons API, EPHEM_TYPE=OBSERVER, CENTER=500@399, QUANTITIES=31",
+  "units": "degrees"
+}

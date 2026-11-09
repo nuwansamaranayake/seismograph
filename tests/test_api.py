@@ -147,6 +147,7 @@ def test_registration_race_loser_gets_409(client, monkeypatch):
     # Simulate the loser of a concurrent registration race: the pre-check misses, the
     # unique index catches the duplicate INSERT — documented contract is still 409.
     import sqlalchemy as sa_real
+
     from app import routes
     assert client.post("/api/v1/contracts", json={"yaml": CONTRACT_YAML}).status_code == 201
     real_select = sa_real.select
@@ -159,6 +160,7 @@ def test_registration_race_loser_gets_409(client, monkeypatch):
 
 def test_production_with_empty_token_refuses_startup(monkeypatch):
     from groundwork import Env
+
     from app.config import settings
     from app.main import require_production_auth
     monkeypatch.setattr(settings, "app_env", Env.production)
@@ -200,6 +202,7 @@ def test_root_publishes_the_eval_limits_sentence_verbatim():
     """The page quotes EVAL.md, so the two cannot drift apart silently."""
     import re
     from pathlib import Path
+
     from app.frontpage import render
 
     eval_md = (Path(__file__).resolve().parent.parent / "EVAL.md").read_text(encoding="utf-8")

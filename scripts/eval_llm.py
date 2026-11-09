@@ -20,10 +20,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from groundwork import BaseConfig, LLMGateway  # noqa: E402
+
 from app.engine.embedding import HashingEmbedder, OpenRouterEmbedder  # noqa: E402
 from app.engine.golden import wilson  # noqa: E402
 from app.engine.metamorphic import (  # noqa: E402
-    MAX_SIMILARITY, MIN_SIMILARITY, generate_paraphrases,
+    MAX_SIMILARITY,
+    MIN_SIMILARITY,
+    generate_paraphrases,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -138,7 +141,7 @@ def main() -> None:
         "",
         *[f"- `{k}`: {'ACCEPTED (LEAK)' if v.accepted else 'rejected'} "
           f"(score {v.back_check_score:.3f}, {v.reason})"
-          for (k, _), v in zip(NEGATIVE_CONTROLS, neg)],
+          for (k, _), v in zip(NEGATIVE_CONTROLS, neg, strict=True)],
     ]
     text = "\n".join(lines) + "\n"
     REPORT.write_text(text, encoding="utf-8", newline="\n")

@@ -1,0 +1,844 @@
+{
+  "check_type": "grounded",
+  "version": "v1",
+  "years_tolerance": 0.25,
+  "samples": [
+    {
+      "id": "grounded-clean-c01-p0",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "Leo lagna. Moon in Magha, pada 2. Ketu mahadasha, 3.4 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-clean-c01-p2",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "Chart summary:\n- Ascendant: Leo\n- Moon: Magha, pada 2\n- Running mahadasha: Ketu, 3.4 years remaining\n\nRead the year ahead against the Ketu period rather than the calendar."
+    },
+    {
+      "id": "grounded-clean-c02-p1",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "The chart rises in Cancer, which sets the tone before anything else is said. The Moon sits in Pushya in its 4 pada, so the mind returns to the same few themes under pressure. You are inside the Saturn mahadasha with 11.2 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-clean-c02-p3",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Saturn mahadasha, which has 11.2 years left. The longer answer starts at the Cancer ascendant and the Moon in Pushya pada 4, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-clean-c03-p2",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Chart summary:\n- Ascendant: Scorpio\n- Moon: Anuradha, pada 1\n- Running mahadasha: Saturn, 7.8 years remaining\n\nRead the year ahead against the Saturn period rather than the calendar."
+    },
+    {
+      "id": "grounded-clean-c03-p0",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Scorpio lagna. Moon in Anuradha, pada 1. Saturn mahadasha, 7.8 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-clean-c04-p3",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Ketu mahadasha, which has 1.5 years left. The longer answer starts at the Aries ascendant and the Moon in Ashwini pada 3, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-clean-c04-p1",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "The chart rises in Aries, which sets the tone before anything else is said. The Moon sits in Ashwini in its 3 pada, so the mind returns to the same few themes under pressure. You are inside the Ketu mahadasha with 1.5 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-clean-c05-p0",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Capricorn lagna. Moon in Shravana, pada 2. Moon mahadasha, 5.0 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-clean-c05-p2",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Chart summary:\n- Ascendant: Capricorn\n- Moon: Shravana, pada 2\n- Running mahadasha: Moon, 5.0 years remaining\n\nRead the year ahead against the Moon period rather than the calendar."
+    },
+    {
+      "id": "grounded-clean-c06-p1",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "The chart rises in Gemini, which sets the tone before anything else is said. The Moon sits in Ardra in its 4 pada, so the mind returns to the same few themes under pressure. You are inside the Rahu mahadasha with 14.7 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-clean-c06-p3",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Rahu mahadasha, which has 14.7 years left. The longer answer starts at the Gemini ascendant and the Moon in Ardra pada 4, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-clean-c07-p2",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Chart summary:\n- Ascendant: Libra\n- Moon: Swati, pada 1\n- Running mahadasha: Rahu, 9.3 years remaining\n\nRead the year ahead against the Rahu period rather than the calendar."
+    },
+    {
+      "id": "grounded-clean-c07-p0",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Libra lagna. Moon in Swati, pada 1. Rahu mahadasha, 9.3 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-clean-c08-p3",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Mercury mahadasha, which has 12.05 years left. The longer answer starts at the Pisces ascendant and the Moon in Revati pada 3, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-clean-c08-p1",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "The chart rises in Pisces, which sets the tone before anything else is said. The Moon sits in Revati in its 3 pada, so the mind returns to the same few themes under pressure. You are inside the Mercury mahadasha with 12.05 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-clean-c09-p0",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Taurus lagna. Moon in Rohini, pada 2. Moon mahadasha, 2.9 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-clean-c09-p2",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Chart summary:\n- Ascendant: Taurus\n- Moon: Rohini, pada 2\n- Running mahadasha: Moon, 2.9 years remaining\n\nRead the year ahead against the Moon period rather than the calendar."
+    },
+    {
+      "id": "grounded-clean-c10-p1",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "The chart rises in Virgo, which sets the tone before anything else is said. The Moon sits in Hasta in its 1 pada, so the mind returns to the same few themes under pressure. You are inside the Moon mahadasha with 6.75 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-clean-c10-p3",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Moon mahadasha, which has 6.75 years left. The longer answer starts at the Virgo ascendant and the Moon in Hasta pada 1, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-clean-c11-p2",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Chart summary:\n- Ascendant: Sagittarius\n- Moon: Mula, pada 4\n- Running mahadasha: Ketu, 6.6 years remaining\n\nRead the year ahead against the Ketu period rather than the calendar."
+    },
+    {
+      "id": "grounded-clean-c11-p0",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius lagna. Moon in Mula, pada 4. Ketu mahadasha, 6.6 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-planted-lagna-opposite",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "contradicts_reference",
+      "defect": "states Aquarius lagna against a Leo reference",
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "The chart rises in Aquarius, which sets the tone before anything else is said. The Moon sits in Magha in its 2 pada, so the mind returns to the same few themes under pressure. You are inside the Ketu mahadasha with 3.4 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-planted-lagna-wrong",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "contradicts_reference",
+      "defect": "states Capricorn lagna against a Cancer reference",
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Capricorn lagna. Moon in Pushya, pada 4. Saturn mahadasha, 11.2 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-planted-lord-wrong",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "contradicts_reference",
+      "defect": "states a Venus mahadasha against a Saturn reference",
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Chart summary:\n- Ascendant: Scorpio\n- Moon: Anuradha, pada 1\n- Running mahadasha: Venus, 7.8 years remaining\n\nRead the year ahead against the Venus period rather than the calendar."
+    },
+    {
+      "id": "grounded-planted-nakshatra-far",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "contradicts_reference",
+      "defect": "states Uttara Bhadrapada against an Ashwini reference",
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Ketu mahadasha, which has 1.5 years left. The longer answer starts at the Aries ascendant and the Moon in Uttara Bhadrapada pada 3, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-planted-years-far",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "contradicts_reference",
+      "defect": "states 15.0 years remaining against a 5.0 reference",
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Capricorn lagna. Moon in Shravana, pada 2. Moon mahadasha, 15.0 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-planted-lord-node-swap",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "contradicts_reference",
+      "defect": "Ketu given for a Rahu mahadasha — the opposite node",
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "The chart rises in Gemini, which sets the tone before anything else is said. The Moon sits in Ardra in its 4 pada, so the mind returns to the same few themes under pressure. You are inside the Ketu mahadasha with 14.7 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-planted-lagna-adjacent",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "contradicts_reference",
+      "defect": "Virgo given for a Libra lagna — the preceding sign",
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Chart summary:\n- Ascendant: Virgo\n- Moon: Swati, pada 1\n- Running mahadasha: Rahu, 9.3 years remaining\n\nRead the year ahead against the Rahu period rather than the calendar."
+    },
+    {
+      "id": "grounded-planted-years-off-three",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "contradicts_reference",
+      "defect": "9.05 years stated against a 12.05 reference",
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Mercury mahadasha, which has 9.05 years left. The longer answer starts at the Pisces ascendant and the Moon in Revati pada 3, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-planted-lord-luminary-swap",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "contradicts_reference",
+      "defect": "Sun given for a Moon mahadasha",
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Taurus lagna. Moon in Rohini, pada 2. Sun mahadasha, 2.9 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-planted-pada-omitted",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "omits_fact",
+      "defect": "the pada is never stated, so nothing grounds it",
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Virgo lagna with the Moon in Hasta. The Moon mahadasha has 6.75 years left and it is the period that is setting the pace, not the transit."
+    },
+    {
+      "id": "grounded-planted-lord-omitted",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "omits_fact",
+      "defect": "the running mahadasha is never named",
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius rises, and the Moon is in Mula pada 4 — close enough to the junction that the mind resets hard under pressure. The period still running has 6.6 years left in it."
+    },
+    {
+      "id": "grounded-planted-nakshatra-same-lord",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "contradicts_reference",
+      "defect": "Mula given for a Magha Moon — a different nakshatra with the same lord (Ketu)",
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Ketu mahadasha, which has 3.4 years left. The longer answer starts at the Leo ascendant and the Moon in Mula pada 2, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-planted-nakshatra-adjacent",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "Ashlesha given for a Pushya Moon — the next nakshatra",
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "The chart rises in Cancer, which sets the tone before anything else is said. The Moon sits in Ashlesha in its 4 pada, so the mind returns to the same few themes under pressure. You are inside the Saturn mahadasha with 11.2 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-planted-pada-off-by-one",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "pada 2 given for a pada 1 Moon",
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Chart summary:\n- Ascendant: Scorpio\n- Moon: Anuradha, pada 2\n- Running mahadasha: Saturn, 7.8 years remaining\n\nRead the year ahead against the Saturn period rather than the calendar."
+    },
+    {
+      "id": "grounded-planted-years-just-past-tolerance",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "1.8 years stated against a 1.5 reference, 0.30 past a 0.25 tolerance",
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "Aries lagna. Moon in Ashwini, pada 3. Ketu mahadasha, 1.8 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-planted-pada-off-by-one-b",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "pada 3 given for a pada 2 Moon",
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "You asked what is shaping this stretch. The short answer is the Moon mahadasha, which has 5.0 years left. The longer answer starts at the Capricorn ascendant and the Moon in Shravana pada 3, because those set what the period has to work with."
+    },
+    {
+      "id": "grounded-planted-nakshatra-adjacent-b",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "Punarvasu given for an Ardra Moon — the next nakshatra",
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "Chart summary:\n- Ascendant: Gemini\n- Moon: Punarvasu, pada 4\n- Running mahadasha: Rahu, 14.7 years remaining\n\nRead the year ahead against the Rahu period rather than the calendar."
+    },
+    {
+      "id": "grounded-planted-years-drift",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "9.6 years stated against a 9.3 reference",
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "The chart rises in Libra, which sets the tone before anything else is said. The Moon sits in Swati in its 1 pada, so the mind returns to the same few themes under pressure. You are inside the Rahu mahadasha with 9.6 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-planted-self-contradiction",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "opens on the right lagna, then names a different one later in the same text",
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "Pisces lagna, Moon in Revati pada 3, and the Mercury mahadasha has 12.05 years to run. Because the ascendant is Aquarius, the period lands on the second house rather than the first, and money questions come forward."
+    },
+    {
+      "id": "grounded-planted-pada-off-by-one-c",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "pada 1 given for a pada 2 Moon",
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "The chart rises in Taurus, which sets the tone before anything else is said. The Moon sits in Rohini in its 1 pada, so the mind returns to the same few themes under pressure. You are inside the Moon mahadasha with 2.9 years still to run, and that is the period doing most of the work right now."
+    },
+    {
+      "id": "grounded-planted-nakshatra-adjacent-c",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "Chitra given for a Hasta Moon — the next nakshatra",
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Virgo lagna. Moon in Chitra, pada 1. Moon mahadasha, 6.75 years remaining. The period is the frame; read everything below through it."
+    },
+    {
+      "id": "grounded-planted-hedged-lord",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "contradicts_reference",
+      "defect": "the wrong lord is stated inside a hedge, which reads as caution rather than error",
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius rises with the Moon in Mula, pada 4. It is probably fair to say the Venus mahadasha is the one running, with something like 6.6 years left in it, and the pace of the next stretch follows from that."
+    }
+  ],
+  "content_sha256_16": "8cb99214de1a565c"
+}

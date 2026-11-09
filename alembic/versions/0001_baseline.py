@@ -8,8 +8,9 @@ Baseline migration. Creates no tables; alembic itself creates the alembic_versio
 so after `alembic upgrade head` the public schema holds exactly one table. EXPECTED_TABLE_COUNT
 starts at 1 and is raised as real tables are added (Standard 4).
 """
-from alembic import op  # noqa: F401
 import sqlalchemy as sa  # noqa: F401
+
+from alembic import op  # noqa: F401
 
 revision = "0001_baseline"
 down_revision = None

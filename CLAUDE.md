@@ -24,7 +24,15 @@ The LLM senses. Deterministic code decides. Humans approve action. Every claim c
 
 ## Stack
 Python 3.12, FastAPI, Pydantic v2, Postgres 16 (pgvector, JSONB), Redis, OpenRouter via the
-groundwork gateway, Docker Compose. Frontend (Next.js) arrives in Phase 2.
+groundwork gateway, Docker Compose. Frontend: Next.js 15 static export in `web/`, served by
+FastAPI from `WEB_DIR` (no node in production).
+
+## Commands
+- `python scripts/quality.py` the measured quality gate. Nine components, each >= 96.
+- `cd web && npm run lint && npm run typecheck && npm test && npm run build`
+- `python scripts/dev_serve.py` then `python scripts/seed_demo.py` for a local walkthrough.
+- `python scripts/build_guide.py` after EVAL.md, eval_report.md or the guide screenshots change.
+- Tests run with `WEB_DIR` unset, so the app under test serves the single-file fallback page.
 
 ## LLM access
 Never call a provider SDK directly. Use groundwork.gateway.LLMGateway. It reads OPENROUTER_API_KEY,

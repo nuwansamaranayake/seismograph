@@ -1,0 +1,57 @@
+{
+  "id": "syn-south-sign-boundary",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Southern hemisphere lagna 0.40 deg from a sign boundary (Makara).",
+  "request": {
+    "case_id": "syn-south-sign-boundary",
+    "tool": "analyze_career",
+    "birth": {
+      "date": "1972-06-15",
+      "time": "22:13",
+      "tz": "Africa/Johannesburg",
+      "lat": -33.9249,
+      "lon": 18.4241,
+      "place": "Cape Town, South Africa"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Makara",
+    "moon_nakshatra": "Ashlesha",
+    "moon_pada": 4,
+    "mahadasha_lord": "Rahu",
+    "mahadasha_years_remaining": 15.67,
+    "ayanamsa_deg": 23.469175,
+    "lagna_lon_deg": 299.5981,
+    "graha_lon_deg": {
+      "sun": 61.3256,
+      "moon": 118.4854,
+      "mars": 88.396,
+      "mercury": 74.1295,
+      "jupiter": 251.1207,
+      "venus": 64.1502,
+      "saturn": 48.4919,
+      "rahu": 274.3252,
+      "ketu": 94.3252
+    },
+    "graha_sign": {
+      "sun": "Mithuna",
+      "moon": "Karka",
+      "mars": "Mithuna",
+      "mercury": "Mithuna",
+      "jupiter": "Dhanu",
+      "venus": "Mithuna",
+      "saturn": "Vrishabha",
+      "rahu": "Makara",
+      "ketu": "Karka"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa",
+    "boundary_margin_deg": {
+      "lagna_to_sign_boundary": 0.4019
+    }
+  }
+}

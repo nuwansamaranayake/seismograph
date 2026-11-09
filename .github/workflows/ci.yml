@@ -15,6 +15,60 @@ jobs:
       - run: pip install ruff
       - run: ruff check .
 
+  web:
+    name: "web (lint, types, tests, build)"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run typecheck
+      # vitest.config.ts carries the 96% coverage thresholds: a drop fails this step.
+      - run: npm test
+      - run: npm run build
+
+  quality:
+    name: "quality gate (required)"
+    runs-on: ubuntu-latest
+    # Nine measured components, every one at or above 96, or the build fails.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - uses: actions/cache@v4
+        with:
+          path: data/ephemeris
+          key: jpl-de421
+      - name: Fetch the ephemeris kernel the reference tests read
+        run: python scripts/fetch_ephemeris.py
+      - run: npm ci --no-audit --no-fund
+        working-directory: web
+      - run: python scripts/quality.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-report
+          path: |
+            quality_report.md
+            quality_report.json
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -31,6 +85,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
+      # The ephemeris reference tests read a 17 MB JPL kernel that is not in the repository.
+      # Fetch it as a named, cached step: left implicit, pytest downloaded it silently and a
+      # network failure showed up as 83 unrelated-looking test errors.
+      - uses: actions/cache@v4
+        with:
+          path: data/ephemeris
+          key: jpl-de421
+      - name: Fetch the ephemeris kernel the reference tests read
+        run: python scripts/fetch_ephemeris.py
       - run: pytest
 
   smoke:

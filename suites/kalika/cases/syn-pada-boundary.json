@@ -1,0 +1,57 @@
+{
+  "id": "syn-pada-boundary",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Moon 0.24 deg from a pada boundary (pada 3 of Purva Bhadrapada), which also fixes the Vimshottari balance.",
+  "request": {
+    "case_id": "syn-pada-boundary",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "1988-09-24",
+      "time": "20:37",
+      "tz": "America/Argentina/Buenos_Aires",
+      "lat": -34.6037,
+      "lon": -58.3816,
+      "place": "Buenos Aires, Argentina"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Mesha",
+    "moon_nakshatra": "Purva Bhadrapada",
+    "moon_pada": 3,
+    "mahadasha_lord": "Mercury",
+    "mahadasha_years_remaining": 5.73,
+    "ayanamsa_deg": 23.696526,
+    "lagna_lon_deg": 1.2725,
+    "graha_lon_deg": {
+      "sun": 158.4302,
+      "moon": 326.9043,
+      "mars": 342.4647,
+      "mercury": 182.5574,
+      "jupiter": 42.4332,
+      "venus": 115.4117,
+      "saturn": 242.7621,
+      "rahu": 319.2801,
+      "ketu": 139.2801
+    },
+    "graha_sign": {
+      "sun": "Kanya",
+      "moon": "Kumbha",
+      "mars": "Meena",
+      "mercury": "Tula",
+      "jupiter": "Vrishabha",
+      "venus": "Karka",
+      "saturn": "Dhanu",
+      "rahu": "Kumbha",
+      "ketu": "Simha"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa",
+    "boundary_margin_deg": {
+      "moon_to_pada_boundary": 0.2377
+    }
+  }
+}

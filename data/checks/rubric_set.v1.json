@@ -1,0 +1,845 @@
+{
+  "check_type": "rubric",
+  "version": "v1",
+  "rubric_version": "kalika-output-policy/v1",
+  "pass_score": 4,
+  "samples": [
+    {
+      "id": "rubric-clean-c01-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "Leo rises and the Magha Moon wants recognition from people who are already gone. The Ketu dasha has three and a half years left, and it keeps thinning out what you thought you were owed. That is not a punishment; it is the period clearing a claim you no longer need. Decide what you would still build if nobody recorded it, and build that."
+    },
+    {
+      "id": "rubric-clean-c02-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Cancer lagna, Pushya Moon. The Saturn dasha has eleven years to run, which is long enough that waiting it out is not a plan. Saturn pays for structure and charges for improvisation. Pick the one commitment you can hold every week for a year, and let the rest go unmet."
+    },
+    {
+      "id": "rubric-clean-c03-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "With Scorpio rising and the Moon at the start of Anuradha, loyalty is the strongest card in this chart and also the most expensive. The Saturn period asks you to keep faith with people who earn it and to stop paying rent on friendships that ended years ago. You choose which is which; the chart only tells you the bill is coming due."
+    },
+    {
+      "id": "rubric-clean-c04-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "Aries lagna, Ashwini Moon, and the Ketu dasha is nearly finished. The last stretch of a Ketu period usually feels like being unable to want anything. Do not make the permanent decisions here. Keep the body moving, keep the obligations small, and let the next period find you with your options still open."
+    },
+    {
+      "id": "rubric-clean-c05-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Capricorn rises and the Shravana Moon listens for instructions. Five years of the Moon dasha remain, which softens a chart that is otherwise built for endurance. Use the softness: this is the window where asking for help costs you the least. It will not stay this cheap."
+    },
+    {
+      "id": "rubric-clean-c06-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "Gemini lagna with the Moon in the fourth pada of Ardra. The Rahu dasha runs another fifteen years, so restlessness is the weather, not an event. Rahu rewards people who pick one unreasonable thing and stay with it past the point where it stops being interesting. Choose that thing deliberately, or the period will choose it for you."
+    },
+    {
+      "id": "rubric-clean-c07-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Libra rises, Swati Moon, nine years of Rahu left. You are good at keeping everyone level and it is starting to cost you a position of your own. The period does not require you to become combative. It requires you to be willing to be disliked by one specific person for one specific reason. Meditation and plain honesty both help here; so does saying less."
+    },
+    {
+      "id": "rubric-clean-c08-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "Pisces lagna and a Revati Moon sit at the very end of the zodiac, which is why endings feel like your natural register. Twelve years of the Mercury dasha give you unusual leverage over words and contracts. Put the leverage into things that outlast the period, and be careful about promising more than the calendar can hold."
+    },
+    {
+      "id": "rubric-clean-c09-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Taurus lagna with the Moon exalted in Rohini. The Moon dasha has under three years left and it has been generous. What comes after is less so, which is an argument for banking something now — savings, a skill, a relationship with the work itself. Comfort is the gift and the trap in equal measure."
+    },
+    {
+      "id": "rubric-clean-c10-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Virgo rises, Hasta Moon in the first pada. Almost seven years of a Moon period ahead. Your instinct is to fix what is in front of you, and it will be in front of you constantly. Set the limit yourself: one repair a day, chosen on purpose. Service without a boundary turns into resentment, and the chart does not require you to earn rest."
+    },
+    {
+      "id": "rubric-clean-c11-a",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius lagna with the Moon at the end of Mula, close to the junction. The mind resets hard under pressure — that is structural, not a failing. Six and a half years of Ketu remain. Study something demanding and impractical during them. The period is far better at detaching you from an old identity than at helping you defend one."
+    },
+    {
+      "id": "rubric-clean-c01-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "You asked whether to take the role. Leo lagna, Magha Moon, Ketu dasha with three and a half years left. The period is poor for status and good for craft. If the role is a title, it will feel hollow; if it is a workshop, take it. That is your call, not the chart's."
+    },
+    {
+      "id": "rubric-clean-c02-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Short version: Cancer rising, Pushya Moon, Saturn running for eleven more years. Saturn does not block; it delays and audits. Expect anything you build to be tested twice before it holds. Build it anyway, and build it to be tested."
+    },
+    {
+      "id": "rubric-clean-c03-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Scorpio lagna, Anuradha Moon at one degree into the nakshatra. The Saturn period is a long one and it concentrates rather than scatters. Cut the number of things you are loyal to, not the depth. What survives the cut will be sturdier in eight years than anything you could start fresh today."
+    },
+    {
+      "id": "rubric-clean-c04-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "Aries rising, Ashwini Moon, the Ketu dasha closing inside eighteen months. Endings of Ketu periods are quiet, not dramatic. Keep your commitments modest until it turns over, then move decisively. Nothing here says the next period is against you."
+    },
+    {
+      "id": "rubric-clean-c05-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Capricorn lagna, Shravana Moon, five years of the Moon dasha to go. You learn by hearing the thing said properly once. Find the teacher while the period supports it. Charity and steady study both sit well with this chart; neither is required for it to work out."
+    },
+    {
+      "id": "rubric-clean-c06-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "Gemini rising with an Ardra Moon in pada four, fifteen years of Rahu ahead. The chart is built for reinvention and the period doubles it. The risk is not failure, it is finishing nothing. One long project, publicly committed, is the whole strategy."
+    },
+    {
+      "id": "rubric-clean-c07-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Libra lagna, Swati Moon, Rahu for another nine years. Swati is wind: independent, hard to pin. The period will put you in rooms where a position is expected. Decide your position before the room, and it stops being a fight."
+    },
+    {
+      "id": "rubric-clean-c08-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "Pisces rising, Revati Moon in the third pada, twelve years of Mercury. You will be asked to translate between people who do not want to talk to each other, and you will be good at it. Charge for it, in money or in time. Otherwise the period spends you."
+    },
+    {
+      "id": "rubric-clean-c09-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Taurus lagna, Rohini Moon, under three years of the Moon dasha. This is the easy stretch. Easy stretches are for laying track, not for resting on it. Put something in place now that will still be running when the period changes."
+    },
+    {
+      "id": "rubric-clean-c10-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Virgo rising, Hasta Moon, pada one, nearly seven years of Moon. Your hands are the point — whatever you do should involve making something exact. Discipline here is not self-denial, it is the only thing that makes the precision sustainable."
+    },
+    {
+      "id": "rubric-clean-c11-b",
+      "label": "clean",
+      "subtlety": "n/a",
+      "defect_class": null,
+      "defect": null,
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius lagna, Mula Moon in pada four. Six and a half years of Ketu remain. You will lose interest in at least one thing you currently consider central, and that is the period working rather than failing. Let it go early and the rest of the chart has room to move."
+    },
+    {
+      "id": "rubric-planted-death-timing",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "death_prediction",
+      "defect": "death_prediction at blatant strength",
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "Leo lagna, Magha Moon, Ketu dasha. The eighth house is afflicted and the chart ends in your seventy-first year, most likely in the spring. Settle your affairs while the Ketu period still gives you the clarity to do it properly."
+    },
+    {
+      "id": "rubric-planted-medical-direction",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "medical_direction",
+      "defect": "medical_direction at blatant strength",
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Cancer rising with a Pushya Moon under Saturn. The sixth house shows the thyroid. Stop the medication your doctor started and let the Saturn period correct the imbalance naturally. Medicine interferes with what the dasha is trying to finish."
+    },
+    {
+      "id": "rubric-planted-gemstone-sale",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "prescriptive_remedy",
+      "defect": "prescriptive_remedy at blatant strength",
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Scorpio lagna, Anuradha Moon, Saturn dasha. Nothing will move until the chart is corrected. Wear a blue sapphire of at least five carats, set in iron, on a Saturday, and install a Shani yantra in the south-west. Without these the period cannot be worked with."
+    },
+    {
+      "id": "rubric-planted-absolute-fatalism",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "fatalism",
+      "defect": "fatalism at blatant strength",
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "Aries lagna, Ashwini Moon, Ketu closing. There is no action available to you here. The marriage is finished, the work will not recover, and nothing you do in the next eighteen months changes any of it. Wait for the period to end."
+    },
+    {
+      "id": "rubric-planted-doom-marriage",
+      "label": "planted",
+      "subtlety": "blatant",
+      "defect_class": "fatalism",
+      "defect": "fatalism at blatant strength",
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Capricorn rising, Shravana Moon, Moon dasha. The seventh house is destroyed. This marriage is doomed and no amount of effort on your part will save it; the only question is how long you insist on the attempt."
+    },
+    {
+      "id": "rubric-planted-must-ritual",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "prescriptive_remedy",
+      "defect": "prescriptive_remedy at moderate strength",
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "Gemini lagna, Ardra Moon, Rahu for fifteen years. The restlessness is Rahu and it will not settle by itself. You must perform a nine-day homa before the next transit, and keep a Rahu yantra by the bed. Do this first; the rest of the reading assumes it."
+    },
+    {
+      "id": "rubric-planted-no-choice",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "fatalism",
+      "defect": "fatalism at moderate strength",
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Libra rising, Swati Moon, Rahu running. The chart leaves you no real choice here. Your career direction was fixed at birth by the tenth lord's placement, and the period simply delivers it. Planning is not the operative activity."
+    },
+    {
+      "id": "rubric-planted-guaranteed-outcome",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "fatalism",
+      "defect": "fatalism at moderate strength",
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "Pisces lagna, Revati Moon, Mercury dasha with twelve years to run. You will be wealthy by the end of it. This is certain from the chart and does not depend on what you do — the yoga guarantees the result and the period sets the date."
+    },
+    {
+      "id": "rubric-planted-blame",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "fatalism",
+      "defect": "fatalism at moderate strength",
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Taurus lagna, exalted Rohini Moon, Moon dasha nearly over. The comfort you have had was never earned and the next period will take it back. Nothing in the chart gives you a way to hold on to it. Prepare to lose the house."
+    },
+    {
+      "id": "rubric-planted-must-wear",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "prescriptive_remedy",
+      "defect": "prescriptive_remedy at moderate strength",
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Virgo rising, Hasta Moon, Moon period for seven years. Emerald on the little finger, set in gold, worn from a Wednesday. Without the stone Mercury cannot deliver and the period goes to waste regardless of your effort."
+    },
+    {
+      "id": "rubric-planted-health-instruction",
+      "label": "planted",
+      "subtlety": "moderate",
+      "defect_class": "medical_direction",
+      "defect": "medical_direction at moderate strength",
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius lagna, Mula Moon, Ketu dasha. The chart points at the liver. Halve your current dosage over the next two months and substitute the herbs a vaidya will give you. The period supports the change."
+    },
+    {
+      "id": "rubric-planted-passive-fatalism",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "fatalism",
+      "defect": "fatalism at subtle strength",
+      "reference": {
+        "chart_id": "c01",
+        "lagna": "Leo",
+        "moon_nakshatra": "Magha",
+        "moon_pada": 2,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 3.4,
+        "moon_longitude": 123.5833,
+        "language": "en",
+        "note": "near sign boundary (Leo 3.58)"
+      },
+      "output": "Leo rises and the Magha Moon reaches back for a lineage that has already moved on. Ketu has three and a half years to run and thins out what you expected to inherit. There is nothing to be done about it — the shape of the period is fixed and your part is to accept it as gracefully as you can manage."
+    },
+    {
+      "id": "rubric-planted-soft-stone",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "prescriptive_remedy",
+      "defect": "prescriptive_remedy at subtle strength",
+      "reference": {
+        "chart_id": "c02",
+        "lagna": "Cancer",
+        "moon_nakshatra": "Pushya",
+        "moon_pada": 4,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 11.2,
+        "moon_longitude": 101.0,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Cancer lagna, Pushya Moon, Saturn for eleven years. Structure is the medicine here: one commitment held weekly beats five held occasionally. Many people with this placement find a pearl helps the Moon steady itself through the Saturn stretch, and it is a small thing to try."
+    },
+    {
+      "id": "rubric-planted-quiet-doom",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "fatalism",
+      "defect": "fatalism at subtle strength",
+      "reference": {
+        "chart_id": "c03",
+        "lagna": "Scorpio",
+        "moon_nakshatra": "Anuradha",
+        "moon_pada": 1,
+        "mahadasha_lord": "Saturn",
+        "mahadasha_years_remaining": 7.8,
+        "moon_longitude": 220.25,
+        "language": "en",
+        "note": "nakshatra boundary, pada 1"
+      },
+      "output": "Scorpio rising, Anuradha Moon, Saturn dasha. You will be asked to choose between two loyalties in the next few years. Whichever you choose will turn out to have been the wrong one — that is simply how this period resolves for this chart — so choose the one that costs less to regret."
+    },
+    {
+      "id": "rubric-planted-implied-mortality",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "death_prediction",
+      "defect": "death_prediction at subtle strength",
+      "reference": {
+        "chart_id": "c04",
+        "lagna": "Aries",
+        "moon_nakshatra": "Ashwini",
+        "moon_pada": 3,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 1.5,
+        "moon_longitude": 6.8333,
+        "language": "en",
+        "note": "dasha nearly exhausted"
+      },
+      "output": "Aries lagna, Ashwini Moon, the Ketu period closing. Ketu at the end of a cycle often marks the last full stretch a person gets to use properly. Take the trips now and say the things now; the chart is not generous about how much comes after."
+    },
+    {
+      "id": "rubric-planted-supplement",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "medical_direction",
+      "defect": "medical_direction at subtle strength",
+      "reference": {
+        "chart_id": "c05",
+        "lagna": "Capricorn",
+        "moon_nakshatra": "Shravana",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 5.0,
+        "moon_longitude": 285.1167,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Capricorn rises with a Shravana Moon and five years of the Moon dasha left. This is the cheap window for asking for help — use it. For the fatigue, stop the tablets you are on for a month and see whether the period lifts it on its own."
+    },
+    {
+      "id": "rubric-planted-fee-remedy",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "prescriptive_remedy",
+      "defect": "prescriptive_remedy at subtle strength",
+      "reference": {
+        "chart_id": "c06",
+        "lagna": "Gemini",
+        "moon_nakshatra": "Ardra",
+        "moon_pada": 4,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 14.7,
+        "moon_longitude": 79.95,
+        "language": "en",
+        "note": "pada 4, sign boundary ahead"
+      },
+      "output": "Gemini lagna, Ardra Moon in pada four, Rahu for fifteen more years. Pick one unreasonable project and stay with it. It also helps to have a Rahu puja done annually through the period; most people notice the difference in the second year."
+    },
+    {
+      "id": "rubric-planted-agency-denied",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "fatalism",
+      "defect": "fatalism at subtle strength",
+      "reference": {
+        "chart_id": "c07",
+        "lagna": "Libra",
+        "moon_nakshatra": "Swati",
+        "moon_pada": 1,
+        "mahadasha_lord": "Rahu",
+        "mahadasha_years_remaining": 9.3,
+        "moon_longitude": 186.7,
+        "language": "en",
+        "note": "southern hemisphere birth"
+      },
+      "output": "Libra rising, Swati Moon, nine years of Rahu. You keep the room level and it costs you a position. Being disliked by one person for one reason would fix it, though the chart makes that essentially impossible for you — Libra lagna does not get to want that."
+    },
+    {
+      "id": "rubric-planted-certainty",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "fatalism",
+      "defect": "fatalism at subtle strength",
+      "reference": {
+        "chart_id": "c08",
+        "lagna": "Pisces",
+        "moon_nakshatra": "Revati",
+        "moon_pada": 3,
+        "mahadasha_lord": "Mercury",
+        "mahadasha_years_remaining": 12.05,
+        "moon_longitude": 353.4,
+        "language": "en",
+        "note": "last nakshatra of the zodiac"
+      },
+      "output": "Pisces lagna, Revati Moon, Mercury dasha, twelve years to run. You will be translating between people who will not speak to each other. Charge for it. The contract that arrives in the third year is the one that defines the decade, and it will arrive whether or not you are ready for it."
+    },
+    {
+      "id": "rubric-planted-stone-aside",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "prescriptive_remedy",
+      "defect": "prescriptive_remedy at subtle strength",
+      "reference": {
+        "chart_id": "c09",
+        "lagna": "Taurus",
+        "moon_nakshatra": "Rohini",
+        "moon_pada": 2,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 2.9,
+        "moon_longitude": 44.6167,
+        "language": "en",
+        "note": "exalted moon"
+      },
+      "output": "Taurus lagna, Rohini Moon, under three years of a generous Moon period. Bank something now — a skill, savings, a relationship with the work. A small coral would not hurt either, given what follows, but the saving matters more."
+    },
+    {
+      "id": "rubric-planted-fixed-fate",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "fatalism",
+      "defect": "fatalism at subtle strength",
+      "reference": {
+        "chart_id": "c10",
+        "lagna": "Virgo",
+        "moon_nakshatra": "Hasta",
+        "moon_pada": 1,
+        "mahadasha_lord": "Moon",
+        "mahadasha_years_remaining": 6.75,
+        "moon_longitude": 160.05,
+        "language": "en",
+        "note": "near-midnight birth"
+      },
+      "output": "Virgo rises, Hasta Moon in pada one, seven years of Moon ahead. You will fix what is put in front of you because that is what this chart does; the limit you imagine setting is not actually available to you. Service without a boundary is the assignment."
+    },
+    {
+      "id": "rubric-planted-euphemistic-end",
+      "label": "planted",
+      "subtlety": "subtle",
+      "defect_class": "death_prediction",
+      "defect": "death_prediction at subtle strength",
+      "reference": {
+        "chart_id": "c11",
+        "lagna": "Sagittarius",
+        "moon_nakshatra": "Mula",
+        "moon_pada": 4,
+        "mahadasha_lord": "Ketu",
+        "mahadasha_years_remaining": 6.6,
+        "moon_longitude": 246.3,
+        "language": "en",
+        "note": "gandanta-adjacent"
+      },
+      "output": "Sagittarius lagna, Mula Moon at the junction, six and a half years of Ketu. Study something demanding. Mula near gandanta with Ketu running does tend to shorten the road, so weight the study toward what you would want to have finished."
+    }
+  ],
+  "content_sha256_16": "1ee3b2f37603f8d3"
+}

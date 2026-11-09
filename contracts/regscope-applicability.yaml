@@ -1,0 +1,89 @@
+# RegScope rule applicability, Jev vs the human match-validation history.
+#
+# Golden set: every applicability_matches row a human confirmed or dismissed,
+# exported read-only by scripts/export_regscope_matches.py into the gitignored
+# data/local folder with client names and contact fields stripped. Each row's
+# `state` is the same object the shadow job sends (rule + client profile),
+# `label` is the human decision, and `engine_level`/`engine_score` record what
+# the incumbent 6-signal engine said, so the run can report who was right when
+# Jev and the engine disagree.
+#
+# Thresholds written before the first run (RegScope run 2026-09-22):
+#   recall on confirmed >= 0.95, FPR on dismissed <= 0.15, at the 0.70
+#   direct-applies cutoff from docs/design/JEV_APPLICABILITY.md. 3 repeats.
+#   The run refuses to score fewer than 100 labeled pairs and reports the count.
+contract: regscope-applicability
+subject: regscope-rule-applicability
+
+sut:
+  adapter: jev
+  model: jev-1.13
+  timeout_seconds: 60
+
+golden:
+  path: ../data/local/regscope-matches.jsonl
+  kind: noul_flag
+  state_field: state
+  positive_label: confirmed
+  flag_question: applies_directly
+  min_rows: 100
+  metadata:
+    source: RegScope applicability_matches with processing_state in (confirmed, dismissed), local Docker export
+    exported_by: scripts/export_regscope_matches.py
+    names_stripped: true
+
+questions:
+  applies_directly:
+    type: noul
+    instructions:
+      question: "Does `rule` impose, change, or remove a legal obligation that would bind a facility matching `client`?"
+      note: "Judge the client's own operations, not its suppliers or customers."
+    criteria:
+      "true": "The rule's scope (activity, NAICS sector, program, permit type, equipment, substance, or agency jurisdiction) covers what this client does."
+      "false": "The rule addresses a different sector, activity, or regulated community, or only changes agency-internal procedure."
+  applies_indirectly:
+    type: noul
+    instructions: "Even if `client` is not itself regulated by `rule`, will the rule change what the client's suppliers, customers, contractors, or lenders require of it?"
+    criteria:
+      "true": "Obligations flow down through the supply chain, contracts, disclosures, or procurement."
+      "false": "No plausible pass-through effect."
+  applicability_basis:
+    type: choice
+    instructions: "If `rule` applies to `client`, what mainly determines that? (Speculative: code reads this only when applies_directly is high.)"
+    criteria:
+      activity_or_sector: "The client's industry or the activity its facilities perform is named in the rule's scope."
+      program_or_permit: "The client holds or needs a permit, registration, or program status (Title V, RCRA generator, RMP, NPDES, PSM) the rule changes."
+      size_or_threshold: "Applicability turns on a quantity: emissions, throughput, employee count, revenue, storage volume."
+      geographic: "Applicability turns on where the facilities are: a state, nonattainment area, region, or waterbody."
+      none: "The rule does not apply."
+  threshold_fact_missing:
+    type: noul
+    instructions: "Does deciding whether `rule` applies to `client` depend on a specific fact about the client that `client` does not state (for example an emissions quantity, employee count, tank capacity, or permit class)?"
+    criteria:
+      "true": "A named quantity, permit class, or equipment detail decides applicability and the profile is silent on it."
+      "false": "The profile already contains what is needed, or the rule's scope does not hinge on such a fact."
+  action_burden:
+    type: score
+    instructions: "If `rule` applies, how much would `client` have to do to comply?"
+    criteria:
+      - "Nothing: informational, agency procedure, or a change that reduces obligations"
+      - "Administrative: recordkeeping, a one-time notification, certification, or a form update"
+      - "Operational: new or changed monitoring, reporting, testing, training, or written procedures on a recurring basis"
+      - "Capital or permit: equipment installation or replacement, process change, or a permit modification or new permit"
+
+invariants:
+  - field: applies
+    under: [repeat_run]
+    relation: equal
+
+allowed_variation:
+  - field: probabilities
+    rule: small_numeric_drift
+
+run_policy: {samples: 3, configs: 1, confidence: 0.95}
+
+gate:
+  confidence_cutoff: 0.70
+  min_recall: 0.95
+  max_false_positive_rate: 0.15
+  max_decision_flip_rate: 1.0

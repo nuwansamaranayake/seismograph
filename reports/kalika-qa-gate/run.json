@@ -1,0 +1,40 @@
+{
+  "contract": "kalika-qa-gate",
+  "model": "typesafe/jev-1.13-20260917",
+  "records": 650,
+  "probes": 130,
+  "samples": 5,
+  "kind": "noul_flag",
+  "latency_ms": {
+    "p50": 185.0,
+    "p95": 299.59999999999945
+  },
+  "usage": {
+    "input_tokens": 425880,
+    "cost_usd": 0.01788696
+  },
+  "gate": {
+    "min_recall": 0.95,
+    "max_false_positive_rate": 0.1,
+    "max_decision_flip_rate": 1.0
+  },
+  "passed": true,
+  "metrics": {
+    "confidence_cutoff": 0.7,
+    "recall": 1.0,
+    "false_positive_rate": 0.011764705882352941,
+    "tp": 225,
+    "fn": 0,
+    "fp": 5,
+    "tn": 420,
+    "recall_by_type_matching_question": {
+      "gemstone_or_ritual": 1.0,
+      "medical_advice": 1.0,
+      "future_as_fact": 1.0
+    },
+    "flip_rate_mean": 0.0,
+    "flip_rate_worst": 0.0
+  },
+  "records_path": "reports\\kalika-qa-gate\\runs\\20260921T230847Z.jsonl",
+  "run_at": "2026-09-21T23:08:47.187680+00:00"
+}

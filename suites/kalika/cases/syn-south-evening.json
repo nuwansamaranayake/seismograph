@@ -1,0 +1,54 @@
+{
+  "id": "syn-south-evening",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Southern hemisphere evening birth, mid-span of the kernel.",
+  "request": {
+    "case_id": "syn-south-evening",
+    "tool": "analyze_marriage",
+    "birth": {
+      "date": "1991-08-08",
+      "time": "19:22",
+      "tz": "America/Santiago",
+      "lat": -33.4489,
+      "lon": -70.6693,
+      "place": "Santiago, Chile"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Kumbha",
+    "moon_nakshatra": "Pushya",
+    "moon_pada": 1,
+    "mahadasha_lord": "Ketu",
+    "mahadasha_years_remaining": 3.52,
+    "ayanamsa_deg": 23.736605,
+    "lagna_lon_deg": 308.2768,
+    "graha_lon_deg": {
+      "sun": 112.1722,
+      "moon": 96.3949,
+      "mars": 141.4511,
+      "mercury": 132.1301,
+      "jupiter": 118.8172,
+      "venus": 132.4788,
+      "saturn": 278.8209,
+      "rahu": 263.745,
+      "ketu": 83.745
+    },
+    "graha_sign": {
+      "sun": "Karka",
+      "moon": "Karka",
+      "mars": "Simha",
+      "mercury": "Simha",
+      "jupiter": "Karka",
+      "venus": "Simha",
+      "saturn": "Makara",
+      "rahu": "Dhanu",
+      "ketu": "Mithuna"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

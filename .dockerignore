@@ -8,3 +8,20 @@ __pycache__
 .ruff_cache
 .planning
 LOOP_STATE.md
+# The dashboard is built inside the image (stage 1). Host build output stays out.
+web/node_modules
+web/.next
+web/out
+web/coverage
+# Local, gitignored state. A GitHub checkout has none of it, but `COPY . .` from a working
+# tree would bake it into the image, and data/local holds private source material.
+data/local
+data/ephemeris
+fixtures/private
+.mypy_cache
+.coverage
+.last_pass.json
+*.egg-info
+*.log
+*.err
+NEXT.md

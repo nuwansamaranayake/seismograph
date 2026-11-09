@@ -1,7 +1,7 @@
 import pytest
 
 from app.engine.embedding import HashingEmbedder
-from app.engine.metamorphic import generate_paraphrases, Variant
+from app.engine.metamorphic import Variant, generate_paraphrases
 
 
 class StubGateway:

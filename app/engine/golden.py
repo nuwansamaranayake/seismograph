@@ -173,7 +173,7 @@ def summarize(cell: str, label: str, results: list[ScenarioResult]) -> CellSumma
         raise ValueError(f"cell {cell!r} produced zero monitored points — vacuous cell")
     det = sum(1 for r in results if r.detected())
     p, lo, hi = wilson(det, runs)
-    lat = [r.latency() for r in results if r.latency() is not None]
+    lat = [v for v in (r.latency() for r in results) if v is not None]
     return CellSummary(
         cell=cell, label=label, runs=runs, detections=det, sensitivity=p,
         ci_low=lo, ci_high=hi, latency_median=(median(lat) if lat else None),
@@ -190,13 +190,13 @@ def _svg_curve(shift_cells: list[CellSummary], far: float) -> str:
     def px(x): return pad + (x - x0) / (x1 - x0) * (w - 2 * pad)
     def py(y): return h - pad - y * (h - 2 * pad)
 
-    pts = " ".join(f"{px(x):.1f},{py(c.sensitivity):.1f}" for x, c in zip(xs, shift_cells))
+    pts = " ".join(f"{px(x):.1f},{py(c.sensitivity):.1f}" for x, c in zip(xs, shift_cells, strict=True))
     band = ("".join(
         f'<line x1="{px(x):.1f}" y1="{py(c.ci_low):.1f}" x2="{px(x):.1f}" '
         f'y2="{py(c.ci_high):.1f}" stroke="#94a3b8" stroke-width="2"/>'
-        for x, c in zip(xs, shift_cells)))
+        for x, c in zip(xs, shift_cells, strict=True)))
     dots = "".join(f'<circle cx="{px(x):.1f}" cy="{py(c.sensitivity):.1f}" r="4" '
-                   f'fill="#0f766e"/>' for x, c in zip(xs, shift_cells))
+                   f'fill="#0f766e"/>' for x, c in zip(xs, shift_cells, strict=True))
     xlabels = "".join(
         f'<text x="{px(x):.1f}" y="{h - pad + 20}" font-size="12" text-anchor="middle" '
         f'fill="#334155">{x:g}</text>' for x in xs)
@@ -285,7 +285,7 @@ def run_suite(runs_per_cell: int = RUNS_PER_CELL) -> SuiteReport:
         "| shift | flip p | detected | sensitivity | 95% CI | median latency |",
         "|---|---|---|---|---|---|",
     ]
-    for c, k in zip(shift, SHIFT_SIGMAS):
+    for c, k in zip(shift, SHIFT_SIGMAS, strict=True):
         lat = "-" if c.latency_median is None else f"{c.latency_median:g}"
         lines.append(f"| {k:g} sigma | {flip_p_for_sigma(k):.4f} | {c.detections}/{c.runs} "
                      f"| {c.sensitivity:.2f} | {c.ci_low:.2f}-{c.ci_high:.2f} | {lat} |")
@@ -293,7 +293,7 @@ def run_suite(runs_per_cell: int = RUNS_PER_CELL) -> SuiteReport:
     lines += ["", "## Gradual drift", "",
               "| ramp to | detected | sensitivity | 95% CI | median latency |",
               "|---|---|---|---|---|"]
-    for c, k in zip(drift, DRIFT_SIGMAS):
+    for c, k in zip(drift, DRIFT_SIGMAS, strict=True):
         lat = "-" if c.latency_median is None else f"{c.latency_median:g}"
         lines.append(f"| {k:g} sigma | {c.detections}/{c.runs} | {c.sensitivity:.2f} "
                      f"| {c.ci_low:.2f}-{c.ci_high:.2f} | {lat} |")
@@ -301,7 +301,7 @@ def run_suite(runs_per_cell: int = RUNS_PER_CELL) -> SuiteReport:
     lines += ["", "## Format flake (p-chart)", "",
               "| flake rate | detected | sensitivity | 95% CI | median latency |",
               "|---|---|---|---|---|"]
-    for c, p in zip(flake, FLAKE_RATES):
+    for c, p in zip(flake, FLAKE_RATES, strict=True):
         lat = "-" if c.latency_median is None else f"{c.latency_median:g}"
         lines.append(f"| {p:.0%} | {c.detections}/{c.runs} | {c.sensitivity:.2f} "
                      f"| {c.ci_low:.2f}-{c.ci_high:.2f} | {lat} |")
@@ -353,7 +353,7 @@ def acceptance(r: SuiteReport) -> list[tuple[str, str, bool]]:
         ("sensitivity non-decreasing in magnitude",
          " ".join(f"{c.sensitivity:.2f}" for c in r.shift),
          all(b.sensitivity >= a.sensitivity - MONOTONIC_TOLERANCE
-             for a, b in zip(r.shift, r.shift[1:]))),
+             for a, b in zip(r.shift, r.shift[1:], strict=False))),
         ("every cell computed from a non-zero sample count",
          f"{sum(c.total_points for c in r.shift + r.drift + r.flake + [r.null])} points",
          all(c.total_points > 0 and c.runs >= 30

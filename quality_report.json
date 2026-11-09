@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-11-09T17:26:45Z",
+  "commit": "49a02d9",
+  "floor": 96.0,
+  "score": 99.74,
+  "minimum": 98.0,
+  "passed": true,
+  "components": [
+    {
+      "name": "backend tests",
+      "score": 100.0,
+      "detail": "600 of 600 passed, 0 skipped",
+      "ok": true
+    },
+    {
+      "name": "backend coverage",
+      "score": 99.87,
+      "detail": "2958 of 2959 statements, 798 of 802 branches",
+      "ok": true
+    },
+    {
+      "name": "backend lint",
+      "score": 100.0,
+      "detail": "0 ruff findings, rules F,E4,E7,E9,B,I,UP,SIM",
+      "ok": true
+    },
+    {
+      "name": "backend types",
+      "score": 100.0,
+      "detail": "0 mypy errors on app/",
+      "ok": true
+    },
+    {
+      "name": "complexity",
+      "score": 98.0,
+      "detail": "245 of 250 functions at complexity <= 10. Over: map_answers, run_assert_check, run_suite, run_suite_cli, validate_against_schema",
+      "ok": true
+    },
+    {
+      "name": "frontend tests",
+      "score": 100.0,
+      "detail": "207 of 207 passed",
+      "ok": true
+    },
+    {
+      "name": "frontend coverage",
+      "score": 99.75,
+      "detail": "statements 100%, branches 99.75%, functions 100%, lines 100%",
+      "ok": true
+    },
+    {
+      "name": "frontend lint",
+      "score": 100.0,
+      "detail": "0 eslint findings",
+      "ok": true
+    },
+    {
+      "name": "frontend types",
+      "score": 100.0,
+      "detail": "0 tsc errors",
+      "ok": true
+    }
+  ]
+}

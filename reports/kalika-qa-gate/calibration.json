@@ -1,0 +1,46 @@
+{
+  "contract": "kalika-qa-gate",
+  "model": "typesafe/jev-1.13-20260917",
+  "source": "existing run records",
+  "points": 1950,
+  "records": 650,
+  "bins": [
+    {
+      "bin": "0.5-0.6",
+      "count": 20,
+      "accuracy": 0.55,
+      "mean_confidence": 0.556,
+      "abs_gap": 0.006000000000000005
+    },
+    {
+      "bin": "0.6-0.7",
+      "count": 45,
+      "accuracy": 0.6444444444444445,
+      "mean_confidence": 0.6477777777777778,
+      "abs_gap": 0.0033333333333332993
+    },
+    {
+      "bin": "0.7-0.8",
+      "count": 71,
+      "accuracy": 0.704225352112676,
+      "mean_confidence": 0.747887323943662,
+      "abs_gap": 0.04366197183098597
+    },
+    {
+      "bin": "0.8-0.9",
+      "count": 132,
+      "accuracy": 0.7727272727272727,
+      "mean_confidence": 0.8539393939393939,
+      "abs_gap": 0.08121212121212118
+    },
+    {
+      "bin": "0.9-1.0",
+      "count": 1682,
+      "accuracy": 0.8787158145065398,
+      "mean_confidence": 0.9673662306777645,
+      "abs_gap": 0.08865041617122471
+    }
+  ],
+  "expected_calibration_error": 0.08369230769230766,
+  "computed_at": "2026-09-21T23:08:27.474100+00:00"
+}

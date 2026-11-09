@@ -1,0 +1,57 @@
+{
+  "id": "syn-nakshatra-boundary-north",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Northern hemisphere Moon 0.29 deg from a nakshatra boundary (Rohini).",
+  "request": {
+    "case_id": "syn-nakshatra-boundary-north",
+    "tool": "ask_astrology_question",
+    "birth": {
+      "date": "2003-11-10",
+      "time": "19:17",
+      "tz": "Asia/Kolkata",
+      "lat": 19.076,
+      "lon": 72.8777,
+      "place": "Mumbai, India"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Vrishabha",
+    "moon_nakshatra": "Rohini",
+    "moon_pada": 1,
+    "mahadasha_lord": "Rahu",
+    "mahadasha_years_remaining": 11.93,
+    "ayanamsa_deg": 23.907809,
+    "lagna_lon_deg": 44.6806,
+    "graha_lon_deg": {
+      "sun": 203.8346,
+      "moon": 40.2892,
+      "mars": 317.3391,
+      "mercury": 213.4354,
+      "jupiter": 140.662,
+      "venus": 225.6279,
+      "saturn": 79.1068,
+      "rahu": 26.5209,
+      "ketu": 206.5209
+    },
+    "graha_sign": {
+      "sun": "Tula",
+      "moon": "Vrishabha",
+      "mars": "Kumbha",
+      "mercury": "Vrischika",
+      "jupiter": "Simha",
+      "venus": "Vrischika",
+      "saturn": "Mithuna",
+      "rahu": "Mesha",
+      "ketu": "Tula"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa",
+    "boundary_margin_deg": {
+      "moon_to_nakshatra_boundary": 0.2892
+    }
+  }
+}

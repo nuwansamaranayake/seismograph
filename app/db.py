@@ -99,6 +99,46 @@ gate_decisions = sa.Table(
     sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
 )
 
+target_calls = sa.Table(
+    "target_calls", metadata,
+    sa.Column("id", sa.Integer, primary_key=True),
+    sa.Column("target_id", sa.Text, nullable=False),
+    sa.Column("adapter", sa.Text, nullable=False),           # mcp | http
+    sa.Column("route", sa.Text, nullable=False),             # tool name, or "METHOD url"
+    sa.Column("arguments_hash", sa.Text, nullable=False),    # sha256 of canonical args JSON
+    sa.Column("raw_response", JSON),                         # NULL only when the call errored
+    sa.Column("latency_ms", sa.Integer, nullable=False),
+    sa.Column("error", sa.Text),                             # NULL = success; set = failed run
+    sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
+)
+
+outcome_modes = sa.Table(
+    "outcome_modes", metadata,
+    sa.Column("id", sa.Integer, primary_key=True),
+    sa.Column("run_id", sa.Integer, sa.ForeignKey("runs.id"), nullable=False),
+    sa.Column("probe_key", sa.Text, nullable=False),
+    sa.Column("perturbation", sa.Text, nullable=False),
+    sa.Column("n", sa.Integer, nullable=False),
+    sa.Column("modes", JSON, nullable=False),                # engine.modes.ModeReport.to_json()
+    sa.Column("second_mode_share", sa.Float, nullable=False),
+    sa.Column("second_mode_detected", sa.Boolean, nullable=False),
+)
+
+judge_calibrations = sa.Table(
+    "judge_calibrations", metadata,
+    sa.Column("id", sa.Integer, primary_key=True),
+    sa.Column("judge", sa.Text, nullable=False),
+    sa.Column("round", sa.Integer, nullable=False),          # 1-based, per judge
+    sa.Column("n", sa.Integer, nullable=False),
+    sa.Column("agree", sa.Integer, nullable=False),
+    sa.Column("rate", sa.Float, nullable=False),
+    sa.Column("kappa", sa.Float, nullable=False),
+    sa.Column("quarantined", sa.Boolean, nullable=False),
+    sa.Column("reason", sa.Text),                            # below_floor | drift | NULL
+    sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
+    sa.UniqueConstraint("judge", "round", name="uq_judge_round"),
+)
+
 _engine = None
 _Session = None
 

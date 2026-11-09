@@ -1,0 +1,85 @@
+{
+  "model": "jev-1.13",
+  "probed": [
+    10,
+    25,
+    50,
+    100,
+    150
+  ],
+  "documented_max_options": 255,
+  "largest_n_correct_and_complete": 150,
+  "first_failure_n": null,
+  "results": [
+    {
+      "n_options": 10,
+      "http_status": 200,
+      "latency_ms": 406,
+      "choice": "image_generation",
+      "correct": true,
+      "confidence": 1,
+      "prob_keys": 10,
+      "prob_sum": 1,
+      "input_tokens": 552,
+      "cost": 2.3184e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "error": null
+    },
+    {
+      "n_options": 25,
+      "http_status": 200,
+      "latency_ms": 166,
+      "choice": "image_generation",
+      "correct": true,
+      "confidence": 1,
+      "prob_keys": 25,
+      "prob_sum": 1,
+      "input_tokens": 941,
+      "cost": 3.9522e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "error": null
+    },
+    {
+      "n_options": 50,
+      "http_status": 200,
+      "latency_ms": 167,
+      "choice": "image_generation",
+      "correct": true,
+      "confidence": 1,
+      "prob_keys": 50,
+      "prob_sum": 1,
+      "input_tokens": 1591,
+      "cost": 6.6822e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "error": null
+    },
+    {
+      "n_options": 100,
+      "http_status": 200,
+      "latency_ms": 196,
+      "choice": "image_generation",
+      "correct": true,
+      "confidence": 1,
+      "prob_keys": 100,
+      "prob_sum": 1,
+      "input_tokens": 2891,
+      "cost": 0.000121422,
+      "model": "typesafe/jev-1.13-20260917",
+      "error": null
+    },
+    {
+      "n_options": 150,
+      "http_status": 200,
+      "latency_ms": 222,
+      "choice": "image_generation",
+      "correct": true,
+      "confidence": 1,
+      "prob_keys": 150,
+      "prob_sum": 1,
+      "input_tokens": 4240,
+      "cost": 0.00017808,
+      "model": "typesafe/jev-1.13-20260917",
+      "error": null
+    }
+  ]
+}

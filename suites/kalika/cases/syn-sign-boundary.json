@@ -1,0 +1,57 @@
+{
+  "id": "syn-sign-boundary",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Lagna 0.58 deg from a sign boundary (Karka); a few minutes of birth-time error changes the rising sign.",
+  "request": {
+    "case_id": "syn-sign-boundary",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "1963-04-11",
+      "time": "14:12",
+      "tz": "Europe/London",
+      "lat": 51.5072,
+      "lon": -0.1276,
+      "place": "London, UK"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Karka",
+    "moon_nakshatra": "Vishakha",
+    "moon_pada": 2,
+    "mahadasha_lord": "Venus",
+    "mahadasha_years_remaining": 9.61,
+    "ayanamsa_deg": 23.340948,
+    "lagna_lon_deg": 119.4226,
+    "graha_lon_deg": {
+      "sun": 357.5906,
+      "moon": 204.955,
+      "mars": 105.5868,
+      "mercury": 9.8919,
+      "jupiter": 338.4157,
+      "venus": 321.5579,
+      "saturn": 297.5855,
+      "rahu": 92.023,
+      "ketu": 272.023
+    },
+    "graha_sign": {
+      "sun": "Meena",
+      "moon": "Tula",
+      "mars": "Karka",
+      "mercury": "Mesha",
+      "jupiter": "Meena",
+      "venus": "Kumbha",
+      "saturn": "Makara",
+      "rahu": "Karka",
+      "ketu": "Makara"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa",
+    "boundary_margin_deg": {
+      "lagna_to_sign_boundary": 0.5774
+    }
+  }
+}

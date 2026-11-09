@@ -1,0 +1,54 @@
+{
+  "id": "syn-equator-dawn",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "On the equator at equinox dawn, where ascendant motion is at its most uniform.",
+  "request": {
+    "case_id": "syn-equator-dawn",
+    "tool": "analyze_career",
+    "birth": {
+      "date": "1977-03-21",
+      "time": "06:45",
+      "tz": "Africa/Nairobi",
+      "lat": -1.2921,
+      "lon": 36.8219,
+      "place": "Nairobi, Kenya"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Meena",
+    "moon_nakshatra": "Revati",
+    "moon_pada": 2,
+    "mahadasha_lord": "Moon",
+    "mahadasha_years_remaining": 2.88,
+    "ayanamsa_deg": 23.535688,
+    "lagna_lon_deg": 338.2191,
+    "graha_lon_deg": {
+      "sun": 336.8801,
+      "moon": 352.6421,
+      "mars": 307.2915,
+      "mercury": 341.7909,
+      "jupiter": 33.9567,
+      "venus": 0.5034,
+      "saturn": 106.8134,
+      "rahu": 182.1554,
+      "ketu": 2.1554
+    },
+    "graha_sign": {
+      "sun": "Meena",
+      "moon": "Meena",
+      "mars": "Kumbha",
+      "mercury": "Meena",
+      "jupiter": "Vrishabha",
+      "venus": "Mesha",
+      "saturn": "Karka",
+      "rahu": "Tula",
+      "ketu": "Mesha"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

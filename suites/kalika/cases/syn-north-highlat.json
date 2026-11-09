@@ -1,0 +1,54 @@
+{
+  "id": "syn-north-highlat",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Latitude 64 N just after midnight: ascendant signs pass at wildly uneven rates this far north.",
+  "request": {
+    "case_id": "syn-north-highlat",
+    "tool": "analyze_career",
+    "birth": {
+      "date": "1968-07-04",
+      "time": "00:12",
+      "tz": "Atlantic/Reykjavik",
+      "lat": 64.1466,
+      "lon": -21.9426,
+      "place": "Reykjavik, Iceland"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Makara",
+    "moon_nakshatra": "Chitra",
+    "moon_pada": 1,
+    "mahadasha_lord": "Saturn",
+    "mahadasha_years_remaining": 1.01,
+    "ayanamsa_deg": 23.414002,
+    "lagna_lon_deg": 283.5422,
+    "graha_lon_deg": {
+      "sun": 78.6672,
+      "moon": 174.8269,
+      "mars": 75.1431,
+      "mercury": 60.41,
+      "jupiter": 129.4665,
+      "venus": 82.4037,
+      "saturn": 1.1558,
+      "rahu": 350.7839,
+      "ketu": 170.7839
+    },
+    "graha_sign": {
+      "sun": "Mithuna",
+      "moon": "Kanya",
+      "mars": "Mithuna",
+      "mercury": "Mithuna",
+      "jupiter": "Simha",
+      "venus": "Mithuna",
+      "saturn": "Mesha",
+      "rahu": "Meena",
+      "ketu": "Kanya"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

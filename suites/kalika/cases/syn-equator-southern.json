@@ -1,0 +1,54 @@
+{
+  "id": "syn-equator-southern",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Noon on the equator in the southern hemisphere, UTC-5.",
+  "request": {
+    "case_id": "syn-equator-southern",
+    "tool": "analyze_marriage",
+    "birth": {
+      "date": "1999-05-17",
+      "time": "12:00",
+      "tz": "America/Guayaquil",
+      "lat": -0.1807,
+      "lon": -78.4678,
+      "place": "Quito, Ecuador"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Karka",
+    "moon_nakshatra": "Mrigashira",
+    "moon_pada": 4,
+    "mahadasha_lord": "Jupiter",
+    "mahadasha_years_remaining": 8.12,
+    "ayanamsa_deg": 23.845169,
+    "lagna_lon_deg": 115.1648,
+    "graha_lon_deg": {
+      "sun": 32.5081,
+      "moon": 63.8872,
+      "mars": 182.6623,
+      "mercury": 23.0326,
+      "jupiter": 358.1188,
+      "venus": 76.0988,
+      "saturn": 15.4723,
+      "rahu": 113.3147,
+      "ketu": 293.3147
+    },
+    "graha_sign": {
+      "sun": "Vrishabha",
+      "moon": "Mithuna",
+      "mars": "Tula",
+      "mercury": "Mesha",
+      "jupiter": "Meena",
+      "venus": "Mithuna",
+      "saturn": "Mesha",
+      "rahu": "Karka",
+      "ketu": "Makara"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

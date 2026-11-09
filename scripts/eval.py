@@ -17,7 +17,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.engine.golden import (  # noqa: E402
-    HEALTHY_FLIP_P, N_SAMPLES, acceptance, embedder_identity, run_suite, thresholds_met,
+    HEALTHY_FLIP_P,
+    N_SAMPLES,
+    acceptance,
+    embedder_identity,
+    run_suite,
+    thresholds_met,
 )
 
 ROOT = Path(__file__).resolve().parent.parent

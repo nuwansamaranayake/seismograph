@@ -1,0 +1,54 @@
+{
+  "id": "syn-south-antipodal-midnight",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Three minutes past midnight at UTC+13, the largest offset the suite covers.",
+  "request": {
+    "case_id": "syn-south-antipodal-midnight",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "2016-10-02",
+      "time": "00:03",
+      "tz": "Pacific/Auckland",
+      "lat": -41.2866,
+      "lon": 174.7756,
+      "place": "Wellington, New Zealand"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Vrishabha",
+    "moon_nakshatra": "Hasta",
+    "moon_pada": 3,
+    "mahadasha_lord": "Rahu",
+    "mahadasha_years_remaining": 17.82,
+    "ayanamsa_deg": 24.087907,
+    "lagna_lon_deg": 39.5052,
+    "graha_lon_deg": {
+      "sun": 164.6083,
+      "moon": 169.6225,
+      "mars": 248.6282,
+      "mercury": 147.191,
+      "jupiter": 160.6481,
+      "venus": 195.4697,
+      "saturn": 227.5621,
+      "rahu": 136.9876,
+      "ketu": 316.9876
+    },
+    "graha_sign": {
+      "sun": "Kanya",
+      "moon": "Kanya",
+      "mars": "Dhanu",
+      "mercury": "Simha",
+      "jupiter": "Kanya",
+      "venus": "Tula",
+      "saturn": "Vrischika",
+      "rahu": "Simha",
+      "ketu": "Kumbha"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

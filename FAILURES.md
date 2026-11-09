@@ -216,6 +216,77 @@ the *diagnosed* root cause separately (Standard 5).
 - **Doctrine link**: rule 9, sweep the class not the instance. Also rule 10: the hostname
   enumeration fails loudly when it finds no hostnames, rather than passing over an empty set.
 
+## FAIL-0012 — A wrong answer given consistently agreed with itself
+
+- **Date**: 2026-11-09
+- **Surface**: the flip rate of any perturbed cell (`app/engine/canonicalize.py`)
+- **Reported symptom**: none. Found while writing the first reordering test: a simulator that
+  ignores every fact after the question mark scored a flip rate of 0.0 under reordering.
+- **Root cause, named correctly**: The flip rate of a perturbed cell was measured against that cell's own modal answer because the metric was written when repeat_run was the only executable cell, and a metric that compares variants with each other cannot see a defect every variant shares.
+- **Not the cause**: the reordering generator. It produced the right variants. The paraphrase
+  cell carried the same flaw and would have shown it the day variants were generated.
+- **Fix**: a perturbed cell passes `reference`, the samples of the unperturbed seed, and each
+  variant is compared with the seed's modal answer. An unparseable seed reads as a fully
+  violated invariant, not as 0.0. `tests/test_invariants.py` pins it: every planted defect
+  trips its own invariant and no other.
+- **Doctrine link**: rule 3. A measurement that cannot fail is a silent pass.
+
+## FAIL-0013 — The MCP suite adapter had never been called
+
+- **Date**: 2026-11-09
+- **Surface**: `seismo run --suite <name>` with `SEISMO_TARGET_ADAPTER=mcp`
+- **Reported symptom**: none. Found by a test author reading `app/cli.py` against
+  `app/targets.py`.
+- **Root cause, named correctly**: The MCP path raised AttributeError mid-run because the suite runner calls target.call() and McpTarget only had call_tool(), and the only test of that branch replaced the target with a fake that had the method.
+- **Not the cause**: the MCP transport, which is tested against a real protocol exchange.
+- **Fix**: `McpTarget.call(body, json_path)` maps a case request onto `call_tool` without
+  reshaping it. The served input schema still refuses a mismatched case as a failed run.
+- **Doctrine link**: rule 2. A fake that is more capable than the thing it stands in for
+  proves nothing about the thing.
+
+## FAIL-0014 — `seismo run` kept skipping cells after they became runnable
+
+- **Date**: 2026-11-09
+- **Surface**: `seismo run --contract`
+- **Reported symptom**: none. Found by the type checker, then by reading the loop it flagged.
+- **Root cause, named correctly**: The command filtered the plan to repeat_run cells because they were once the only executable ones, and when Phase 2 made irrelevance, order, format and monotonicity executable the filter turned from a necessity into a silent skip.
+- **Not the cause**: the new perturbations. The API ran them. Two code paths decided the same
+  gate differently.
+- **Fix**: `seismo run`, `seismo gate` and the API all call `engine.execute.execute_plan`. A
+  cell that cannot run is listed as not measured with its reason.
+- **Doctrine link**: rule 3, and rule 9: one decision, one implementation.
+
+## FAIL-0015 — I verified the old server and called it the new one
+
+- **Date**: 2026-11-09
+- **Surface**: local verification of the dashboard
+- **Reported symptom**: `GET /` returned 200 with the limits sentence, so the dashboard looked
+  served. `GET /guide/` returned 404.
+- **Root cause, named correctly**: The check passed against a stale process because the earlier server still held the port, the restart failed to bind, and both the old fallback page and the new dashboard carry the limits sentence that the check looked for.
+- **Not the cause**: the static mount, which was correct. A second cause was real: a Git Bash
+  path in `WEB_DIR` resolved to a directory that does not exist on Windows.
+- **Fix**: `app.main.FRONT_DOOR` states which front door is mounted, and
+  `tests/test_front_door.py` asserts both forms. Local servers are started through one script
+  (`scripts/dev_serve.py`) with Windows paths.
+- **Doctrine link**: rule 1. Check the thing that distinguishes the new state from the old one.
+
+## FAIL-0016 — A misspelt field name passed every system
+
+- **Date**: 2026-11-09
+- **Surface**: any contract whose invariant names a field the system never returns
+- **Reported symptom**: none. An independent reviewer ran a contract with `field: decison`
+  against three simulators with planted defects. All three passed with a flip rate of 0.0.
+- **Root cause, named correctly**: A field absent from every output compared None with None on every sample because the canonicalizer read invariant fields with a default, and a comparison of two missing values is always equal.
+- **Not the cause**: the new reference comparison alone. The repeat_run path had done the same
+  since Phase 1. The Phase 2 work copied the flaw into the new path instead of noticing it.
+- **Fix**: an output that lacks a field the cell's invariants name is malformed, and a cell
+  with nothing readable reports the invariant as fully violated, whether or not the contract
+  tolerates malformed output. `tests/test_engine_edges.py` runs the misspelt contract against
+  three simulators and requires a block from each.
+- **Doctrine link**: rule 3, and the reason this project exists: a gate that passes over
+  nothing is worse than no gate. It was my own review that missed it and a second reader
+  that found it.
+
 ## Incident record
 
 The 2026-07-27 unauthenticated-reads incident, which affected this repo, is documented in the

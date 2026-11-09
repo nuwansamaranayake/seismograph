@@ -1,0 +1,57 @@
+{
+  "id": "syn-nakshatra-boundary",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Moon 0.35 deg from a nakshatra boundary (Shravana), so nakshatra and pada are the sensitive facts here.",
+  "request": {
+    "case_id": "syn-nakshatra-boundary",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "2001-02-21",
+      "time": "05:29",
+      "tz": "Australia/Sydney",
+      "lat": -33.8688,
+      "lon": 151.2093,
+      "place": "Sydney, Australia"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Makara",
+    "moon_nakshatra": "Shravana",
+    "moon_pada": 1,
+    "mahadasha_lord": "Rahu",
+    "mahadasha_years_remaining": 9.17,
+    "ayanamsa_deg": 23.869839,
+    "lagna_lon_deg": 293.6787,
+    "graha_lon_deg": {
+      "sun": 308.3162,
+      "moon": 280.3454,
+      "mars": 219.2033,
+      "mercury": 292.9583,
+      "jupiter": 38.4763,
+      "venus": 349.0825,
+      "saturn": 30.855,
+      "rahu": 79.1316,
+      "ketu": 259.1316
+    },
+    "graha_sign": {
+      "sun": "Kumbha",
+      "moon": "Makara",
+      "mars": "Vrischika",
+      "mercury": "Makara",
+      "jupiter": "Vrishabha",
+      "venus": "Meena",
+      "saturn": "Vrishabha",
+      "rahu": "Mithuna",
+      "ketu": "Dhanu"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa",
+    "boundary_margin_deg": {
+      "moon_to_nakshatra_boundary": 0.3454
+    }
+  }
+}
