@@ -1,0 +1,422 @@
+<title>Seismograph Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: one reading column on chart-recorder paper. Numbered steps hang a large serif
+   numeral in the left margin. Figures break wider than the text. Dark first, the product's own look. */
+:root {
+  --bg: #0c1220; --panel: #101830; --border: #23304f; --text: #e8ecf5; --dim: #9aa7c0;
+  --trace: #4fd187; --green-soft: rgba(45, 140, 78, 0.16); --gold: #d3a13a; --gold-soft: rgba(200, 150, 46, 0.13);
+  --red: #ff7b72; --red-soft: rgba(192, 48, 48, 0.14); --paper: rgba(154, 167, 192, 0.06);
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f6f7fa; --panel: #ffffff; --border: #d5dbe8; --text: #17202f; --dim: #55627b;
+    --trace: #1c7a40; --green-soft: rgba(45, 140, 78, 0.11); --gold: #96690f; --gold-soft: rgba(200, 150, 46, 0.14);
+    --red: #b3261e; --red-soft: rgba(192, 48, 48, 0.08); --paper: rgba(23, 32, 47, 0.05);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f6f7fa; --panel: #ffffff; --border: #d5dbe8; --text: #17202f; --dim: #55627b;
+  --trace: #1c7a40; --green-soft: rgba(45, 140, 78, 0.11); --gold: #96690f; --gold-soft: rgba(200, 150, 46, 0.14);
+  --red: #b3261e; --red-soft: rgba(192, 48, 48, 0.08); --paper: rgba(23, 32, 47, 0.05);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  background:
+    repeating-linear-gradient(0deg, var(--paper) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, var(--paper) 0 1px, transparent 1px 28px),
+    var(--bg);
+  color: var(--text); font: 17px/1.62 var(--sans); margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page { max-width: 1080px; margin: 0 auto; padding-block: 3rem 5rem; display: flex; flex-direction: column; gap: 3.2rem; }
+.col { max-width: 44rem; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.5rem, 7vw, 4.4rem); line-height: 1.02; }
+h1 em, h2 em { color: var(--trace); }
+h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.12; }
+h3 { font-size: 1.3rem; }
+p { margin: 0; }
+a { color: var(--gold); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.eyebrow { font: 500 0.72rem/1.4 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+.lede { font-size: 1.2rem; color: var(--dim); }
+.dim { color: var(--dim); }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+code, pre { font-family: var(--mono); }
+code { font-size: 0.88em; }
+pre { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 0.95rem 1.1rem; margin: 0;
+  font-size: 0.82rem; line-height: 1.6; overflow-x: auto; max-width: 100%; }
+.c { color: var(--dim); }
+
+.loop { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.7rem; }
+.loop > div { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; min-width: 0; }
+.loop b { display: block; font: 400 1.35rem/1.2 var(--serif); }
+.loop small { color: var(--dim); font-size: 0.86rem; line-height: 1.45; display: block; margin-top: 0.25rem; }
+.loop .k { font: 500 0.68rem var(--mono); letter-spacing: 0.12em; color: var(--gold); }
+
+.step { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: 1.3rem; border-top: 1px solid var(--border); padding-top: 2.2rem; }
+.step > .n { font: italic 400 4.2rem/0.85 var(--serif); color: var(--gold); }
+.step > .body { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
+.step .body > p, .step .body > h2, .step .body > pre { max-width: 44rem; }
+
+figure { margin: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--panel); }
+figure img { display: block; width: 100%; height: auto; max-width: 100%; }
+figure svg { display: block; width: 100%; height: auto; }
+figcaption { font: 0.74rem/1.5 var(--mono); color: var(--dim); padding: 0.6rem 0.9rem; border-top: 1px solid var(--border); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.7rem; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; min-width: 0;
+  display: flex; flex-direction: column; gap: 0.3rem; }
+.card .eyebrow { color: var(--gold); }
+.card p { font-size: 0.93rem; }
+.note { background: var(--gold-soft); border: 1px solid var(--gold); border-radius: 8px; padding: 1rem 1.1rem; }
+.tag { display: inline-block; font: 500 0.7rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold);
+  border: 1px solid var(--gold); background: var(--gold-soft); border-radius: 999px; padding: 0.08rem 0.55rem; }
+
+.scroll { overflow-x: auto; max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th { text-align: left; font: 500 0.68rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+  padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.miss td { color: var(--red); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem; }
+ul { margin: 0; padding-left: 1.1rem; }
+li + li { margin-top: 0.3rem; }
+
+.g-text { font: 12px var(--mono); fill: var(--dim); }
+.g-grid { stroke: var(--border); stroke-width: 1; }
+.g-series { fill: none; stroke: var(--trace); stroke-width: 2; stroke-linejoin: round; }
+.g-limit { stroke: var(--gold); stroke-width: 1.4; stroke-dasharray: 6 5; fill: none; }
+.g-center { stroke: var(--dim); stroke-width: 1; stroke-dasharray: 2 5; fill: none; }
+.g-band { fill: var(--gold-soft); }
+.g-dot { fill: var(--bg); stroke: var(--trace); stroke-width: 1.8; }
+.g-dot.j { fill: var(--trace); }
+.g-dot.a { fill: var(--red); stroke: var(--red); }
+.g-one { fill: var(--trace); }
+.g-two { fill: var(--gold); }
+.g-ink { fill: var(--text); font: 13px var(--sans); }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .step { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
+  .step > .n { font-size: 3rem; }
+}
+</style>
+
+<div class="page">
+
+  <header class="stack col">
+    <span class="eyebrow">Field guide · evaluating an AI system with Seismograph</span>
+    <h1>Evaluate the process, <em>not the sample</em></h1>
+    <p class="lede">One good answer tells you little about a system that answers differently each time. Seismograph runs the same question many times, charts how much the answers move, and lets deterministic code decide whether a release ships. This guide walks the whole loop in seven steps.</p>
+  </header>
+
+  <figure>
+    <svg viewBox="0 0 1040 250" role="img" aria-label="One sample compared with forty samples of the same question">
+      <text class="g-text" x="40" y="34">A SINGLE-SAMPLE EVAL</text>
+      <circle class="g-one" cx="150" cy="125" r="11"/>
+      <text class="g-ink" x="40" y="186">One run. It said eligible.</text>
+      <text class="g-ink" x="40" y="208" style="fill: var(--dim)">Verdict: pass.</text>
+      <line class="g-grid" x1="340" y1="20" x2="340" y2="230"/>
+      <text class="g-text" x="380" y="34">THE SAME QUESTION, FORTY TIMES</text>
+      <g class="g-one">
+        <circle cx="390" cy="85" r="8"/><circle cx="416" cy="85" r="8"/><circle cx="442" cy="85" r="8"/><circle cx="468" cy="85" r="8"/><circle cx="494" cy="85" r="8"/><circle cx="520" cy="85" r="8"/><circle cx="546" cy="85" r="8"/><circle cx="572" cy="85" r="8"/><circle cx="598" cy="85" r="8"/><circle cx="624" cy="85" r="8"/>
+        <circle cx="390" cy="111" r="8"/><circle cx="416" cy="111" r="8"/><circle cx="442" cy="111" r="8"/><circle cx="468" cy="111" r="8"/><circle cx="494" cy="111" r="8"/><circle cx="520" cy="111" r="8"/><circle cx="546" cy="111" r="8"/><circle cx="572" cy="111" r="8"/><circle cx="598" cy="111" r="8"/><circle cx="624" cy="111" r="8"/>
+        <circle cx="390" cy="137" r="8"/><circle cx="416" cy="137" r="8"/><circle cx="442" cy="137" r="8"/><circle cx="468" cy="137" r="8"/><circle cx="494" cy="137" r="8"/><circle cx="520" cy="137" r="8"/><circle cx="546" cy="137" r="8"/><circle cx="572" cy="137" r="8"/><circle cx="598" cy="137" r="8"/><circle cx="624" cy="137" r="8"/>
+        <circle cx="390" cy="163" r="8"/><circle cx="416" cy="163" r="8"/><circle cx="442" cy="163" r="8"/><circle cx="468" cy="163" r="8"/>
+      </g>
+      <g class="g-two">
+        <circle cx="494" cy="163" r="8"/><circle cx="520" cy="163" r="8"/><circle cx="546" cy="163" r="8"/><circle cx="572" cy="163" r="8"/><circle cx="598" cy="163" r="8"/><circle cx="624" cy="163" r="8"/>
+      </g>
+      <text class="g-ink" x="680" y="96">34 said eligible.</text>
+      <text class="g-ink" x="680" y="122" style="fill: var(--gold)">6 said ineligible.</text>
+      <text class="g-ink" x="680" y="160">Flip rate 15%.</text>
+      <text class="g-ink" x="680" y="186" style="fill: var(--dim)">Is that noise, or did it change</text>
+      <text class="g-ink" x="680" y="206" style="fill: var(--dim)">this week? A chart can tell.</text>
+    </svg>
+    <figcaption>Illustration of the idea, not measured data. The flip rate is the share of answers that differ from the usual one.</figcaption>
+  </figure>
+
+  <section class="stack">
+    <span class="eyebrow">The loop</span>
+    <div class="loop">
+      <div><span class="k">01</span><b>Declare</b><small>A contract: the fields that must hold still, and the tolerance.</small></div>
+      <div><span class="k">02</span><b>Sample</b><small>The same probe, many times, under each change to the input.</small></div>
+      <div><span class="k">03</span><b>Reduce</b><small>Flip rate, malformed rate, set overlap, outcome modes.</small></div>
+      <div><span class="k">04</span><b>Chart</b><small>Limits from your own baseline. A point outside is a signal.</small></div>
+      <div><span class="k">05</span><b>Gate</b><small>Code decides pass or block. The evidence is attached.</small></div>
+    </div>
+    <p class="dim col">The model senses. Code decides. No model issues a verdict anywhere in this loop.</p>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">1</div>
+    <div class="body">
+      <h2>Start the instrument</h2>
+      <p>You need Docker. Nothing in this guide needs an API key.</p>
+<pre>git clone https://github.com/nuwansamaranayake/Seismograph
+cd Seismograph
+cp .env.example .env
+docker compose up -d --build
+<span class="c"># open http://localhost:8000</span></pre>
+      <p class="dim">In development the API runs without a token. Anywhere else it refuses to start without one, and the dashboard asks for it before showing a single number.</p>
+      <figure>
+        <img src="img/overview.png" alt="The overview board: a trace strip, seven readouts, and a table of contracts with gate state, trend and chart signals" width="1440" height="860">
+        <figcaption>The overview. The strip at the top is the worst flip rate per run of the contract with the most chart signals. Every figure is read from the API.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">2</div>
+    <div class="body">
+      <h2>Declare what must <em>not</em> change</h2>
+      <p>A contract is a YAML file that lives beside your prompt. It names fields of the answer, the changes to the input each field must survive, and the tolerance the gate enforces. Open Contracts, keep or edit the example, and press Register and compile.</p>
+<pre>contract: refund-full-invariants
+subject: support-agent
+invariants:
+  - field: eligibility_decision          <span class="c"># this field of the answer</span>
+    under: [repeat_run, irrelevant_context, reordering, format]
+    relation: equal                      <span class="c"># must be the same under each change</span>
+  - field: cited_policy_ids
+    under: [repeat_run]
+    relation: jaccard_at_least           <span class="c"># set overlap between runs</span>
+    threshold: 0.85
+  - field: eligibility_decision
+    under: [monotonic]
+    relation: monotonic                  <span class="c"># may only move in this direction</span>
+    order: [eligible, ineligible]
+run_policy: {samples: 20, configs: 1, confidence: 0.95}
+gate: {max_decision_flip_rate: 0.10, max_malformed_rate: 0.05}
+probes:
+  - id: refund-basic
+    input: "Customer bought a blender 12 days ago, unopened. Are they refund eligible?"</pre>
+      <div class="cards">
+        <div class="card"><span class="eyebrow">repeat_run</span><h3>Repeat run</h3><p>Nothing changes. The same input, asked again.</p><p class="dim">Catches noise, drift over time, malformed output.</p></div>
+        <div class="card"><span class="eyebrow">irrelevant_context</span><h3>Irrelevance</h3><p>One unrelated sentence is added before or after.</p><p class="dim">Catches a system swayed by text with no bearing on the question.</p></div>
+        <div class="card"><span class="eyebrow">reordering</span><h3>Order</h3><p>The sentences of the input are reordered.</p><p class="dim">Catches a system that stops reading at the question mark.</p></div>
+        <div class="card"><span class="eyebrow">format</span><h3>Format</h3><p>Same words, different case, spacing and line breaks.</p><p class="dim">Catches a brittle parser in front of the model.</p></div>
+        <div class="card"><span class="eyebrow">monotonic</span><h3>Monotonicity</h3><p>A ladder of inputs along one quantity, such as days since purchase.</p><p class="dim">Catches an answer that moves the wrong way.</p></div>
+        <div class="card"><span class="eyebrow">paraphrase</span><h3>Paraphrase</h3><p>A model proposes rewordings. Code accepts only those that keep every number.</p><p class="dim">Catches a decision that depends on phrasing.</p></div>
+      </div>
+      <p class="dim">A perturbed answer is compared with the answer to the unperturbed input. If every variant is wrong in the same way, the variants agree with each other perfectly, and that still counts as a failure.</p>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">3</div>
+    <div class="body">
+      <h2>Point it at a system</h2>
+      <p>Your system is any Python object with one method. It receives the probe text and returns JSON text carrying the fields your contract names.</p>
+<pre><span class="c"># my_app/eval.py</span>
+import json
+
+class RefundAgent:
+    def run(self, probe_input: str, t: int, rng) -> str:
+        answer = call_my_agent(probe_input)          <span class="c"># your LLM application</span>
+        return json.dumps({
+            "eligibility_decision": answer.decision,
+            "cited_policy_ids": answer.policies,
+            "response_wording": answer.text,
+        })
+
+sut = RefundAgent()</pre>
+      <p>To learn the instrument first, use the built-in simulators. Each is a small program with one defect planted on purpose, so you can watch the instrument catch a defect you know is there. They carry a <span class="tag">simulator</span> tag everywhere they appear. Nothing they produce is a measurement of a real system.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Simulator</th><th>What is planted</th><th>Which view shows it</th></tr></thead>
+          <tbody>
+            <tr><td><code>policy</code>, <code>stable</code></td><td>Nothing. A healthy system.</td><td>Every view stays quiet</td></tr>
+            <tr><td><code>jump</code>, <code>drift</code></td><td>The flip rate rises at run 12, at once or as a ramp</td><td>Control chart</td></tr>
+            <tr><td><code>flaky</code></td><td>15% of outputs are not valid JSON for a stretch</td><td>Malformed chart</td></tr>
+            <tr><td><code>distractible</code>, <code>order-sensitive</code>, <code>format-sensitive</code>, <code>non-monotonic</code></td><td>One broken invariant each</td><td>Invariant matrix</td></tr>
+            <tr><td><code>bimodal</code></td><td>One answer in ten takes a second route to the same decision</td><td>Mode topology</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Every screenshot in this guide was recorded by one command against a fresh instance.</p>
+<pre>python scripts/seed_demo.py     <span class="c"># four contracts, four simulators, same seeds every time</span></pre>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">4</div>
+    <div class="body">
+      <h2>Run it, then read the chart</h2>
+      <p>Open the contract and launch runs. Each run is one point. The first eight set the baseline. From the ninth on, each point is judged against limits computed from that baseline.</p>
+      <figure>
+        <svg viewBox="0 0 1040 300" role="img" aria-label="Anatomy of a control chart: baseline band, control limit, and a signal">
+          <rect class="g-band" x="80" y="30" width="348" height="210"/>
+          <line class="g-limit" x1="80" x2="1000" y1="118" y2="118"/>
+          <line class="g-center" x1="80" x2="1000" y1="172" y2="172"/>
+          <polyline class="g-series" points="80,168 138,180 196,162 254,176 312,170 370,184 428,164 486,174 544,178 602,166 660,180 718,170 776,86 834,62 892,74 950,70"/>
+          <g>
+            <circle class="g-dot" cx="80" cy="168" r="4.5"/><circle class="g-dot" cx="138" cy="180" r="4.5"/><circle class="g-dot" cx="196" cy="162" r="4.5"/><circle class="g-dot" cx="254" cy="176" r="4.5"/><circle class="g-dot" cx="312" cy="170" r="4.5"/><circle class="g-dot" cx="370" cy="184" r="4.5"/><circle class="g-dot" cx="428" cy="164" r="4.5"/><circle class="g-dot" cx="486" cy="174" r="4.5"/>
+            <circle class="g-dot j" cx="544" cy="178" r="4.5"/><circle class="g-dot j" cx="602" cy="166" r="4.5"/><circle class="g-dot j" cx="660" cy="180" r="4.5"/><circle class="g-dot j" cx="718" cy="170" r="4.5"/>
+            <circle class="g-dot a" cx="776" cy="86" r="5.5"/><circle class="g-dot a" cx="834" cy="62" r="5.5"/><circle class="g-dot a" cx="892" cy="74" r="5.5"/><circle class="g-dot a" cx="950" cy="70" r="5.5"/>
+          </g>
+          <text class="g-ink" x="92" y="52">1. Baseline</text>
+          <text class="g-text" x="92" y="72">The first 8 runs set the limits.</text>
+          <text class="g-text" x="92" y="90">They are never judged.</text>
+          <text class="g-ink" x="470" y="108">2. Control limit</text>
+          <text class="g-text" x="590" y="108">3 sigma above the baseline mean. Frozen.</text>
+          <text class="g-text" x="470" y="194">baseline mean</text>
+          <text class="g-ink" x="760" y="40" text-anchor="end">3. Signal</text>
+          <text class="g-text" x="760" y="58" text-anchor="end">A point beyond the limit.</text>
+          <text class="g-text" x="760" y="76" text-anchor="end">The process changed.</text>
+          <text class="g-text" x="80" y="270">run 0</text>
+          <text class="g-text" x="1000" y="270" text-anchor="end">latest run</text>
+        </svg>
+        <figcaption>The three things to read on a control chart. Shape only, not measured data.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/charts.png" alt="Contract page for refund-agent: an X chart with eight signals after run 12 and a p chart that stays in control" width="1440" height="710">
+        <figcaption>A recorded run of the jump simulator. Quiet through the baseline, then a signal on every run from the planted onset at run 12.</figcaption>
+      </figure>
+      <p class="dim">The gold line is not a target you chose. It is where your own baseline says ordinary noise ends. The red dotted line is the tolerance you declared in the contract. They answer different questions: did the process change, and is it still good enough to ship.</p>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">5</div>
+    <div class="body">
+      <h2>Find which invariant broke</h2>
+      <p>The invariant matrix shows one run cell by cell: probes down, changes to the input across. Zero means the answer held. A red cell names the exact condition under which your system stops being consistent. A dashed cell was not measured, which is not the same as holding.</p>
+      <figure>
+        <img src="img/matrix.png" alt="Run page: the gate blocked, the matrix shows one red cell under Format at 67.5 percent, and the outcome modes of that cell" width="1440" height="900">
+        <figcaption>The format-sensitive simulator. Consistent on repeat runs, irrelevance and order. Broken by upper case and doubled spaces.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">6</div>
+    <div class="body">
+      <h2>Look for the second mode</h2>
+      <p>An average hides shape. A system can keep its decision field perfectly stable while one answer in ten reaches that decision by a different route. The mode view groups answers by their signature over the invariant fields and pools a window of runs, so a small mode that keeps coming back is reported with a confidence bound.</p>
+      <figure>
+        <img src="img/modes.png" alt="Mode topology: twenty-eight runs as columns, a gold second band appearing from run 12, pooled share 10.6 percent with its Wilson bound" width="1160" height="698">
+        <figcaption>The bimodal simulator. Its flip chart is flat at zero and its gate passes. The mode view shows the second behaviour and how sure the instrument is.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="n" aria-hidden="true">7</div>
+    <div class="body">
+      <h2>Gate the release</h2>
+      <p>The same engine runs as one command, and as a GitHub check on every pull request. It writes a summary a reviewer can read without opening a dashboard.</p>
+<pre>seismo gate --contract contracts/refund.yaml --sut my_app.eval:sut --points 12</pre>
+<pre><span class="c"># .github/workflows/seismograph.yml</span>
+on: [pull_request]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nuwansamaranayake/Seismograph@main
+        with:
+          contract: contracts/refund.yaml
+          sut: my_app.eval:sut</pre>
+      <div class="scroll">
+        <table>
+          <thead><tr><th class="num">Exit code</th><th>Meaning</th><th>What the pipeline does</th></tr></thead>
+          <tbody>
+            <tr><td class="num">0</td><td>Every declared tolerance held</td><td>The check passes</td></tr>
+            <tr><td class="num">1</td><td>A tolerance broke, or the chart signalled with <code>--fail-on alarm</code></td><td>The check fails with the reasons listed</td></tr>
+            <tr><td class="num">2</td><td>The gate could not be evaluated: bad contract, unknown system, nothing measurable</td><td>The check fails. It is never read as a pass</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="stack col">
+      <span class="eyebrow">Two more instruments</span>
+      <h2>If a model scores your answers, <em>measure the scorer</em></h2>
+      <p>A judge model is an instrument too. The judge panel scores each judge against labelled anchor items, with an interval and a chance-corrected kappa. A judge that falls under the agreement floor, or drifts from its own baseline, is quarantined. Its vote is excluded by name, and a panel left without a quorum returns no verdict.</p>
+    </div>
+    <figure>
+      <img src="img/judges.png" alt="Judge panel: two active judges and one quarantined below the agreement floor, with forms to record a round and take a panel verdict" width="1440" height="900">
+      <figcaption>Three simulated judges. One agreed with 60% of the anchors on its latest round and is quarantined.</figcaption>
+    </figure>
+    <div class="stack col">
+      <h2>Where you have labels, <em>score against them</em></h2>
+      <p>A contract can carry a golden set: items a person labelled. The golden sets page shows the committed reports of real runs against a live model, with recall, false positives, a reliability diagram, and agreement between two model versions. Each report states the one model build and the one set it describes.</p>
+    </div>
+    <figure>
+      <img src="img/golden.png" alt="Golden-set report: gate pass, 130 items, cost of the run, a scope note, measured metrics and a reliability diagram" width="1440" height="1000">
+      <figcaption>A committed report of a real run: 130 labelled excerpts, five runs each, against one model build.</figcaption>
+    </figure>
+  </section>
+
+  <section class="stack">
+    <div class="stack col">
+      <span class="eyebrow">Which view answers which question</span>
+      <h2>A reading order for a bad morning</h2>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Your question</th><th>Open</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Did anything change?</td><td>Overview</td><td>Chart signals and the trace strip</td></tr>
+          <tr><td>When did it change?</td><td>Contract, control chart</td><td>The first red point after the baseline</td></tr>
+          <tr><td>Under what condition does it break?</td><td>Contract or run, invariant matrix</td><td>The red cell: probe and perturbation</td></tr>
+          <tr><td>Is it noise or a second behaviour?</td><td>Contract, mode topology</td><td>The pooled share and its lower bound</td></tr>
+          <tr><td>Can I trust the judge that scored it?</td><td>Judge panel</td><td>Standing, agreement by round, kappa</td></tr>
+          <tr><td>May this build ship?</td><td>The CI check</td><td>The exit code and the listed reasons</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="stack">
+    <div class="stack col">
+      <span class="eyebrow">Published limits</span>
+      <h2>What this instrument can see, <em>and what it misses</em></h2>
+      <div class="note"><span class="eyebrow">Verbatim from EVAL.md · measured on synthetic systems</span><p>{{LIMITS}}</p></div>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Abrupt shift in the flip rate</th><th class="num">Detected</th><th class="num">Sensitivity</th><th class="num">95% CI</th><th class="num">Median latency</th></tr></thead>
+        <tbody>
+{{SHIFT_ROWS}}
+        </tbody>
+      </table>
+    </div>
+    <p class="dim col">False alarm rate {{FALSE_ALARM}} per monitored point. Rows in red are documented misses: the lower bound of their interval is under 0.80. Reproduce every number with <code>python scripts/eval.py</code>.</p>
+    <div class="two">
+      <div class="card"><span class="eyebrow" style="color: var(--trace)">Shipped</span>
+        <ul>
+          <li>Contracts, the sampler, flip, malformed and overlap metrics</li>
+          <li>Six invariants, including monotonicity</li>
+          <li>X chart and p chart with frozen limits</li>
+          <li>Outcome modes with a pooled confidence bound</li>
+          <li>Judge calibration, quarantine and panel verdict</li>
+          <li>The CI gate and the dashboard</li>
+        </ul>
+      </div>
+      <div class="card"><span class="eyebrow">Planned, not built</span>
+        <ul>
+          <li>Fault attribution under controlled replay</li>
+          <li>Scheduled production monitoring with re-baselining</li>
+          <li>Benchmarking across providers</li>
+          <li>An incident narrator grounded in verified statistics</li>
+        </ul>
+      </div>
+    </div>
+    <p class="dim col">Seismograph is open source under Apache 2.0. Source: <a href="https://github.com/nuwansamaranayake/Seismograph">github.com/nuwansamaranayake/Seismograph</a></p>
+  </section>
+
+</div>

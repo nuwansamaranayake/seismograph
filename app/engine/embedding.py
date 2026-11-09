@@ -70,7 +70,7 @@ class OpenRouterEmbedder:
 
 
 def cosine(a: list[float], b: list[float]) -> float:
-    num = sum(x * y for x, y in zip(a, b))
+    num = sum(x * y for x, y in zip(a, b, strict=True))
     da = math.sqrt(sum(x * x for x in a))
     db = math.sqrt(sum(x * x for x in b))
     if da == 0.0 or db == 0.0:

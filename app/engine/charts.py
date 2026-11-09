@@ -30,7 +30,7 @@ class IndividualsChart:
         if len(baseline) < 8:
             raise ValueError("baseline window needs at least 8 points")
         self.center = sum(baseline) / len(baseline)
-        mrs = [abs(b - a) for a, b in zip(baseline, baseline[1:])]
+        mrs = [abs(b - a) for a, b in zip(baseline, baseline[1:], strict=False)]
         mr_bar = sum(mrs) / len(mrs) if mrs else 0.0
         self.sigma = mr_bar / 1.128 if mr_bar > 0 else 0.0
         # Floor sigma so a perfectly flat baseline still yields usable limits: treat one
@@ -77,7 +77,9 @@ class PChart:
         # Same idea as the X-chart floor: a spotless baseline (p-bar = 0) must not make any
         # single malformed sample an alarm; require exceeding what one flake would produce.
         self.ucl = min(1.0, max(self.center + 3 * sigma, 1.5 / n))
-        self.lcl = max(0.0, self.center - 3 * sigma)
+        # The mirror of that floor, for charts read from below (judge agreement): a spotless
+        # baseline (p-bar = 1) must not make a single miss out of n a signal either.
+        self.lcl = max(0.0, min(self.center - 3 * sigma, 1.0 - 1.5 / n))
 
     def add(self, t: int, rate: float) -> ChartPoint:
         alarm = rate > self.ucl

@@ -57,8 +57,9 @@ makes every decision and computes every number. Humans approve anything that act
 <div class="limits"><span class="lbl">verbatim from EVAL.md, produced by a real eval run</span>
 Seismograph detects an abrupt mean shift of 1 sigma or larger in the monitored statistic within a median of 5 monitored points (40 samples per point) at a false alarm rate of 0.017 per point, and it misses below that: a 0.5 sigma shift is caught about half the time (0.50, 95% CI 0.33-0.67) and a 0.25 sigma shift about two times in five (0.43, 95% CI 0.27-0.61).</div>
 
-<h2>This is an API</h2>
-<p>There is no web application here. Every endpoint below is JSON, and both reads and writes
+<h2>This build serves the API only</h2>
+<p>The dashboard is not baked into this build (it ships in the container image and is
+served here when <code>WEB_DIR</code> holds it). Every endpoint below is JSON, and both reads and writes
 require a bearer token; unauthenticated requests are refused with <code>401</code>. The
 interactive schema at <a href="/docs">/docs</a> is deliberately public so the route map can be
 read without credentials.</p>

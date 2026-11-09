@@ -4,7 +4,7 @@ import pytest
 
 from app.engine.canonicalize import canonicalize
 from app.engine.charts import IndividualsChart, PChart
-from app.engine.contracts import PlanEntry, Perturbation
+from app.engine.contracts import Perturbation, PlanEntry
 from app.engine.embedding import HashingEmbedder, cosine
 from app.engine.sampler import collect
 from app.engine.suts import FlakySUT, JumpSUT, StableSUT
@@ -33,9 +33,14 @@ def test_sampler_is_replayable_and_parses_json():
     assert all(x.parsed is not None for x in s1)
 
 
-def test_sampler_refuses_unbuilt_perturbation():
-    with pytest.raises(NotImplementedError, match="no generator"):
+def test_sampler_refuses_a_cell_it_cannot_generate_variants_for():
+    """Phase 2 gave reordering a generator. What still raises, loudly, is a cell whose
+    input cannot be perturbed: one sentence has no other order."""
+    with pytest.raises(ValueError, match="at least two sentences"):
         collect(entry(Perturbation.reordering), "input", StableSUT(), t=0, seed=7)
+    reordered = collect(entry(Perturbation.reordering), "First fact. Then a question?",
+                        StableSUT(), t=0, seed=7)
+    assert {s.variant_input for s in reordered} == {"Then a question? First fact."}
 
 
 def test_paraphrase_cell_requires_variants():
@@ -126,8 +131,8 @@ def test_suite_refuses_underpowered_cells():
 def test_numeric_drift_is_rejected_by_the_back_check():
     """An embedding is nearly blind to a changed digit: '12 days' vs '120 days' scored
     0.956 and was accepted until a planted negative control caught it."""
-    from app.engine.metamorphic import generate_paraphrases, introduces_numbers
     from app.engine.embedding import HashingEmbedder
+    from app.engine.metamorphic import generate_paraphrases, introduces_numbers
 
     seed = "Customer bought a blender 12 days ago, unopened. Are they refund eligible?"
     assert introduces_numbers(seed, seed.replace("12", "120")) is True

@@ -7,10 +7,10 @@ plausible-looking placeholder: an unverified number on a public page is a fabric
 from __future__ import annotations
 
 import os
-
-from groundwork import build_version
 from functools import lru_cache
 from pathlib import Path
+
+from groundwork import build_version
 
 from .config import settings
 

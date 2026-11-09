@@ -1,0 +1,54 @@
+{
+  "id": "syn-north-subarctic",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Sub-arctic summer night: the sun is barely below the horizon and the ascendant is moving fast.",
+  "request": {
+    "case_id": "syn-north-subarctic",
+    "tool": "ask_astrology_question",
+    "birth": {
+      "date": "2009-06-30",
+      "time": "02:30",
+      "tz": "America/Anchorage",
+      "lat": 61.2181,
+      "lon": -149.9003,
+      "place": "Anchorage, USA"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Vrishabha",
+    "moon_nakshatra": "Chitra",
+    "moon_pada": 1,
+    "mahadasha_lord": "Rahu",
+    "mahadasha_years_remaining": 6.13,
+    "ayanamsa_deg": 23.986552,
+    "lagna_lon_deg": 36.7136,
+    "graha_lon_deg": {
+      "sun": 74.7887,
+      "moon": 176.4746,
+      "mars": 27.7029,
+      "mercury": 59.4884,
+      "jupiter": 302.6653,
+      "venus": 30.6948,
+      "saturn": 142.5591,
+      "rahu": 277.4176,
+      "ketu": 97.4176
+    },
+    "graha_sign": {
+      "sun": "Mithuna",
+      "moon": "Kanya",
+      "mars": "Mesha",
+      "mercury": "Vrishabha",
+      "jupiter": "Kumbha",
+      "venus": "Vrishabha",
+      "saturn": "Simha",
+      "rahu": "Makara",
+      "ketu": "Karka"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

@@ -89,6 +89,61 @@ negative controls that must be rejected. It exits 2 loudly without a key rather 
 silently. Raising it from four variants to fifty-four is what exposed the numeric blind spot
 recorded in FAILURES.md.
 
+## Check types: assert, grounded, rubric
+
+Three check types run over labelled sets in `data/checks/`, 44 samples each, 22 clean and 22
+with a planted defect at one of three subtlety tiers. `scripts/build_check_sets.py` is the
+reviewable source of every sample and every planted defect; the JSON it freezes is what the
+measurement reads. `scripts/check_measure.py` produces `check_report.md`.
+
+Sensitivity is the share of planted defects the check fires on. The false-alarm rate is the
+share of clean samples it fires on anyway. Both carry a 95% Wilson interval, and a rate over
+zero samples raises rather than reporting 0%.
+
+### Thresholds
+
+Set before the first measurement and never moved to accommodate a result. A miss exits
+non-zero and fails `g2_checks_catch_planted_defects`.
+
+<!-- g2-thresholds:start -->
+
+| check | min sensitivity | max false-alarm rate |
+| --- | --- | --- |
+| assert | 0.95 | 0.05 |
+| grounded | 0.80 | 0.10 |
+| rubric | 0.70 | 0.15 |
+
+<!-- g2-thresholds:end -->
+
+The three floors differ because the three checks are asked different questions. `assert` is
+deterministic code applied to defect classes its own rules name, so anything below near-perfect
+is a bug in the rules. `grounded` depends on a model reading a fact out of prose correctly, so
+it inherits that model's extraction error. `rubric` asks for a judgement about tone and policy
+where humans themselves disagree at the margins, and it is held to the loosest floor for that
+reason — a rubric check is a smoke alarm, not a court.
+
+### Limits, one per type
+
+- **assert** — measures coverage of the defect classes its own rules name (schema, forbidden and
+  required patterns, numeric tolerance, field equality) and says nothing about any defect with
+  no lexical or structural signature; a fluent, well-formed, completely wrong reading passes it.
+- **grounded** — measures only whether the prose agrees with the reference on the five chart
+  facts it extracts, so it cannot see a defect in any claim outside those five fields, and its
+  error floor is the judge model's extraction error, not the check's logic.
+- **rubric** — measures policy compliance as one model reads the written rubric on one reading
+  at temperature 0; its numbers move when the judge model, the rubric text, or the labelled set
+  changes, which is why all three are hashed into every report header.
+
+### Judge model
+
+Never taken from memory. `scripts/judge_select.py` reads the live OpenRouter model list at run
+time, filters to pinned, paid, structured-output-capable text models, ranks them cheapest-first
+(price per token is the only size proxy the provider publishes), and walks that ranking until
+one agrees with the human labels on `data/checks/judge_agreement_set.v1.json` at **>= 0.85**.
+The first model to clear wins — the smallest adequate judge, not the best one. The agreement set
+is disjoint from the three measured sets so that selection cannot inflate sensitivity. The
+chosen id is written to `.env` as `SEISMO_JUDGE_MODEL` and into every report header.
+
 ## Status
 
 The harness is real and the curve above is its current output, regenerated on every run.

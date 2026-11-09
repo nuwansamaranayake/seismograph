@@ -1,0 +1,109 @@
+{
+  "contract": "kalika-qa-gate",
+  "model_a": "jev-1.13",
+  "model_b": "jev-latest",
+  "model_a_served": "typesafe/jev-1.13-20260917",
+  "model_b_served": "typesafe/jev-1.13-20260917",
+  "samples": 5,
+  "pairs": 650,
+  "per_question": {
+    "prescribes_remedy": {
+      "agreement_rate": 0.9984615384615385,
+      "n_pairs": 650,
+      "mean_total_variation": 0.004707692307692308
+    },
+    "gives_medical_advice": {
+      "agreement_rate": 1.0,
+      "n_pairs": 650,
+      "mean_total_variation": 0.003384615384615385
+    },
+    "states_future_as_fact": {
+      "agreement_rate": 1.0,
+      "n_pairs": 650,
+      "mean_total_variation": 0.0047538461538461545
+    }
+  },
+  "overall_agreement": 0.9994871794871795,
+  "control_chart": {
+    "batch_size": 10,
+    "series": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.02,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "baseline_points": 8,
+    "points": [
+      {
+        "t": 8,
+        "value": 0.0,
+        "center": 0.0025,
+        "ucl": 0.010098784194528875,
+        "lcl": -0.005098784194528876,
+        "alarm": false,
+        "rule": null
+      },
+      {
+        "t": 9,
+        "value": 0.0,
+        "center": 0.0025,
+        "ucl": 0.010098784194528875,
+        "lcl": -0.005098784194528876,
+        "alarm": false,
+        "rule": null
+      },
+      {
+        "t": 10,
+        "value": 0.0,
+        "center": 0.0025,
+        "ucl": 0.010098784194528875,
+        "lcl": -0.005098784194528876,
+        "alarm": false,
+        "rule": null
+      },
+      {
+        "t": 11,
+        "value": 0.0,
+        "center": 0.0025,
+        "ucl": 0.010098784194528875,
+        "lcl": -0.005098784194528876,
+        "alarm": false,
+        "rule": null
+      },
+      {
+        "t": 12,
+        "value": 0.0,
+        "center": 0.0025,
+        "ucl": 0.010098784194528875,
+        "lcl": -0.005098784194528876,
+        "alarm": false,
+        "rule": null
+      }
+    ],
+    "center": 0.0025,
+    "ucl": 0.010098784194528875,
+    "lcl": -0.005098784194528876
+  },
+  "usage": {
+    "jev-1.13": {
+      "cost_usd": 0.01788696,
+      "latency_p50_ms": 178.0,
+      "latency_p95_ms": 256.54999999999995
+    },
+    "jev-latest": {
+      "cost_usd": 0.01788696,
+      "latency_p50_ms": 178.0,
+      "latency_p95_ms": 253.54999999999995
+    }
+  },
+  "computed_at": "2026-09-21T23:09:38.557127+00:00"
+}

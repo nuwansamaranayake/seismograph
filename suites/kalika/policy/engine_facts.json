@@ -1,0 +1,31 @@
+{
+  "_comment": "Layer 1 (engine correctness) as deterministic assertions: the chart facts a reading is built on must equal the golden reference. Tolerance on the dasha remainder only, because it moves with the clock; signs, nakshatra, pada and dasha lord are exact (docs/gates-spec.md g3 layer 1).",
+  "schema": {
+    "type": "object",
+    "required": ["case_id", "chart", "prose"],
+    "properties": {
+      "case_id": {"type": "string"},
+      "prose": {"type": "string", "minLength": 40},
+      "chart": {
+        "type": "object",
+        "required": ["lagna", "moon_nakshatra", "moon_pada", "mahadasha_lord", "mahadasha_years_remaining"],
+        "properties": {
+          "lagna": {"type": "string"},
+          "moon_nakshatra": {"type": "string"},
+          "moon_pada": {"type": "integer", "minimum": 1, "maximum": 4},
+          "mahadasha_lord": {"type": "string"},
+          "mahadasha_years_remaining": {"type": "number", "minimum": 0}
+        }
+      }
+    }
+  },
+  "field_equals": [
+    {"field": "chart.lagna", "reference_field": "lagna"},
+    {"field": "chart.moon_nakshatra", "reference_field": "moon_nakshatra"},
+    {"field": "chart.moon_pada", "reference_field": "moon_pada"},
+    {"field": "chart.mahadasha_lord", "reference_field": "mahadasha_lord"}
+  ],
+  "numeric_tolerance": [
+    {"field": "chart.mahadasha_years_remaining", "reference_field": "mahadasha_years_remaining", "tolerance": 0.25}
+  ]
+}

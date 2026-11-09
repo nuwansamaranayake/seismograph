@@ -1,0 +1,41 @@
+# The full invariant set on one probe: what must not change the refund decision, and the
+# one direction it may move. Runs keyless against the built-in simulators:
+#
+#   seismo gate --contract contracts/refund-full-invariants.yaml --sut policy
+#   seismo gate --contract contracts/refund-full-invariants.yaml --sut format-sensitive   # blocks
+contract: refund-full-invariants
+subject: support-agent
+invariants:
+  # The decision is the same answer every time, with an unrelated sentence added,
+  # with the sentences reordered, and with the surface format changed.
+  - field: eligibility_decision
+    under: [repeat_run, irrelevant_context, reordering, format]
+    relation: equal
+  # The cited policies overlap by at least 85% between repeated runs.
+  - field: cited_policy_ids
+    under: [repeat_run]
+    relation: jaccard_at_least
+    threshold: 0.85
+  # As days since purchase grow, the decision may move from eligible to ineligible
+  # and never back.
+  - field: eligibility_decision
+    under: [monotonic]
+    relation: monotonic
+    order: [eligible, ineligible]
+allowed_variation:
+  - field: response_wording
+    rule: semantically_equivalent
+run_policy: {samples: 20, configs: 1, confidence: 0.95}
+gate: {max_decision_flip_rate: 0.10, max_malformed_rate: 0.05}
+probes:
+  - id: refund-basic
+    input: "Customer bought a blender 12 days ago, unopened. Are they refund eligible?"
+    ladder:
+      - "Customer bought a blender 5 days ago, unopened. Are they refund eligible?"
+      - "Customer bought a blender 20 days ago, unopened. Are they refund eligible?"
+      - "Customer bought a blender 29 days ago, unopened. Are they refund eligible?"
+      - "Customer bought a blender 40 days ago, unopened. Are they refund eligible?"
+      - "Customer bought a blender 47 days ago, unopened. Are they refund eligible?"
+      - "Customer bought a blender 60 days ago, unopened. Are they refund eligible?"
+  - id: refund-late
+    input: "Customer bought a blender 31 days ago, opened box. Are they refund eligible?"

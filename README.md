@@ -44,26 +44,60 @@ vendor, and an eval gate belongs inside your CI, not behind someone's meter.
 
 ## What exists today (verified)
 
-This scaffold's doctrine is already enforced, not promised. Three checks you can run in five minutes:
+Phase 2 is built: the full invariant set, outcome modes, the judge panel, the CI gate and the
+dashboard. Each line below is a command you can run. None of it needs an API key.
 
-1. `python scripts/smoke_test.py` against a running instance: hits real endpoints and asserts
-   non-empty, schema-valid data. Passes.
-2. Set `APP_ENV=production` and call `/api/v1/demo`: returns 503, because fixture data outside
+1. `python scripts/quality.py`: the measured quality gate. Nine components (coverage, tests,
+   lint, types and complexity, backend and frontend), every one at or above 96 or it exits 1.
+   The last run is in [quality_report.md](quality_report.md).
+2. `seismo gate --contract contracts/refund-full-invariants.yaml --sut policy` exits 0, and the
+   same command with `--sut format-sensitive` exits 1. The gate runs every invariant: repeat
+   run, irrelevance, order, format and monotonicity. A planted defect trips its own invariant
+   and no other (`tests/test_invariants.py`).
+3. `python scripts/smoke_test.py` against a running instance: hits real endpoints and asserts
+   non-empty, schema-valid data.
+4. Set `APP_ENV=production` and call `/api/v1/demo`: returns 503, because fixture data outside
    development is forbidden by code, not by convention.
-3. `python scripts/eval.py`: the operating curve, 30 runs per cell with 95% confidence
+5. `python scripts/eval.py`: the operating curve, 30 runs per cell with 95% confidence
    intervals. Seismograph detects an abrupt mean shift of 1 sigma or larger in the monitored statistic within a median of 5 monitored points (40 samples per point) at a false alarm rate of 0.017 per point, and it misses below that: a 0.5 sigma shift is caught about half the time (0.50, 95% CI 0.33-0.67) and a 0.25 sigma shift about two times in five (0.43, 95% CI 0.27-0.61).
    The curve, misses included, is in [eval_report.md](eval_report.md) and
    [eval_curve.svg](eval_curve.svg). A missed bound fails CI: the eval job is required.
-4. `python -m app.cli run --contract data/synthetic/contract.yaml --sut stable --points 10`:
-   a contract run with a real gate decision, no server or key needed.
+
+What it does not do yet: fault attribution, scheduled production monitoring, and benchmarking
+across providers are Phase 3 and are not built. See [ROADMAP.md](ROADMAP.md).
+
+## The dashboard
+
+![The overview board](docs/guide/img/overview.png)
+
+A Next.js static export in `web/`, served by the API itself from `WEB_DIR`. No node process
+runs in production. Every number on it comes from the API, or from `EVAL.md` and
+`eval_report.md` read at build time. A failed call shows the error. A 401 shows a token form.
+
+| Page | What it answers |
+|---|---|
+| Overview | Did anything change? Gate state, trend and chart signals per contract. |
+| Contract | When, and under what condition? X chart, p chart, invariant matrix, mode topology. |
+| Run | Why did the gate decide this? Reasons, the matrix and the outcome modes of one run. |
+| Judge panel | Can the scorer be trusted? Agreement with labelled anchors, quarantine, panel verdict. |
+| Golden sets | How does it score against labels? Recall, false positives, calibration, drift. |
+| Guide | How to evaluate an AI system with this instrument, in seven steps. |
+
+The same guide ships as one file: [docs/guide/seismograph-guide.html](docs/guide/seismograph-guide.html).
+
+```bash
+docker compose up -d --build        # Postgres, Redis, the API and the dashboard on :8000
+python scripts/seed_demo.py         # optional: record the guide's walkthrough (simulators only)
+```
 
 ## The unique bet
 
 Existing tools evaluate single samples against quality criteria (the tools we reviewed as of July
 2026). Seismograph's bet is that the value lives elsewhere: an open-source instrument for measuring
-the *stability* of a stochastic process, contracts as code, manufacturing-grade math,
-ground-truth-free invariants, component-level fault attribution, and a self-calibrating judge, as one
-CI workflow. "Accuracy 87%" demos better than "Cpk 1.1", right up until the first silent model update
+the *stability* of a stochastic process: contracts as code, control charts with limits derived
+from your own baseline, ground-truth-free invariants, and a judge that is itself calibrated against
+labelled anchors, as one CI workflow. Component-level fault attribution is the Phase 3 part of the
+bet and is not built. "Accuracy 87%" demos better than "Cpk 1.1", right up until the first silent model update
 burns you.
 
 ## Quickstart (local, zero external keys)
@@ -103,9 +137,28 @@ full smoke, which requires the database.
 
 ## Demo
 
-A recorded walkthrough, the policy-assistant "silent earthquake" scenario (a feature that passes a
-conventional eval while flipping refund decisions under harmless paraphrases), lands as a GIF here
-in Phase 2, alongside the Next.js dashboard. Until then, `/api/v1/demo` is the demo surface.
+The walkthrough is the guide: [docs/guide/seismograph-guide.html](docs/guide/seismograph-guide.html),
+also served at `/guide/`. It records the "silent earthquake" scenario with the built-in simulators: a
+system whose flip rate jumps at run 12, and one that keeps its decision stable while a second
+outcome mode appears. Simulators are labelled as simulators everywhere they appear.
+
+## Use it in your CI
+
+```yaml
+# .github/workflows/seismograph.yml
+on: [pull_request]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nuwansamaranayake/Seismograph@main
+        with:
+          contract: contracts/refund.yaml
+          sut: my_app.eval:sut        # an object with run(probe_input, t, rng) -> JSON text
+```
+
+Exit 0 is pass, 1 is block, 2 means the gate could not be evaluated.
 
 ## Doctrine
 

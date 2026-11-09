@@ -1,0 +1,57 @@
+{
+  "id": "syn-sun-sign-boundary",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Sun 0.33 deg from a sidereal sign boundary (Makara) around Makara Sankranti, where tropical and sidereal engines disagree loudest.",
+  "request": {
+    "case_id": "syn-sun-sign-boundary",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "1995-01-14",
+      "time": "23:51",
+      "tz": "Asia/Colombo",
+      "lat": 6.9271,
+      "lon": 79.8612,
+      "place": "Colombo, Sri Lanka"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Kanya",
+    "moon_nakshatra": "Ardra",
+    "moon_pada": 1,
+    "mahadasha_lord": "Jupiter",
+    "mahadasha_years_remaining": 2.24,
+    "ayanamsa_deg": 23.784592,
+    "lagna_lon_deg": 175.6411,
+    "graha_lon_deg": {
+      "sun": 270.3344,
+      "moon": 66.7291,
+      "mars": 127.9547,
+      "mercury": 288.119,
+      "jupiter": 223.601,
+      "venus": 223.4784,
+      "saturn": 315.4587,
+      "rahu": 197.2511,
+      "ketu": 17.2511
+    },
+    "graha_sign": {
+      "sun": "Makara",
+      "moon": "Mithuna",
+      "mars": "Simha",
+      "mercury": "Makara",
+      "jupiter": "Vrischika",
+      "venus": "Vrischika",
+      "saturn": "Kumbha",
+      "rahu": "Tula",
+      "ketu": "Mesha"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa",
+    "boundary_margin_deg": {
+      "sun_to_sign_boundary": 0.3344
+    }
+  }
+}

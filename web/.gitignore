@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+coverage/
+next-env.d.ts
+*.tsbuildinfo
+# Written by scripts/published.mjs from ../EVAL.md and ../eval_report.md before every
+# build, test and typecheck. Generated, so never committed: a stale copy would be a
+# hand-typed number by another name.
+lib/published.generated.json
+public/llms.txt

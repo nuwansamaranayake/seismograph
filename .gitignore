@@ -15,3 +15,20 @@ data/local/
 .coverage
 # Tool-generated session checkpoints (GSD / claude-mem auto-postool hook)
 .planning/
+
+# loop run artifacts
+NEXT.md
+.last_pass.json
+cc.err
+loop-*.log
+fixtures/private/
+
+# g4 fixture reports are rewritten on every gate run. The alert message id is
+# NOT ignored: it is the only durable evidence of the real Resend send.
+reports/*.md
+
+# JPL DE kernel for app/ephemeris.py — 17MB binary, fetched by scripts/fetch_ephemeris.py
+data/ephemeris/
+
+# Private golden sets. Their contracts refuse to load without them; they are never committed.
+contracts/golden/

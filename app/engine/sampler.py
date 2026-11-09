@@ -10,7 +10,8 @@ import json
 import random
 from dataclasses import dataclass
 
-from .contracts import EXECUTABLE_PERTURBATIONS, Perturbation, PlanEntry
+from .contracts import Perturbation, PlanEntry
+from .perturb import DETERMINISTIC_PERTURBATIONS, variants_for
 from .suts import SUT
 
 
@@ -42,31 +43,45 @@ def collect(
     """Run one plan cell: N samples of the SUT at time t.
 
     repeat_run reuses the seed input; paraphrase cycles through pre-generated, back-checked
-    variants (see engine.metamorphic). Other perturbations have no Phase 1 generator.
+    variants (see engine.metamorphic); irrelevant_context, reordering and format generate
+    their variants deterministically (engine.perturb). A monotonic cell is a ladder, not a
+    set of variants of one input: use collect_ladder.
     """
-    if entry.perturbation not in EXECUTABLE_PERTURBATIONS:
-        raise NotImplementedError(
-            f"perturbation '{entry.perturbation.value}' has no generator yet; "
-            "declaring it is legal, executing it is not (lands in Phase 2)"
-        )
+    if entry.perturbation is Perturbation.monotonic:
+        raise ValueError("a monotonic cell runs over a ladder; use collect_ladder")
     if entry.perturbation is Perturbation.paraphrase:
         if not paraphrases:
             raise ValueError("paraphrase cell requires pre-generated, back-checked variants")
         inputs = [paraphrases[i % len(paraphrases)] for i in range(entry.samples)]
+    elif entry.perturbation in DETERMINISTIC_PERTURBATIONS:
+        inputs = variants_for(entry.perturbation, probe_input, entry.samples)
     else:
         inputs = [probe_input] * entry.samples
 
     rng = random.Random((seed, entry.probe_id, entry.perturbation.value, t).__repr__())
-    samples = []
-    for variant in inputs:
-        raw = sut.run(variant, t, rng)
-        samples.append(
-            Sample(
-                probe_id=entry.probe_id,
-                perturbation=entry.perturbation.value,
-                variant_input=variant,
-                raw_output=raw,
-                parsed=_parse(raw),
-            )
-        )
-    return samples
+    return [_sample(entry, variant, sut, t, rng) for variant in inputs]
+
+
+def _sample(entry: PlanEntry, variant: str, sut: SUT, t: int, rng: random.Random) -> Sample:
+    raw = sut.run(variant, t, rng)
+    return Sample(
+        probe_id=entry.probe_id,
+        perturbation=entry.perturbation.value,
+        variant_input=variant,
+        raw_output=raw,
+        parsed=_parse(raw),
+    )
+
+
+def collect_ladder(
+    entry: PlanEntry, ladder: list[str], sut: SUT, t: int, seed: int
+) -> list[list[Sample]]:
+    """Run a monotonic cell: N samples at every rung of the probe's ladder, in ladder
+    order. One RNG for the whole cell, so the run is replayable from (seed, t)."""
+    if len(ladder) < 2:
+        raise ValueError("a ladder needs at least two rungs")
+    rng = random.Random((seed, entry.probe_id, entry.perturbation.value, t).__repr__())
+    return [
+        [_sample(entry, rung, sut, t, rng) for _ in range(entry.samples)]
+        for rung in ladder
+    ]

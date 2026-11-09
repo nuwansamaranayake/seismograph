@@ -7,6 +7,154 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Phase 2: the full instrument and the dashboard (0.4.0, 2026-11-09)
+- **Full invariant set.** Irrelevance, order and format perturbations are generated
+  deterministically (`app/engine/perturb.py`). Monotonicity runs over a probe `ladder` with
+  a declared `order`. A contract that declares a perturbation a probe cannot run under is
+  refused at registration with the probe named.
+- **Perturbed cells compare with the seed.** A metamorphic cell is judged against the modal
+  answer to the unperturbed input, so a consistent wrong answer no longer agrees with itself
+  into a pass (FAIL-0012).
+- **Outcome modes** (`app/engine/modes.py`): signatures over the invariant fields, pooled over
+  a 12 run window, with a Wilson 95% lower bound on the second mode's share. Optional gate
+  `max_second_mode_share`.
+- **Judge panel** (`app/engine/judges.py`): agreement with labelled anchors (interval and
+  kappa), quarantine on the 0.8 floor or on p-chart drift, and a panel verdict that returns no
+  label on a tie or without a quorum.
+- **One gate executor** (`app/engine/execute.py`) used by the API, `seismo run` and the new
+  `seismo gate`. Gate reasons are stored and stated as percentages.
+- **`seismo gate`** and a composite GitHub Action (`action.yml`, `.github/workflows/gate.yml`).
+  Exit 0 pass, 1 block, 2 cannot evaluate. A second CI job requires exit 1 on a planted defect.
+- **Read API** for the dashboard: `/overview`, `/contracts`, `/contracts/{name}`, `/runs/{id}`,
+  `/suts`, `/probes/variants`, `/judges/calibration`, `/judges/panel`, `/golden`. `contracts.md`
+  is diffed against `/openapi.json` by a test.
+- **Dashboard** (`web/`): Next.js 15 static export served by FastAPI from `WEB_DIR`. Overview,
+  contracts, contract detail, run detail, judge panel, golden sets, guide. `/llms.txt` and
+  JSON-LD are generated from `EVAL.md`.
+- **Guide**: `/guide/` in the app and `docs/guide/seismograph-guide.html`, built by
+  `scripts/build_guide.py` from `EVAL.md` and `eval_report.md`. Screenshots are recorded by
+  `scripts/seed_demo.py` (simulators only, fixed seeds).
+- **Quality gate** (`scripts/quality.py`): nine measured components, each at or above 96.
+  Lint ruleset widened to B, I, UP, SIM. mypy is clean on `app/`.
+- Ten built-in simulators, each with one planted defect, described at `/api/v1/suts`.
+
+### Changed
+- Migration `0004_modes_and_judges`: `outcome_modes`, `judge_calibrations`. 12 tables.
+  `EXPECTED_TABLE_COUNT` 10 to 12 in `.env.example` and the `Dockerfile`. **Deploy note:** the
+  host `.env` and `portfolio-ops` (`estate_smoke.py`, `vps_prepare.sh`) must change with it.
+- The Dockerfile is two stage: node builds the dashboard, the Python image serves it.
+- `seismo run --contract` measures every executable cell. It ran `repeat_run` cells only
+  (FAIL-0014).
+
+### Fixed
+- `seismo run --suite` with `SEISMO_TARGET_ADAPTER=mcp` raised `AttributeError`: the runner
+  calls `target.call()`, which `McpTarget` did not have (FAIL-0013).
+- The Kalika suite digest depended on checkout line endings. A CRLF checkout and an LF runner
+  now agree, and the 15 computed cases have a matching fixture baseline.
+- An unknown golden-set `kind` is named as such instead of being reported as a row error.
+- `POST /api/v1/runs` with `embedder: openrouter` and no key returned 500. It is a 503 with
+  the reason.
+- **Independent review, eight defects reproduced and fixed** (each has a regression test):
+  an invariant field missing from every output scored flip 0.0 and passed (FAIL-0016). Jaccard
+  thresholds were keyed by field, so a second invariant on the same field overwrote the first.
+  One miss after a perfect judge baseline quarantined the judge for drift. A tie between two
+  reference sets resolved differently per process. The invariant matrix did not mark a cell
+  the second-mode gate had blocked. The mode chart dropped modes older than the pooled
+  window. The reliability diagram drew empty bins at zero. A reordering probe whose sentences
+  all read the same crashed mid-run instead of being refused at registration.
+- `Dockerfile.test` had not built since the `seismograph` shim package was added, so
+  `make check` failed at build. Fixed. Lint and the full suite pass in the Linux image on
+  Python 3.12.
+- The dashboard scrolled sideways at phone width.
+- **Pre-push audit findings.** A non-editable install shipped `app/` without `app/engine`,
+  so `seismo` crashed on import outside a checkout, the published Action failed for every
+  other repository, and the "gate blocks a planted defect" job went green on that crash.
+  Packages are now found, not listed, and the job runs the installed program from outside
+  the checkout and requires a BLOCK verdict. Action inputs pass through the environment.
+  A caller's system loads from the working directory without shadowing `app`. The ephemeris
+  kernel fetch in CI is an explicit cached step. mypy reports the same on Linux and Windows.
+  `.dockerignore` excludes local gitignored state.
+
+### Added
+
+Note: entries below that name `scripts/gates.py`, `scripts/gate.sh` or `scripts/g4_baseline.py`
+describe operator tooling that is kept out of this repository, as are the private golden sets.
+
+- `seismo run --suite kalika --profile daily --fail-on drift` — the deploy-pipeline
+  command (`[project.scripts]`, `app/cli.py`). It calls a real target, runs every
+  layer the suite declares, compares the verdicts against the committed baseline,
+  and exits non-zero on any failed check, drift, or incomplete layer. A run that
+  could not execute a declared layer is reported INCOMPLETE and fails — it never
+  reads as a pass over fewer checks than the suite asked for.
+- `app/suite.py`: suite definitions. `suites/<name>/` holds `suite.yaml` (target,
+  layers, profiles), `cases/*.json` (golden records) and `policy/*.json` (the
+  `assert` policy per layer). Loading is strict: a missing policy file or an empty
+  case directory raises rather than running a smaller suite than the author wrote.
+- `app/runner.py`: runs a suite and keeps the three failure kinds apart — failed
+  checks, drift against the baseline, and incomplete layers. A baseline carries the
+  report header (suite version, suite digest, target, judge model, rubric version)
+  and a run under a different header is refused loudly, so a judge swap can never
+  be read as a drifting system.
+- `app/alerts.py`: one Resend alert on a failing run, to `nuwan@aigniteconsulting.ai`
+  and nowhere else — the recipient is a constant, not an env var, so a misconfigured
+  environment cannot redirect eval mail. A send Resend does not accept raises.
+- `suites/kalika` v1: four synthetic golden cases (both hemispheres, a near-midnight
+  birth, a sign-boundary lagna, a nakshatra-boundary moon — never customer data) and
+  the two layers that decide without a model: `engine` (chart facts vs the reference)
+  and `policy` (gemstone, ritual, medical and death-prediction prohibitions as
+  deterministic assertions). Profiles: `daily` rotates three cases, `full` runs all
+  three times so determinism is measured rather than assumed.
+- `docker-compose.test.yml` plus `tests/fixtures/kalika_stub.py`: two fixture targets,
+  one clean and one carrying the two defects g4 names (wrong lagna, gemstone
+  prescription). Test-only — no deploy path or production env references them.
+- `scripts/gates.py g4_cli_gate_and_alert`: brings the fixtures up, runs the CLI
+  against both, and asserts the tampered run failed FOR THE PLANTED DEFECTS rather
+  than merely exiting non-zero. Green 3/3, with a real Resend message id recorded in
+  `reports/g4-alert-message-id.txt`.
+- `scripts/g4_baseline.py`: re-records the fixture baseline after a suite change.
+- `app/targets.py`: the two target adapters Seismograph uses to call the systems it
+  evaluates. `McpTarget` is a streamable-HTTP MCP client — token in the query string,
+  `tools/list` read at run time, arguments validated against the SERVED schema, both
+  JSON and SSE response framings handled. `HttpTarget` takes method, URL and headers
+  from env, sends a JSON body and extracts a dotted JSON path. Neither defaults a
+  missing setting: absent configuration raises `TargetConfigError` (Standard 3).
+- `target_calls` table (migration `0003_target_calls`): target id, adapter, route,
+  arguments hash, raw response, latency, timestamp, error. Failed calls are stored
+  as rows with `error` set, so a failed call reads as a failed run. `EXPECTED_TABLE_COUNT`
+  9 → 10, asserted against a real Postgres (Standard 4).
+- `scripts/target_integration.py`: drives both adapters against real endpoints and
+  stores what came back; `scripts/gates.py g1_adapters_real` reads its summary.
+- `app/checks.py`: the three check types. `assert` is deterministic code (JSON Schema,
+  required and forbidden patterns, numeric tolerance, field equality) with no model in
+  the loop. `grounded` has the judge extract chart facts into a fixed schema and lets
+  plain code decide against the reference. `rubric` has the judge score a written rubric
+  and quote the span it scored on; the code rejects a span that is not verbatim in the
+  output, because a judge that cannot point at its evidence has not produced any.
+- `data/checks/`: four versioned, content-hashed labelled sets — 44 samples per check
+  type (22 clean, 22 planted across blatant/moderate/subtle tiers) over eleven synthetic
+  charts, plus a 20-item judge-agreement set held disjoint from all three so model
+  selection cannot inflate sensitivity. `scripts/build_check_sets.py` is their source.
+- `scripts/judge_select.py`: reads the live OpenRouter model list at run time, filters to
+  pinned, paid, structured-output text models, ranks cheapest-first and takes the first
+  to clear a 0.85 agreement floor. Preflights the key so a dead credential is reported as
+  such instead of as eight failing models. Writes `SEISMO_JUDGE_MODEL` to `.env`.
+- `scripts/check_measure.py`: measures every type, reporting sensitivity and false-alarm
+  rate with 95% Wilson intervals overall and per subtlety tier, into `check_report.md`
+  and `check_report.json`. Thresholds are parsed from EVAL.md, never restated in code.
+- `jsonschema` dependency, for the `assert` type's schema rule.
+
+### Changed
+- `scripts/gates.py`: `g1_adapters_real` implemented against docs/gates-spec.md.
+  c1/c2 require a stored, non-empty result per adapter; c3 checks structurally by AST
+  that no shipped module imports a mocking library and that exactly two adapters exist.
+- `scripts/gates.py`: `g2_checks_catch_planted_defects` implemented in five criteria —
+  labelled sets present, versioned, >=40 and evenly split; judge chosen live and recorded;
+  all three types measured with Wilson intervals over non-zero samples; every EVAL.md
+  threshold met; EVAL.md carrying the thresholds the run actually used plus one limits
+  sentence per type. Judge calls are charged to LOOP_STATE.json in the step that spends them.
+- EVAL.md: check-type section with the three thresholds (assert 0.95/0.05, grounded
+  0.80/0.10, rubric 0.70/0.15), a limits sentence per type, and the judge-selection rule.
+
 ## [0.3.1] - 2026-07-27
 
 ### Added

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "seismograph"
-version = "0.3.1"
+version = "0.4.0"
 description = "An AI eval system for measuring LLM performance consistency (statistical process control)."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -25,6 +25,20 @@ dependencies = [
     "scipy",
     "scikit-learn",
     "pyyaml",
+    # app/checks.py: the `assert` check type validates against a real JSON Schema.
+    # Hand-rolling a subset validator here would be a second, weaker implementation
+    # of a solved problem living inside a gate.
+    "jsonschema",
+    # app/ephemeris.py: the independent second opinion the g3 engine layer checks
+    # the Kalika calculator against. MIT, reading a JPL DE kernel. pyswisseph is
+    # the obvious alternative and is AGPL-3.0, whose network clause does not fit a
+    # hosted service (DECISION D-7-3).
+    "skyfield",
+    # zoneinfo needs a tz database; Windows and slim containers ship without one.
+    "tzdata",
+    # app/jev.py: TypeSafe System One (Jev) as a system under test, reached through
+    # OpenRouter by base URL. The SDK builds the request body; nothing is hand-rolled.
+    "typesafe-sdk>=0.7.1",
 ]
 
 # sentence-transformers (and its CUDA torch) is deliberately NOT declared: no Phase 1
@@ -33,10 +47,20 @@ dependencies = [
 # actually imports it (e.g. a local NLI cross-encoder), not before.
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff"]
+# pytest-cov, mypy and the yaml stubs: scripts/quality.py measures coverage and types.
+dev = ["pytest", "pytest-cov", "ruff", "mypy", "types-PyYAML"]
 
-[tool.setuptools]
-packages = ["app"]
+# The deploy-pipeline command (docs/gates-spec.md g4):
+#   seismo run --suite kalika --profile daily --fail-on drift
+[project.scripts]
+seismo = "app.cli:main"
+
+[tool.setuptools.packages.find]
+# Found, not listed. An explicit `packages = ["app", "seismograph"]` ships those two
+# directories and none of their subpackages, so a non-editable install had no app.engine
+# and `seismo` crashed on import everywhere except a source checkout.
+# `seismograph` is a two-line shim so `python -m seismograph` runs app.cli:main.
+include = ["app*", "seismograph*"]
 
 [tool.setuptools.package-data]
 app = ["static/*.html"]
@@ -48,7 +72,19 @@ target-version = "py312"
 [tool.ruff.lint]
 # Pin the ruleset explicitly: CI installs latest ruff, and default-select churn between
 # ruff releases must not be able to redefine what "lint passes" means for this repo.
-select = ["E4", "E7", "E9", "F"]
+# B (bugbear), I (import order), UP (modern syntax) and SIM (simplify) joined in Phase 2,
+# when scripts/quality.py made lint a measured component with a floor.
+select = ["E4", "E7", "E9", "F", "B", "I", "UP", "SIM"]
+# UP042 would turn the str+Enum classes in the contract language into StrEnum, which
+# changes what str(member) returns. Not a syntax upgrade, a behaviour change.
+ignore = ["UP042"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.mypy]
+files = ["app"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 addopts = "-q"

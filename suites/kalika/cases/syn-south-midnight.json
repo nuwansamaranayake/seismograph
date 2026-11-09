@@ -1,0 +1,54 @@
+{
+  "id": "syn-south-midnight",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Southern hemisphere, thirteen minutes before midnight, so a date-handling slip moves the lagna a whole sign.",
+  "request": {
+    "case_id": "syn-south-midnight",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "1984-12-31",
+      "time": "23:47",
+      "tz": "Australia/Sydney",
+      "lat": -33.8688,
+      "lon": 151.2093,
+      "place": "Sydney, Australia"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Simha",
+    "moon_nakshatra": "Ashwini",
+    "moon_pada": 1,
+    "mahadasha_lord": "Moon",
+    "mahadasha_years_remaining": 1.02,
+    "ayanamsa_deg": 23.644384,
+    "lagna_lon_deg": 145.7642,
+    "graha_lon_deg": {
+      "sun": 256.3957,
+      "moon": 0.5076,
+      "mars": 311.138,
+      "mercury": 233.9447,
+      "jupiter": 267.7046,
+      "venus": 302.1852,
+      "saturn": 211.0414,
+      "rahu": 31.5321,
+      "ketu": 211.5321
+    },
+    "graha_sign": {
+      "sun": "Dhanu",
+      "moon": "Mesha",
+      "mars": "Kumbha",
+      "mercury": "Vrischika",
+      "jupiter": "Dhanu",
+      "venus": "Kumbha",
+      "saturn": "Vrischika",
+      "rahu": "Vrishabha",
+      "ketu": "Vrischika"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

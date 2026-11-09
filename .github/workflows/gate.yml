@@ -1,0 +1,53 @@
+name: seismograph-gate
+
+# The release gate as a GitHub check, on every pull request and push. This repository
+# gates its own demo contract against the healthy input-aware simulator, so the check
+# exercises every invariant end to end. In your repository, point `sut` at your system.
+on:
+  push:
+  pull_request:
+
+jobs:
+  gate:
+    name: "seismograph gate (required)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          contract: contracts/refund-full-invariants.yaml
+          sut: policy
+          points: "12"
+
+  gate-catches-a-planted-defect:
+    name: "gate blocks a planted defect"
+    runs-on: ubuntu-latest
+    # A gate that cannot fail proves nothing. This job runs the same contract against a
+    # simulator with a planted format defect and requires a BLOCK.
+    #
+    # It runs the INSTALLED program from an empty directory, the way another repository
+    # gets it. An earlier version ran from the checkout and checked only the exit code:
+    # the installed package was missing a subpackage, the program crashed on import with
+    # exit 1, and this job went green on the crash.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet .
+      - name: Healthy system passes, from outside the checkout
+        run: |
+          mkdir -p "$RUNNER_TEMP/elsewhere" && cd "$RUNNER_TEMP/elsewhere"
+          seismo gate --contract "$GITHUB_WORKSPACE/contracts/refund-full-invariants.yaml" --sut policy --points 3 | tee pass.txt
+          grep -q "Seismograph gate: PASS" pass.txt
+      - name: Planted defect blocks, with the reason, not a crash
+        run: |
+          cd "$RUNNER_TEMP/elsewhere"
+          set +e
+          seismo gate --contract "$GITHUB_WORKSPACE/contracts/refund-full-invariants.yaml" --sut format-sensitive --points 3 > block.txt 2>&1
+          code=$?
+          set -e
+          cat block.txt
+          if [ "$code" -ne 1 ]; then echo "expected exit 1, got $code" && exit 1; fi
+          grep -q "Seismograph gate: BLOCK" block.txt || { echo "exit 1 without a BLOCK verdict: that is a crash, not a gate"; exit 1; }
+          grep -q "flip rate" block.txt

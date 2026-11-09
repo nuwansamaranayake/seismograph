@@ -151,6 +151,7 @@ def front_page() -> None:
     import re
     sys.path.insert(0, str(REPO))
     from fastapi.testclient import TestClient
+
     from app.main import app
 
     r = TestClient(app).get("/", headers={"Accept": "text/html"})

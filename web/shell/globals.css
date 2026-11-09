@@ -1,0 +1,100 @@
+/* SHELL: vendored from groundwork/webshell - edit there, not here. */
+/* AiGNITE portfolio design system: charcoal + deep green + gold, dark first with an
+   honest light mode. No component library; the product is the content. */
+:root {
+  --bg: #0c1220;
+  --bg-panel: #101830;
+  --border: #23304f;
+  --text: #e8ecf5;
+  --text-dim: #9aa7c0;
+  --green: #2d8c4e;
+  --green-soft: rgba(45, 140, 78, 0.14);
+  --red: #c03030;
+  --red-soft: rgba(192, 48, 48, 0.12);
+  --gold: #c8962e;
+  --gold-soft: rgba(200, 150, 46, 0.12);
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f8fb;
+    --bg-panel: #ffffff;
+    --border: #d8deea;
+    --text: #17202f;
+    --text-dim: #5a6780;
+    --green-soft: rgba(45, 140, 78, 0.1);
+    --red-soft: rgba(192, 48, 48, 0.08);
+    --gold-soft: rgba(200, 150, 46, 0.12);
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+a { color: var(--gold); }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0.4rem 0 0.8rem; }
+h2 { font-size: 1.25rem; margin: 2.2rem 0 0.6rem; }
+p { margin: 0.5rem 0; }
+code, .mono { font-family: var(--mono); font-size: 0.92em; }
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+  margin: 0.8rem 0;
+}
+.panel.reject { border-color: var(--red); background: var(--red-soft); }
+.panel.pass { border-color: var(--green); background: var(--green-soft); }
+.panel.limits { background: var(--gold-soft); border-color: var(--gold); font-size: 0.92rem; }
+
+.chip {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.1rem 0.65rem;
+  font-size: 0.8rem;
+  font-family: var(--mono);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.chip.ok { color: var(--green); border-color: var(--green); background: var(--green-soft); }
+.chip.bad { color: var(--red); border-color: var(--red); background: var(--red-soft); }
+.chip.syn { color: var(--gold); border-color: var(--gold); background: var(--gold-soft); }
+
+button {
+  background: var(--green);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+button.danger-ish { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+button:disabled { opacity: 0.5; cursor: default; }
+
+textarea, input[type="text"] {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 0.6rem;
+  font: inherit;
+}
+.bullet { border-bottom: 1px solid var(--border); padding: 0.7rem 0; }
+.bullet:last-child { border-bottom: 0; }
+.dim { color: var(--text-dim); font-size: 0.9rem; }
+.small { font-size: 0.84rem; }
+.err { color: var(--red); }
+table.fit { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+table.fit td, table.fit th { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.spin { display: inline-block; animation: sp 1s linear infinite; }
+@keyframes sp { to { transform: rotate(360deg); } }

@@ -1,0 +1,35 @@
+# TEST FIXTURES ONLY — the two stand-in Kalika targets g4 needs to prove that
+# `seismo run` exits 0 on a clean target and non-zero on a defective one.
+#
+# Nothing in docker-compose.yml, the Dockerfile, DEPLOY.md or any env used in
+# production references this file. It is brought up by the gate
+# (scripts/gates.py g4_cli_gate_and_alert) and torn down again. If you find a
+# production config pointing at kalika-stub-*, that is the bug.
+name: seismograph-test
+
+services:
+  kalika-stub-clean:
+    image: python:3.12-slim
+    labels:
+      seismograph.fixture: "true"
+    command: ["python", "/srv/tests/fixtures/kalika_stub.py"]
+    environment:
+      KALIKA_STUB_MODE: clean
+      SUITE_DIR: /srv/suites/kalika
+      PORT: "8900"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - .:/srv:ro
+
+  kalika-stub-tampered:
+    image: python:3.12-slim
+    labels:
+      seismograph.fixture: "true"
+    command: ["python", "/srv/tests/fixtures/kalika_stub.py"]
+    environment:
+      KALIKA_STUB_MODE: tampered
+      SUITE_DIR: /srv/suites/kalika
+      PORT: "8900"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - .:/srv:ro

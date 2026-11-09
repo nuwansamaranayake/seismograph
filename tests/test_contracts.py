@@ -1,6 +1,6 @@
 import pytest
 
-from app.engine.contracts import compile_plan, load_contract, Perturbation
+from app.engine.contracts import Perturbation, compile_plan, load_contract
 
 CONTRACT_YAML = """
 contract: refund-decision-stability

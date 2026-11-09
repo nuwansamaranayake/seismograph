@@ -1,0 +1,60 @@
+name: Seismograph gate
+description: >
+  Run a behavioural contract against your AI system and fail the check when a declared
+  tolerance breaks. Every invariant runs: repeat run, irrelevance, order, format,
+  monotonicity. The decision is deterministic code, and the evidence lands in the job summary.
+author: AiGNITE Consulting
+branding:
+  icon: activity
+  color: green
+
+inputs:
+  contract:
+    description: Path to the contract YAML in your repository.
+    required: true
+  sut:
+    description: >
+      Your system as package.module:attribute (an object with
+      run(probe_input, t, rng) -> JSON text), or a built-in simulator name.
+    required: true
+  points:
+    description: Time steps to run. Nine or more warms the control chart.
+    default: "12"
+  seed:
+    description: Seed for the sampler. The same seed replays the same run.
+    default: "7"
+  fail-on:
+    description: gate (declared tolerances only) or alarm (also fail on a control chart signal).
+    default: gate
+  python-version:
+    default: "3.12"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+    - name: Install Seismograph
+      shell: bash
+      env:
+        SEISMO_ACTION_PATH: ${{ github.action_path }}
+      run: python -m pip install --quiet "$SEISMO_ACTION_PATH"
+    - name: Run the gate
+      shell: bash
+      # Inputs reach the script as environment variables, never as text pasted into it:
+      # an input built from untrusted text (a branch name, a pull request title) would
+      # otherwise run as shell on the caller's runner.
+      env:
+        SEISMO_CONTRACT: ${{ inputs.contract }}
+        SEISMO_SUT: ${{ inputs.sut }}
+        SEISMO_POINTS: ${{ inputs.points }}
+        SEISMO_SEED: ${{ inputs.seed }}
+        SEISMO_FAIL_ON: ${{ inputs.fail-on }}
+      run: >
+        seismo gate
+        --contract "$SEISMO_CONTRACT"
+        --sut "$SEISMO_SUT"
+        --points "$SEISMO_POINTS"
+        --seed "$SEISMO_SEED"
+        --fail-on "$SEISMO_FAIL_ON"

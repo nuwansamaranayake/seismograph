@@ -1,0 +1,54 @@
+{
+  "id": "syn-north-midday",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Northern hemisphere, mid-afternoon, nothing near a boundary: the case that should be easy.",
+  "request": {
+    "case_id": "syn-north-midday",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "1955-11-14",
+      "time": "15:30",
+      "tz": "Europe/London",
+      "lat": 51.5072,
+      "lon": -0.1276,
+      "place": "London, UK"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Mesha",
+    "moon_nakshatra": "Vishakha",
+    "moon_pada": 3,
+    "mahadasha_lord": "Sun",
+    "mahadasha_years_remaining": 2.33,
+    "ayanamsa_deg": 23.237518,
+    "lagna_lon_deg": 11.3725,
+    "graha_lon_deg": {
+      "sun": 208.2477,
+      "moon": 209.8535,
+      "mars": 177.4395,
+      "mercury": 196.7812,
+      "jupiter": 126.5178,
+      "venus": 227.4372,
+      "saturn": 210.2899,
+      "rahu": 235.3614,
+      "ketu": 55.3614
+    },
+    "graha_sign": {
+      "sun": "Tula",
+      "moon": "Tula",
+      "mars": "Kanya",
+      "mercury": "Tula",
+      "jupiter": "Simha",
+      "venus": "Vrischika",
+      "saturn": "Vrischika",
+      "rahu": "Vrischika",
+      "ketu": "Vrishabha"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}

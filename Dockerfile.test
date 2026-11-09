@@ -1,0 +1,35 @@
+# syntax=docker/dockerfile:1
+# Test/lint runner for `make check`.
+#
+# Why a second Dockerfile: this host has no .venv and system python lacks the app
+# deps (groundwork above all), so `pytest` on the host is not a real gate. The
+# runtime Dockerfile copies source before `pip install .`, so every source edit
+# invalidates the dependency layer and re-downloads numpy/scipy/scikit-learn.
+# That is too slow to run on every loop pass.
+#
+# This image installs DEPENDENCIES ONLY, from pyproject.toml, before any source
+# exists. Source arrives as a bind mount at run time (see the `check` target), so
+# repeat runs are instant and the dependency layer survives edits. The dep list
+# stays single-sourced in pyproject.toml — nothing is duplicated here.
+FROM python:3.12-slim
+
+WORKDIR /srv
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+
+# git is required: aignite-groundwork resolves from a git+https URL (pyproject.toml)
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml README.md ./
+
+# Install against a stub `app` package to satisfy setuptools, then uninstall the
+# seismograph dist itself. Dependencies and dev tools stay; the stub does not,
+# so nothing in site-packages can shadow the bind-mounted source.
+RUN mkdir -p app seismograph && : > app/__init__.py && : > seismograph/__init__.py \
+    && pip install --upgrade pip \
+    && pip install ".[dev]" \
+    && pip uninstall -y seismograph \
+    && rm -rf app seismograph pyproject.toml README.md
+
+# Source is bind-mounted at /srv and put first on the path by the run command.
+CMD ["sh", "-c", "ruff check . && pytest"]

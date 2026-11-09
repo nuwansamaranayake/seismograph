@@ -1,0 +1,54 @@
+{
+  "id": "syn-leap-day-midnight",
+  "source": "synthetic (no customer data; docs/gates-spec.md g3)",
+  "note": "Two minutes before midnight on a leap day: date arithmetic and near-midnight handling fail together here or not at all.",
+  "request": {
+    "case_id": "syn-leap-day-midnight",
+    "tool": "full_life_reading",
+    "birth": {
+      "date": "1980-02-29",
+      "time": "23:58",
+      "tz": "America/Toronto",
+      "lat": 43.6532,
+      "lon": -79.3832,
+      "place": "Toronto, Canada"
+    }
+  },
+  "as_of": "2026-09-19T00:00:00Z",
+  "reference": {
+    "lagna": "Tula",
+    "moon_nakshatra": "Magha",
+    "moon_pada": 3,
+    "mahadasha_lord": "Rahu",
+    "mahadasha_years_remaining": 16.23,
+    "ayanamsa_deg": 23.576837,
+    "lagna_lon_deg": 205.6177,
+    "graha_lon_deg": {
+      "sun": 317.1931,
+      "moon": 129.9358,
+      "mars": 130.2407,
+      "mercury": 326.5792,
+      "jupiter": 130.9975,
+      "venus": 0.0788,
+      "saturn": 151.0764,
+      "rahu": 125.1333,
+      "ketu": 305.1333
+    },
+    "graha_sign": {
+      "sun": "Kumbha",
+      "moon": "Simha",
+      "mars": "Simha",
+      "mercury": "Kumbha",
+      "jupiter": "Simha",
+      "venus": "Mesha",
+      "saturn": "Kanya",
+      "rahu": "Simha",
+      "ketu": "Kumbha"
+    }
+  },
+  "provenance": {
+    "computed_by": "app/ephemeris.py (Skyfield + JPL DE421)",
+    "validated_by": "tests/test_ephemeris_reference.py (JPL Horizons, < 1 arc-minute)",
+    "ayanamsa": "Lahiri fallback; live runs compare on the calculator's reported ayanamsa"
+  }
+}
